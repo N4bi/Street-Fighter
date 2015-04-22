@@ -21,8 +21,9 @@ public:
 	Collider* body;
 	Collider* feet;
 	Collider* player;
-	Animation* current_animation;
+	Collider* a_weakfist;
 	Animation idle;
+	Animation* current_animation;
 	Animation forward;
 	Animation backward;
 	Animation weakfist;
@@ -32,6 +33,8 @@ public:
 	Animation weakknockback;
 	Animation strongknockback;
 	unsigned int fx;
+	bool doWeakfist;
+	bool isAttacking;
 	p2Point<int> position;
 
 };

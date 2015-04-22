@@ -35,6 +35,10 @@ public:
 	{
 		return frames[(int)current_frame];
 	}
+	const float peekFrame() const
+			{
+				return current_frame;
+		 	}
 
 	bool Finished()
 	{

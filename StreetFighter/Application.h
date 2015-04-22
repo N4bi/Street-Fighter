@@ -31,9 +31,9 @@ public:
 	ModuleSceneIntro* scene_intro;
 	ModuleVsScreen* vs_scene;
 	ModuleSceneKen* scene_ken;
+	ModuleMatchOver* match_over;
 	ModulePlayer* player;
 	ModulePlayer2* player2;
-	ModuleMatchOver* match_over;
 	ModuleFadeToBlack* fade;
 	ModuleSceneHonda* scene_honda;
 	ModuleParticles* particles;

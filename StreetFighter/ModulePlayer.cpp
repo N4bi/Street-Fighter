@@ -13,6 +13,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	player = NULL;
 
 	
+
 	// idle animation (arcade sprite sheet)
 	idle.frames.PushBack({ 50, 50, 150, 150 });
 	idle.frames.PushBack({ 250, 50, 150, 150 });
@@ -29,8 +30,6 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	forward.frames.PushBack({ 650, 250, 150, 150 });
 	forward.frames.PushBack({ 850, 250, 150, 150 });
 	forward.speed = 0.1f;
-
-
 
 	// walk backward animation (arcade sprite sheet)
 	backward.frames.PushBack({ 1450, 250, 150, 150 });
@@ -78,6 +77,10 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	strongknockback.frames.PushBack({ 1650, 650, 150, 150 });
 	strongknockback.frames.PushBack({ 1850, 650, 150, 150 });
 	strongknockback.speed = 0.1f;
+
+
+	
+
 }
 
 ModulePlayer::~ModulePlayer()
@@ -88,15 +91,23 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	position.x = 1;
+	position.x = -50;
 	position.y = 216;
 
 	graphics = App->textures->Load("ryu7.png"); // arcade version
-	head = App->collision->AddCollider({ App->player->position.x, App->player->position.y, 0, 0 }, COLLIDER_PLAYER_BODY);
-	body = App->collision->AddCollider({ App->player->position.x, App->player->position.y, 0, 0 }, COLLIDER_PLAYER_BODY);
-	feet = App->collision->AddCollider({ App->player->position.x, App->player->position.y, 0, 0 }, COLLIDER_PLAYER_BODY);
-	player = App->collision->AddCollider({ App->player->position.x, App->player->position.y, 0, 0 }, COLLIDER_PLAYER);
-
+	fx = App->audio->LoadFx("sounds/sfx/jab.wav");
+	if (App->player->position.x > App->renderer->pivot.x){
+		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
+		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
+		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
+		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 92 }, COLLIDER_PLAYER);
+	}
+	else {
+		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
+		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
+		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
+		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_PLAYER);
+	}
 	return true;
 }
 
@@ -114,27 +125,37 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 {
 	current_animation = &idle;
+
 	// debug camera movement --------------------------------
 	int speed = 1;
 	
-	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN))
-	{
-		current_animation = &weakfist;
-		App->audio->PlayFx(1, 0);
-	};
-	if ((App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)) current_animation = &strongpunch;
-	if ((App->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT)) current_animation = &weakkick;
-	if ((App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN)) current_animation = &strongkick;
-	
-	if (App->player->position.x < App->renderer->pivot.x){
+	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) && (!isAttacking)){
 
-		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (position.x > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
+		isAttacking = true;
+		
+		if (App->player2->position.x > App->renderer->pivot.x){
+			doWeakfist = true;
+			App->audio->PlayFx(1, 0);
+			a_weakfist = App->collision->AddCollider({ position.x + 160, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
+		}
+		else{
+				doWeakfist = true;
+				App->audio->PlayFx(1, 0);
+				a_weakfist = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
+			}
+		
+		
+	}
+	
+	if (App->player->position.x < App->renderer->pivot.x ){
+
+		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &backward;
 			position.x -= speed;
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) && (position.x < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &forward;
 			position.x += speed;
@@ -142,19 +163,30 @@ update_status ModulePlayer::Update()
 	}
 	else 
 	{
-		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (position.x > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &forward;
 			position.x -= speed;
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) && (position.x < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &backward;
 			position.x += speed;
 		}
 	}
-	
+
+	if (doWeakfist){
+		isAttacking = true;
+		current_animation = &weakfist;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			doWeakfist = false;
+			a_weakfist->to_delete = true;
+			isAttacking = false;
+		}
+
+	}
+
 
 	// Draw everything --------------------------------------
 	SDL_Rect r = current_animation->GetCurrentFrame();
@@ -165,40 +197,41 @@ update_status ModulePlayer::Update()
 	if (App->player->position.x > App->renderer->pivot.x){
 		if (head != NULL)
 		{
-			head->rect = { position.x + 14, position.y - r.h, 24, 18 };
+			head->rect = { position.x + 135, position.y - 95, 24, 18 };
 		}
 		if (body != NULL)
 		{
-			body->rect = { position.x + 15, position.y - r.h + 9, 36, 40 };
+			body->rect = { position.x + 138, position.y -95 + 9, 36, 40 };
 		}
 		if (feet != NULL)
 		{
-			feet->rect = { position.x + 20, position.y - r.h + 40, 38, 45 };
+			feet->rect = { position.x + 136, position.y - 95 + 40, 42, 45 };
 		}
 		if (player != NULL)
 		{
-			player->rect = { position.x + 14, position.y - r.h, 35, 85 };
+			player->rect = { position.x + 125, position.y - 95, 61, 92 };
 		}
+
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r, 1.0f, true);
 	}
 	else {
 		if (head != NULL)
 		{
-			head->rect = { position.x + 22, position.y - r.h, 24, 18 };
-	
+			head->rect = { position.x + 140, position.y - 95, 24, 18 };
 		}
 		if (body != NULL)
 		{
-			body->rect = { position.x + 9, position.y - r.h + 9, 36, 40 };
+			body->rect = { position.x + 125, position.y - 95 + 9, 36, 40 };
 		}
 		if (feet != NULL)
 		{
-			feet->rect = { position.x + 2, position.y - r.h + 40, 38, 45 };
+			feet->rect = { position.x + 121, position.y - 95 + 40, 42, 45 };
 		}
 		if (player != NULL)
 		{
-			player->rect = { position.x + 11, position.y - r.h, 35, 85 };
+			player->rect = { position.x + 115, position.y - 95, 61, 92};
 		}
+
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r);
 	}
 

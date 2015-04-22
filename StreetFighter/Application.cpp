@@ -10,12 +10,12 @@ Application::Application()
 	audio = new ModuleAudio(this);
 	vs_scene = new ModuleVsScreen(this, false);
 	scene_ken = new ModuleSceneKen(this, false); 	// TODO 0: Decidir quina scene començar
+	match_over = new ModuleMatchOver(this, false);
 	player = new ModulePlayer(this, false);
 	player2 = new ModulePlayer2(this, false);
 	scene_honda = new ModuleSceneHonda(this, false);
 	fade = new ModuleFadeToBlack(this);
 	scene_intro = new ModuleSceneIntro(this, true);
-	match_over = new ModuleMatchOver(this, false);
 	particles = new ModuleParticles(this);
 	collision = new ModuleCollision(this, false);
 
@@ -34,8 +34,8 @@ Application::Application()
 	AddModule(scene_intro);
 	AddModule(vs_scene);
 	AddModule(scene_ken);
-	AddModule(scene_honda);
 	AddModule(match_over);
+	AddModule(scene_honda);
 	
 	// Characters
 	AddModule(player);
@@ -59,6 +59,7 @@ Application::~Application()
 	delete vs_scene;
 	delete scene_honda;
 	delete scene_ken;
+	delete match_over;
 	delete player;
 	delete player2;
 	delete fade;

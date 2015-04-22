@@ -10,7 +10,7 @@ ModuleRender::ModuleRender(Application* app, bool start_enabled) : Module(app, s
 	camera.w = SCREEN_WIDTH;
 	camera.h = SCREEN_HEIGHT;
 	center.y = SCREEN_HEIGHT / 2;
-	center.x = (SCREEN_WIDTH / 2)- 60;
+	center.x = (SCREEN_WIDTH / 2)-145;
 
 }
 
@@ -53,7 +53,7 @@ update_status ModuleRender::Update()
 {
 	int speed = SCREEN_SIZE;
 	pivot.y = SCREEN_HEIGHT / 2;
-	pivot.x = (App->player->position.x + App->player2->position.x) / 2;
+	pivot.x = ((App->player->position.x) + (App->player2->position.x )) / 2;
 	
 	if ((App->renderer->pivot.x < App->renderer->center.x) && (App->renderer->camera.x < 0) && ((App->renderer->pivot.x - App->player->position.x)< 162) && ((App->renderer->pivot.x - App->player2->position.x)< 162) ){
 		App->renderer->center.x = App->renderer->pivot.x;
