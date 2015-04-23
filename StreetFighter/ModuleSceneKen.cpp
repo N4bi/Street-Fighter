@@ -81,14 +81,14 @@ bool ModuleSceneKen::Start()
 {
 	LOG("Loading ken scene");
 	
-	graphics = App->textures->Load("ken_stage.png");
+	graphics = App->textures->Load("Game/ken_stage.png");
 
 	// TODO 1: Fer Enable/Disable del jugador i posar la musica
 	App->collision->Enable();
 	App->player->Enable();
 	App->player2->Enable();
 	//App->audio->Enable();
-	App->audio->PlayMusic("sounds/music/ken.ogg",0);
+	App->audio->PlayMusic("Game/sounds/music/ken.ogg",0);
 
 	return true;
 }

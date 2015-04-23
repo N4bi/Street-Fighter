@@ -49,11 +49,11 @@ bool ModuleVsScreen::Start()
 {
 	LOG("Loading VS scene");
 	bool ret = true;
-	graphics = App->textures->Load("portraits.png");
+	graphics = App->textures->Load("Game/portraits.png");
 
 	// TODO 1: Fer Enable/Disable del jugador i posar la musica
 
-	App->audio->PlayMusic("sounds/music/VS.ogg");
+	App->audio->PlayMusic("Game/sounds/music/VS.ogg");
 
 	return ret;
 }

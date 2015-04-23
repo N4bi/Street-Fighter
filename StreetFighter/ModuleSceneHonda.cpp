@@ -35,12 +35,12 @@ bool ModuleSceneHonda::Start()
 {
 	LOG("Loading background assets");
 	bool ret = true;
-	graphics = App->textures->Load("honda_stage2.png");
+	graphics = App->textures->Load("Game/honda_stage2.png");
 
 	// TODO 1: Fer Enable/Disable del jugador i posar la musica
 	App->player->Enable();
 	//App->audio->Enable();
-	App->audio->PlayMusic("honda.ogg", 0);
+	//App->audio->PlayMusic("honda.ogg", 0);
 
 	return ret;
 }

@@ -113,8 +113,8 @@ bool ModulePlayer2::Start()
 	LOG("Loading player");
 
 	
-	graphics = App->textures->Load("ken7.png"); // arcade version
-	fx = App->audio->LoadFx("sounds/sfx/jab.wav");
+	graphics = App->textures->Load("Game/ken7.png"); // arcade version
+	fx = App->audio->LoadFx("Game/sounds/sfx/jab.wav");
 
 	position.x = 133;
 	position.y = 216;

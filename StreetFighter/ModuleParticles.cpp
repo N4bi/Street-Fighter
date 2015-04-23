@@ -13,10 +13,10 @@ ModuleParticles::~ModuleParticles()
 bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
-	graphics = App->textures->Load("rtype/particles.png");
+	//graphics = App->textures->Load("rtype/particles.png");
 
 	// Explosion particle
-	explosion.fx = App->audio->LoadFx("rtype/explosion.wav");
+	/*explosion.fx = App->audio->LoadFx("rtype/explosion.wav");
 	explosion.anim.frames.PushBack({ 274, 296, 33, 30 });
 	explosion.anim.frames.PushBack({ 313, 296, 33, 30 });
 	explosion.anim.frames.PushBack({ 346, 296, 33, 30 });
@@ -24,15 +24,15 @@ bool ModuleParticles::Start()
 	explosion.anim.frames.PushBack({ 419, 296, 33, 30 });
 	explosion.anim.frames.PushBack({ 457, 296, 33, 30 });
 	explosion.anim.loop = false;
-	explosion.anim.speed = 0.3f;
+	explosion.anim.speed = 0.3f;*/
 
 	// Laser particle
-	laser.fx = App->audio->LoadFx("rtype/slimeball.wav");
+	/*laser.fx = App->audio->LoadFx("rtype/slimeball.wav");
 	laser.anim.frames.PushBack({ 200, 120, 32, 12 });
 	laser.anim.frames.PushBack({ 230, 120, 32, 12 });
 	laser.speed.x = 7;
 	laser.life = 1000;
-	laser.anim.speed = 0.05f;
+	laser.anim.speed = 0.05f;*/
 
 	return true;
 }

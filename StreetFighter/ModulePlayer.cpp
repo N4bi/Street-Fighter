@@ -94,8 +94,8 @@ bool ModulePlayer::Start()
 	position.x = -50;
 	position.y = 216;
 
-	graphics = App->textures->Load("ryu7.png"); // arcade version
-	fx = App->audio->LoadFx("sounds/sfx/jab.wav");
+	graphics = App->textures->Load("Game/ryu7.png"); // arcade version
+	fx = App->audio->LoadFx("Game/sounds/sfx/jab.wav");
 	if (App->player->position.x > App->renderer->pivot.x){
 		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
 		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);

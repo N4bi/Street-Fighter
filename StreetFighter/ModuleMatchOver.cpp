@@ -56,11 +56,11 @@ bool ModuleMatchOver::Start()
 {
 	LOG("Loading Match Over Screen");
 	bool ret = true;
-	graphics = App->textures->Load("portraits.png");
+	graphics = App->textures->Load("Game/portraits.png");
 
 	// TODO 1: Fer Enable/Disable del jugador i posar la musica
 
-	App->audio->PlayMusic("sounds/music/lose.ogg");
+	App->audio->PlayMusic("Game/sounds/music/lose.ogg");
 
 	return ret;
 }
