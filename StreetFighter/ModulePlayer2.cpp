@@ -5,7 +5,7 @@
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
 ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
+{ 
 	graphics = NULL;
 	head = NULL;
 	body = NULL;
@@ -87,7 +87,7 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	strongkick.frames.PushBack({ 450, 650, 150, 150 });
 	strongkick.frames.PushBack({ 650, 650, 150, 150 });
 	strongkick.frames.PushBack({ 850, 650, 150, 150 });
-	strongkick.speed = 0.1f;
+	strongkick.speed = 0.2f;
 
 	//WeakKnockBack Animation
 	weakknockback.frames.PushBack({ 1250, 650, 150, 150 });
@@ -114,7 +114,9 @@ bool ModulePlayer2::Start()
 
 	
 	graphics = App->textures->Load("Game/ken7.png"); // arcade version
-	fx = App->audio->LoadFx("Game/sounds/sfx/jab.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/01jab.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/02strongpk.wav");
+
 
 	position.x = 133;
 	position.y = 216;
@@ -150,7 +152,7 @@ update_status ModulePlayer2::Update()
 {
 	current_animation = &idle;
 	// debug camera movement --------------------------------
-	
+
 
 	if ((App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) && (!isAttacking))
 	{
@@ -163,26 +165,41 @@ update_status ModulePlayer2::Update()
 		else{
 			doWeakfist = true;
 			App->audio->PlayFx(1, 0);
-			a_weakfist = App->collision->AddCollider({ position.x + 160, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
+			a_weakfist = App->collision->AddCollider({ position.x + 163, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
 		}
-	};
-	if ((App->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT)) current_animation = &strongpunch;
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) && (!isAttacking))
+	{
+		isAttacking = true;
+		if (App->player2->position.x > App->renderer->pivot.x){
+			doStrongpunch = true;
+			App->audio->PlayFx(2, 0);
+			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_PLAYER_SHOT);
+		}
+		else{
+			doStrongpunch = true;
+			App->audio->PlayFx(2, 0);
+			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_PLAYER_SHOT);
+		}
+	}
+
 	if ((App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)) current_animation = &weakkick;
 	if ((App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) && (!isAttacking))
 	{
 		isAttacking = true;
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doStrongkick = true;
-			App->audio->PlayFx(1, 0);
-			a_strongkick = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
+			App->audio->PlayFx(2, 0);
+			a_strongkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_PLAYER_SHOT);
 		}
 		else{
 			doStrongkick = true;
-			App->audio->PlayFx(1, 0);
+			App->audio->PlayFx(2, 0);
 			a_strongkick = App->collision->AddCollider({ position.x + 160, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
 		}
 	}
-	
+
 	int speed = 1;
 
 	if (App->player2->position.x > App->renderer->pivot.x){
@@ -191,14 +208,14 @@ update_status ModulePlayer2::Update()
 		{
 			current_animation = &forward;
 			position.x -= speed;
-			
+
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 < 828) && ((App->player2->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &backward;
 			position.x += speed;
-			
+
 		}
 	}
 	else
@@ -215,6 +232,8 @@ update_status ModulePlayer2::Update()
 			position.x += speed;
 		}
 	}
+
+	// Actions P2
 
 	if (doWeakfist){
 		isAttacking = true;
@@ -237,7 +256,18 @@ update_status ModulePlayer2::Update()
 		}
 
 	}
-	
+
+	if (doStrongpunch){
+		isAttacking = true;
+		current_animation = &strongpunch;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			doStrongpunch = false;
+			a_strongpunch->to_delete = true;
+			isAttacking = false;
+		}
+
+	}
+
 	// Draw everything --------------------------------------
 	SDL_Rect r = current_animation->GetCurrentFrame();
 	

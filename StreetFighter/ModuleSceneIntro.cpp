@@ -21,7 +21,7 @@ bool ModuleSceneIntro::Start()
 
 	graphics = App->textures->Load("Game/intro.png");
 	App->audio->PlayMusic("Game/sounds/music/opening.ogg");
-	fx = App->audio->LoadFx("Game/sounds/sfx/CharSelect.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/00CharSelect.wav");
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	return ret;
@@ -47,7 +47,7 @@ update_status ModuleSceneIntro::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
-		App->audio->PlayFx(1,0);
+		App->audio->PlayFx(0,0);
 		App->fade->FadeToBlack(this, App->vs_scene, 2.0f);
 		
 	}

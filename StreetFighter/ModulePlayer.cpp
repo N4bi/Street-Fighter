@@ -95,7 +95,9 @@ bool ModulePlayer::Start()
 	position.y = 216;
 
 	graphics = App->textures->Load("Game/ryu7.png"); // arcade version
-	fx = App->audio->LoadFx("Game/sounds/sfx/jab.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/01jab.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/02strongpk.wav");
+
 	if (App->player->position.x > App->renderer->pivot.x){
 		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
 		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
@@ -128,26 +130,41 @@ update_status ModulePlayer::Update()
 
 	// debug camera movement --------------------------------
 	int speed = 1;
-	
+
 	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) && (!isAttacking)){
 
 		isAttacking = true;
-		
+
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doWeakfist = true;
 			App->audio->PlayFx(1, 0);
-			a_weakfist = App->collision->AddCollider({ position.x + 160, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
+			a_weakfist = App->collision->AddCollider({ position.x + 163, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
 		}
 		else{
-				doWeakfist = true;
-				App->audio->PlayFx(1, 0);
-				a_weakfist = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
-			}
-		
-		
+			doWeakfist = true;
+			App->audio->PlayFx(1, 0);
+			a_weakfist = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
+		}
+
+
 	}
-	
-	if (App->player->position.x < App->renderer->pivot.x ){
+
+	if ((App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) && (!isAttacking))
+	{
+		isAttacking = true;
+		if (App->player2->position.x > App->renderer->pivot.x){
+			doStrongpunch = true;
+			App->audio->PlayFx(2, 0);
+			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_PLAYER_SHOT);
+		}
+		else{
+			doStrongpunch = true;
+			App->audio->PlayFx(2, 0);
+			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_PLAYER_SHOT);
+		}
+	}
+
+	if (App->player->position.x < App->renderer->pivot.x){
 
 		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
@@ -161,7 +178,7 @@ update_status ModulePlayer::Update()
 			position.x += speed;
 		}
 	}
-	else 
+	else
 	{
 		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
@@ -176,12 +193,36 @@ update_status ModulePlayer::Update()
 		}
 	}
 
+	//Actions P1
+
 	if (doWeakfist){
 		isAttacking = true;
 		current_animation = &weakfist;
 		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
 			doWeakfist = false;
 			a_weakfist->to_delete = true;
+			isAttacking = false;
+		}
+
+	}
+
+	if (doStrongkick){
+		isAttacking = true;
+		current_animation = &strongkick;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			doStrongkick = false;
+			a_strongkick->to_delete = true;
+			isAttacking = false;
+		}
+
+	}
+
+	if (doStrongpunch){
+		isAttacking = true;
+		current_animation = &strongpunch;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			doStrongpunch = false;
+			a_strongpunch->to_delete = true;
 			isAttacking = false;
 		}
 
