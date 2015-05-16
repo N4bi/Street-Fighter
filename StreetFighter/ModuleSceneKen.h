@@ -29,6 +29,7 @@ public:
 	Animation blueman;
 	Animation brownman;
 	Animation purpleman;
+	Collider* wall;
 
 	float foreground_pos;
 	bool forward;

@@ -70,7 +70,6 @@ bool ModuleVsScreen::CleanUp()
 	return true;
 }
 
-
 // Update: draw background
 update_status ModuleVsScreen::Update()
 {
@@ -90,17 +89,10 @@ update_status ModuleVsScreen::Update()
 
 	// TODO 3: Fer que al apretar el espai es façi un fade i es carregui HondaStage
 	
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP){
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	{
 		App->fade->FadeToBlack(this, App->scene_ken, 2.0f);
 	}
-	/*int time_out = SDL_GetTicks() + 3000;
-
-	while (SDL_TICKS_PASSED(SDL_GetTicks(), time_out)){
-		App->fade->FadeToBlack(this, App->scene_ken, 2.0f);
-	}
-	*/
-	
-	
 
 	return UPDATE_CONTINUE;
 }

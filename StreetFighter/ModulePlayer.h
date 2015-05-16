@@ -3,6 +3,8 @@
 #include "Animation.h"
 #include "Globals.h"
 #include "p2Point.h"
+#include "ModuleCollision.h"
+
 
 class ModulePlayer : public Module
 {
@@ -13,17 +15,22 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	void OnCollision(Collider*, Collider*);
+	void Setposition();
+
 
 public:
-
+	//Colliders
 	SDL_Texture* graphics;
-	Collider* head;
+	//Collider* head;
 	Collider* body;
-	Collider* feet;
+	//Collider* feet;
 	Collider* player;
 	Collider* a_weakfist;
 	Collider* a_strongkick;
 	Collider* a_strongpunch;
+
+	//Animations
 	Animation idle;
 	Animation* current_animation;
 	Animation forward;
@@ -34,7 +41,16 @@ public:
 	Animation strongkick;
 	Animation weakknockback;
 	Animation strongknockback;
+	
+	//Others variables
 	unsigned int fx;
+	int  vely, velx;
+	int gravity;
+	int Jumpspeed;
+	bool Jump;
+	bool platform;
+	int hDir, vDir;
+	int lives;
 	bool doWeakfist;
 	bool doStrongkick;
 	bool doStrongpunch;

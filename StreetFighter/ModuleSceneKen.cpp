@@ -89,6 +89,7 @@ bool ModuleSceneKen::Start()
 	App->player2->Enable();
 	//App->audio->Enable();
 	App->audio->PlayMusic("Game/sounds/music/ken.ogg",0);
+	
 
 	return true;
 }

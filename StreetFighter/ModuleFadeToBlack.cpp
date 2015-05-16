@@ -7,7 +7,10 @@ ModuleFadeToBlack::ModuleFadeToBlack(Application* app, bool start_enabled) :
 Module(app, start_enabled), 
 start_time(0), 
 total_time(0), 
-fading_in(true)
+fading_in(true),
+moduleon(NULL),
+moduleoff(NULL)
+
 {
 	screen = {0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE};
 }

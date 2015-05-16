@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
-#include "ModulePlayer.h"
+#include "ModulePlayer2.h"
+#include "ModuleCollision.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -112,26 +113,35 @@ bool ModulePlayer2::Start()
 {
 	LOG("Loading player");
 
+   
+	lives = 1;
+	position.x = 133;
+	position.y = 216;
+	gravity = 1;
+	vely = 0;
+	velx = 0;
+	Jump = false;
+	Jumpspeed = -15;
+	platform = true;
+	hDir = 0;
+	vDir = 2;
+	
 	
 	graphics = App->textures->Load("Game/ken7.png"); // arcade version
 	fx = App->audio->LoadFx("Game/sounds/sfx/01jab.wav");
 	fx = App->audio->LoadFx("Game/sounds/sfx/02strongpk.wav");
 
-
-	position.x = 133;
-	position.y = 216;
-
 	if (App->player->position.x > App->renderer->pivot.x){
-		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
-		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
-		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
-		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_PLAYER);
+	//	head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
+		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_ENEMY_BODY);
+	//	feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
+		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_ENEMY);
 	}
 	else{
-		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
-		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
-		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
-		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 92 }, COLLIDER_PLAYER);
+		//head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
+		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_ENEMY_BODY);
+		//feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
+		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 92 }, COLLIDER_ENEMY);
 	}
 	return true;
 }
@@ -160,12 +170,12 @@ update_status ModulePlayer2::Update()
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doWeakfist = true;
 			App->audio->PlayFx(1, 0);
-			a_weakfist = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
+			a_weakfist = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_ENEMY_SHOT,this);
 		}
 		else{
 			doWeakfist = true;
 			App->audio->PlayFx(1, 0);
-			a_weakfist = App->collision->AddCollider({ position.x + 163, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
+			a_weakfist = App->collision->AddCollider({ position.x + 163, position.y - 80, 43, 17 }, COLLIDER_ENEMY_SHOT,this);
 		}
 	}
 
@@ -175,12 +185,12 @@ update_status ModulePlayer2::Update()
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doStrongpunch = true;
 			App->audio->PlayFx(2, 0);
-			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_PLAYER_SHOT);
+			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_ENEMY_SHOT,this);
 		}
 		else{
 			doStrongpunch = true;
 			App->audio->PlayFx(2, 0);
-			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_PLAYER_SHOT);
+			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_ENEMY_SHOT,this);
 		}
 	}
 
@@ -191,12 +201,12 @@ update_status ModulePlayer2::Update()
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doStrongkick = true;
 			App->audio->PlayFx(2, 0);
-			a_strongkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_PLAYER_SHOT);
+			a_strongkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_ENEMY_SHOT,this);
 		}
 		else{
 			doStrongkick = true;
 			App->audio->PlayFx(2, 0);
-			a_strongkick = App->collision->AddCollider({ position.x + 160, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT);
+			a_strongkick = App->collision->AddCollider({ position.x + 160, position.y - 80, 43, 17 }, COLLIDER_ENEMY_SHOT, this);
 		}
 	}
 
@@ -208,6 +218,7 @@ update_status ModulePlayer2::Update()
 		{
 			current_animation = &forward;
 			position.x -= speed;
+			hDir = 2;
 
 		}
 
@@ -215,8 +226,48 @@ update_status ModulePlayer2::Update()
 		{
 			current_animation = &backward;
 			position.x += speed;
+			hDir = 1;
 
 		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &forward;
+			platform = false;
+			Jump = true;
+			vDir = 1;
+			vely = Jumpspeed;
+
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &forward;
+			platform = false;
+			Jump = true;
+			vDir = 1;
+			velx = 5;
+			vely = Jumpspeed;
+
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && (!isAttacking))) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &idle;
+			hDir = 0;
+		}
+		
+		if ((App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &forward;
+			platform = false;
+			Jump = true;
+			vDir = 1;
+			velx = -5;
+			vely = Jumpspeed;
+
+		}
+
 	}
 	else
 	{
@@ -224,14 +275,56 @@ update_status ModulePlayer2::Update()
 		{
 			current_animation = &backward;
 			position.x -= speed;
+			hDir = 2;
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 < 828) && ((App->player2->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &forward;
 			position.x += speed;
+			hDir = 1;
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &forward;
+			platform = false;
+			Jump = true;
+			vDir = 1;
+			vely = Jumpspeed;
+
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &forward;
+			platform = false;
+			Jump = true;
+			vDir = 1;
+			velx = 5;
+			vely = Jumpspeed;
+
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &forward;
+			platform = false;
+			Jump = true;
+			vDir = 1;
+			velx = -5;
+			vely = Jumpspeed;
+
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && (!isAttacking))) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &idle;
+			hDir = 0;
 		}
 	}
+
+	ModulePlayer2::Setposition();
 
 	// Actions P2
 
@@ -273,18 +366,18 @@ update_status ModulePlayer2::Update()
 	
 
 	if (App->player2->position.x > App->renderer->pivot.x){
-		if (head != NULL)
+		/*if (head != NULL)
 		{
 			head->rect = { position.x + 135, position.y - 95, 24, 18 };
-		}
+		}*/
 		if (body != NULL)
 		{
 			body->rect = { position.x + 138, position.y - 95 + 9, 36, 40 };
 		}
-		if (feet != NULL)
+		/*if (feet != NULL)
 		{
 			feet->rect = { position.x + 136, position.y - 95 + 40, 42, 45 };
-		}
+		}*/
 		if (player != NULL)
 		{
 			player->rect = { position.x + 125, position.y - 95, 61, 92 };
@@ -294,18 +387,18 @@ update_status ModulePlayer2::Update()
 		App->renderer->Blit(graphics, position.x + (r.w/2) , position.y - r.h, &r, 1.0f, true);
 	}
 	else {
-		if (head != NULL)
+		/*if (head != NULL)
 		{
 			head->rect = { position.x + 140, position.y - 95, 24, 18 };
-		}
+		}*/
 		if (body != NULL)
 		{
 			body->rect = { position.x + 125, position.y - 95 + 9, 36, 40 };
 		}
-		if (feet != NULL)
+		/*if (feet != NULL)
 		{
 			feet->rect = { position.x + 121, position.y - 95 + 40, 42, 45 };
-		}
+		}*/
 		if (player != NULL)
 		{
 			player->rect = { position.x + 115, position.y - 95, 61, 92 };
@@ -316,4 +409,38 @@ update_status ModulePlayer2::Update()
 
 	}
 	return UPDATE_CONTINUE;
+}
+
+void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
+{
+	
+	App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
+
+}
+
+void ModulePlayer2::Setposition()
+{
+	if (vely >= 0)//cuando la vely de abajo sea igual a 0 entonces entonces su dirección vertical será igual a 2 que quiere decir que cae
+	{
+		vDir = 2;
+		if (position.y == 216)
+		{
+			Jump = false;
+			platform = true;
+		}
+
+	}
+	if (Jump == true && platform == false)
+	{
+		vely += gravity;//la vely = jumpseed(-15) i gravity es 1, por lo tanto ira restando su velocidad(vely) para que el personaje caiga una vez salte 
+
+	}
+	else
+	{
+		vely = 0;
+		velx = 0;
+	}
+
+	position.y += vely;
+	position.x += velx;
 }
