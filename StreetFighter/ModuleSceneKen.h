@@ -29,6 +29,9 @@ public:
 	Animation blueman;
 	Animation brownman;
 	Animation purpleman;
+	SDL_Rect bigharborelement;
+	SDL_Rect littleharborelement;
+	Collider* wall;
 
 	float foreground_pos;
 	bool forward;

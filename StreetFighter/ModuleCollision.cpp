@@ -1,52 +1,76 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleCollision.h"
+#include "ModulePlayer.h"
 
 ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	debug = false;
-
+    //Cuerpo(Azul)
 	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER_BODY] = false;
-	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_PLAYER_BODY][COLLIDER_ENEMY] = true;
-	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER_SHOT] = true;
+	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_PLAYER_BODY][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER_SHOT] = false;
 	matrix[COLLIDER_PLAYER_BODY][COLLIDER_ENEMY_SHOT] = true;
-	matrix[COLLIDER_PLAYER_BODY][COLLIDER_ENEMY_BODY] = true;
+	matrix[COLLIDER_PLAYER_BODY][COLLIDER_ENEMY_BODY] = false;
+	//matrix[COLLIDER_PLAYER_BODY][COLLIDER_WALL] = false;
 
-	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER_BODY] = true;
+	//Personaje
+	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER_BODY] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER_SHOT] = false;
-	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY_SHOT] = true;
-	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY_BODY] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY_SHOT] = false;
+	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY_BODY] = false;
+	//matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 
-	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_BODY] = true;
+	//Enemy
+	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_BODY] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
-	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_SHOT] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_SHOT] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY_BODY] = false;
+	//matrix[COLLIDER_ENEMY][COLLIDER_WALL] = true;
 
-	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_PLAYER_BODY] = true;
+
+	//Attack Player1
+	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_PLAYER_BODY] = false;
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_PLAYER] = false;
-	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_ENEMY] = false;
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_PLAYER_SHOT] = false;
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_ENEMY_SHOT] = false;
-	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_ENEMY_BODY] = false;
+	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_ENEMY_BODY] = true;
+	//matrix[COLLIDER_PLAYER_SHOT][COLLIDER_WALL] = false;
 
+
+	//Attack Player 2
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER_BODY] = true;
-	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER_SHOT] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY_BODY] = false;
+	//matrix[COLLIDER_ENEMY_SHOT][COLLIDER_WALL] = false;
 
-	matrix[COLLIDER_ENEMY_BODY][COLLIDER_ENEMY_BODY] = true;
-	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER] = true;
+
+	//Cuerpo player 2(azul)
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_ENEMY_BODY] = false;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_ENEMY_BODY][COLLIDER_ENEMY] = false;
-	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_SHOT] = false;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_SHOT] = true;
 	matrix[COLLIDER_ENEMY_BODY][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_BODY] = false;
+	//matrix[COLLIDER_ENEMY_BODY][COLLIDER_WALL] = false;
+
+	/*
+	matrix[COLLIDER_WALL][COLLIDER_ENEMY_BODY] = false;
+	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_WALL][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_WALL][COLLIDER_PLAYER_SHOT] = false;
+	matrix[COLLIDER_WALL][COLLIDER_ENEMY_SHOT] = false;
+	matrix[COLLIDER_WALL][COLLIDER_PLAYER_BODY] = false;
+	//matrix[COLLIDER_WALL][COLLIDER_WALL] = false;*/
 }
 
 // Destructor
@@ -125,6 +149,9 @@ void ModuleCollision::DrawDebug(Collider* col)
 	{
 	case COLLIDER_NONE:
 		App->renderer->DrawQuad(col->rect, 255, 255, 255, alpha);
+		break;
+	case COLLIDER_WALL:
+		App->renderer->DrawQuad(col->rect, 0, 255, 0, alpha);
 		break;
 	case COLLIDER_PLAYER_BODY:
 		App->renderer->DrawQuad(col->rect, 0, 0, 255, alpha);

@@ -68,5 +68,5 @@ public:
 		return true; 
 	}
 	virtual void OnCollision(Collider* col1, Collider* col2)
-	{ }
+	{}
 };

@@ -78,7 +78,7 @@ update_status ModuleParticles::Update()
 }
 
 // Always destroy particles that collide
-void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
+/*bool ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 {
 	// TODO 5: Fer que cada vegada que un laser collisini sorti una explosio
 	p2List_item<Particle*>* tmp = active.getFirst();
@@ -94,7 +94,8 @@ void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 
 		tmp = tmp->next;
 	}
-}
+	return 1;
+}*/
 
 void ModuleParticles::AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
 {
