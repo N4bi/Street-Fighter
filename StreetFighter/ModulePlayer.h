@@ -41,13 +41,21 @@ public:
 	Animation strongkick;
 	Animation weakknockback;
 	Animation strongknockback;
+<<<<<<< HEAD
 	Animation neutraljump;
+=======
+	Animation jump;
+>>>>>>> origin/master
 	Animation forwardjump;
 	
 	//Others variables
 	unsigned int fx;
 	int  vely, velx;
+<<<<<<< HEAD
 	float gravity;
+=======
+	int gravity;
+>>>>>>> origin/master
 	int Jumpspeed;
 	bool Jump;
 	bool platform;

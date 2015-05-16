@@ -89,6 +89,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	jump.frames.PushBack({ 2450, 250, 150, 150 });
 	jump.speed = 7.0f;*/
 	
+<<<<<<< HEAD
 	neutraljump.frames.PushBack({ 50, 1050, 150, 150 });
 	neutraljump.frames.PushBack({ 250, 1050, 150, 150 });
 	neutraljump.frames.PushBack({ 450, 1050, 150, 150 });
@@ -96,6 +97,15 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	neutraljump.frames.PushBack({ 850, 1050, 150, 150 });
 	neutraljump.frames.PushBack({ 1050, 1050, 150, 150 });
 	neutraljump.speed = 0.3f;
+=======
+	jump.frames.PushBack({ 50, 1050, 150, 150 });
+	jump.frames.PushBack({ 250, 1050, 150, 150 });
+	jump.frames.PushBack({ 450, 1050, 150, 150 });
+	jump.frames.PushBack({ 650, 1050, 150, 150 });
+	jump.frames.PushBack({ 850, 1050, 150, 150 });
+	jump.frames.PushBack({ 1050, 1050, 150, 150 });
+	jump.speed = 0.1f;
+>>>>>>> origin/master
 
 	//Forward Jump Animation
 	forwardjump.frames.PushBack({ 1450, 1050, 150, 150 });
@@ -104,7 +114,11 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	forwardjump.frames.PushBack({ 2050, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2250, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2450, 1050, 150, 150 });
+<<<<<<< HEAD
 	forwardjump.speed = 0.3f;
+=======
+	forwardjump.speed = 0.1f;
+>>>>>>> origin/master
 	
 
 }
@@ -120,7 +134,11 @@ bool ModulePlayer::Start()
 	lives = 1;
 	position.x = -50;
 	position.y = 216;
+<<<<<<< HEAD
 	gravity = 1.0f;
+=======
+	gravity = 1;
+>>>>>>> origin/master
 	vely = 0;
 	velx = 0;
 	Jump = false;
@@ -224,7 +242,11 @@ update_status ModulePlayer::Update()
 		
 		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN  && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
+<<<<<<< HEAD
 			doNeutraljump = true;
+=======
+			current_animation = &jump;
+>>>>>>> origin/master
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -234,7 +256,11 @@ update_status ModulePlayer::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
+<<<<<<< HEAD
 			doForwardjump = true;
+=======
+			current_animation = &forwardjump;
+>>>>>>> origin/master
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -278,8 +304,12 @@ update_status ModulePlayer::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
+<<<<<<< HEAD
 			doNeutraljump = true;
 			//current_animation = &neutraljump;
+=======
+			current_animation = &forward;
+>>>>>>> origin/master
 			platform = false;
 			Jump = true;
 			vely = Jumpspeed;
@@ -418,7 +448,11 @@ update_status ModulePlayer::Update()
 	{
 		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> origin/master
 	return UPDATE_CONTINUE;
 }
 
