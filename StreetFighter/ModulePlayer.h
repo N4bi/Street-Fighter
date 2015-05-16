@@ -41,6 +41,8 @@ public:
 	Animation strongkick;
 	Animation weakknockback;
 	Animation strongknockback;
+	Animation jump;
+	Animation forwardjump;
 	
 	//Others variables
 	unsigned int fx;

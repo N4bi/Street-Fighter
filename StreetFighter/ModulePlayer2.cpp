@@ -102,6 +102,24 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	strongknockback.frames.PushBack({ 1850, 650, 150, 150 });
 	strongknockback.speed = 0.1f;
 
+	//Jump Animation
+
+	jump.frames.PushBack({ 50, 1050, 150, 150 });
+	jump.frames.PushBack({ 250, 1050, 150, 150 });
+	jump.frames.PushBack({ 450, 1050, 150, 150 });
+	jump.frames.PushBack({ 650, 1050, 150, 150 });
+	jump.frames.PushBack({ 850, 1050, 150, 150 });
+	jump.frames.PushBack({ 1050, 1050, 150, 150 });
+	jump.speed = 2.0f;
+
+	//Forward Jump Animation
+	forwardjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 1650, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 1850, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 2050, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 2250, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 2450, 1050, 150, 150 });
+	forwardjump.speed = 0.1f;
 
 }
 
@@ -121,7 +139,7 @@ bool ModulePlayer2::Start()
 	vely = 0;
 	velx = 0;
 	Jump = false;
-	Jumpspeed = -15;
+	Jumpspeed = -16.;
 	platform = true;
 	hDir = 0;
 	vDir = 2;
@@ -301,7 +319,7 @@ update_status ModulePlayer2::Update()
 			platform = false;
 			Jump = true;
 			vDir = 1;
-			velx = 5;
+			velx = 1;
 			vely = Jumpspeed;
 
 		}
@@ -312,7 +330,7 @@ update_status ModulePlayer2::Update()
 			platform = false;
 			Jump = true;
 			vDir = 1;
-			velx = -5;
+			velx = -1;
 			vely = Jumpspeed;
 
 		}

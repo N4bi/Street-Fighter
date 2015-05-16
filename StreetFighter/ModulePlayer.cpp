@@ -80,7 +80,31 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	strongknockback.frames.PushBack({ 1850, 650, 150, 150 });
 	strongknockback.speed = 0.1f;
 
+	//Jump Animation
+	/*jump.frames.PushBack({ 1450, 250, 150, 150 });
+	jump.frames.PushBack({ 1650, 250, 150, 150 });
+	jump.frames.PushBack({ 1850, 250, 150, 150 });
+	jump.frames.PushBack({ 2050, 250, 150, 150 });
+	jump.frames.PushBack({ 2250, 250, 150, 150 });
+	jump.frames.PushBack({ 2450, 250, 150, 150 });
+	jump.speed = 7.0f;*/
+	
+	jump.frames.PushBack({ 50, 1050, 150, 150 });
+	jump.frames.PushBack({ 250, 1050, 150, 150 });
+	jump.frames.PushBack({ 450, 1050, 150, 150 });
+	jump.frames.PushBack({ 650, 1050, 150, 150 });
+	jump.frames.PushBack({ 850, 1050, 150, 150 });
+	jump.frames.PushBack({ 1050, 1050, 150, 150 });
+	jump.speed = 0.1f;
 
+	//Forward Jump Animation
+	forwardjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 1650, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 1850, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 2050, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 2250, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 2450, 1050, 150, 150 });
+	forwardjump.speed = 0.1f;
 	
 
 }
@@ -200,7 +224,7 @@ update_status ModulePlayer::Update()
 		
 		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN  && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			current_animation = &forward;
+			current_animation = &jump;
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -210,7 +234,7 @@ update_status ModulePlayer::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			current_animation = &forward;
+			current_animation = &forwardjump;
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -221,7 +245,7 @@ update_status ModulePlayer::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			current_animation = &forward;
+			current_animation = &forwardjump;
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -266,7 +290,7 @@ update_status ModulePlayer::Update()
 			platform = false;
 			Jump = true;
 			vDir = 1;
-			velx = 5;
+			velx = 1;
 			vely = Jumpspeed;
 		}
 
@@ -276,7 +300,7 @@ update_status ModulePlayer::Update()
 			platform = false;
 			Jump = true;
 			vDir = 1;
-			velx = -5;
+			velx = -1;
 			vely = Jumpspeed;
 
 		}

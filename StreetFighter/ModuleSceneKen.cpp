@@ -71,6 +71,19 @@ ModuleSceneKen::ModuleSceneKen(Application* app, bool start_enabled) : Module(ap
 	// for moving the foreground
 	foreground_pos = 0;
 	forward = true;
+
+	//big harbor element
+	bigharborelement.x = 759;
+	bigharborelement.y = 175;
+	bigharborelement.w = 33;
+	bigharborelement.h = 27;
+
+	//little harbor element
+
+	littleharborelement.x = 799;
+	littleharborelement.y = 183;
+	littleharborelement.w = 23;
+	littleharborelement.h = 18;
 }
 
 ModuleSceneKen::~ModuleSceneKen()
@@ -83,7 +96,6 @@ bool ModuleSceneKen::Start()
 	
 	graphics = App->textures->Load("Game/ken_stage.png");
 
-	// TODO 1: Fer Enable/Disable del jugador i posar la musica
 	App->collision->Enable();
 	App->player->Enable();
 	App->player2->Enable();
@@ -135,10 +147,12 @@ update_status ModuleSceneKen::Update()
 	App->renderer->Blit(graphics, 288, 96 + (int)foreground_pos, &(blueman.GetCurrentFrame()), 0.92f); //blue man animation
 	App->renderer->Blit(graphics, 88, 24 + (int)foreground_pos, &(brownman.GetCurrentFrame()), 0.92f); //brown man animation
 	App->renderer->Blit(graphics, 128, 24 + (int)foreground_pos, &(purpleman.GetCurrentFrame()), 0.92f); //purple man animation
-
-	
 	App->renderer->Blit(graphics, 0, 170, &ground);
 
+	//App->renderer->Blit(graphics, 80, 200, &bigharborelement, 0.92f);//big harbor element 1
+	App->renderer->Blit(graphics, 110, 167, &littleharborelement); //little harbor element 1
+	//App->renderer->Blit //big harbor element 2
+	App->renderer->Blit(graphics, 250, 167, &littleharborelement); //little harbor element 2
 	
 
 	// TODO 3: Fer que al apretar el espai es façi un fade i es carregui HondaStage
