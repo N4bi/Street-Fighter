@@ -50,15 +50,15 @@ public:
 	
 	//Others variables
 	unsigned int fx;
-	int  vely, velx;
-
+	float  vely, velx;
 	float gravity;
-	int Jumpspeed;
+	float Jumpspeed;
 	bool Jump;
 	bool platform;
 	int hDir, vDir;
 	int lives;
 	bool doWeakfist;
+	bool isCrouch;
 	bool doStrongkick;
 	bool doStrongpunch;
 	bool doNeutraljump;

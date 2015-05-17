@@ -49,9 +49,9 @@ public:
 
 	//Others variables
 	unsigned int fx;
-	int  vely, velx;
-	int gravity;
-	int Jumpspeed;
+	float  vely, velx;
+	float gravity;
+	float Jumpspeed;
 	bool Jump;
 	bool platform;
 	int hDir, vDir;

@@ -148,13 +148,14 @@ bool ModulePlayer::Start()
 	position.x = -50;
 	position.y = 216;
 	gravity = 1.0f;
-
-	gravity = 1;
-	vely = 0;
-	velx = 0;
+	vely = 0.0f;
+	velx = 0.0f;
 	Jump = false;
-	Jumpspeed = -15;
+	Jumpspeed = -15.0f;
 	platform = true;
+	doNeutraljump = false;
+	doForwardjump = false;
+	isCrouch = false;
 	hDir = 0;
 	vDir = 2;
 
@@ -238,14 +239,14 @@ update_status ModulePlayer::Update()
 
 	if (App->player->position.x < App->renderer->pivot.x){
 
-		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT &&(!isAttacking)) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &backward;
 			position.x -= speed;
 			hDir = 1;
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && (!isAttacking))  && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &forward;
 			position.x += speed;
@@ -257,6 +258,7 @@ update_status ModulePlayer::Update()
 		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 		current_animation = &crouch;
+		hDir = 0;
 
 		}
 		
@@ -266,8 +268,6 @@ update_status ModulePlayer::Update()
 		{
 
 			doNeutraljump = true;
-			current_animation = &jump;
-
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -279,9 +279,6 @@ update_status ModulePlayer::Update()
 		{
 
 			doForwardjump = true;
-
-			current_animation = &forwardjump;
-
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -292,7 +289,7 @@ update_status ModulePlayer::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			current_animation = &forwardjump;
+			doForwardjump = true;
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -309,48 +306,62 @@ update_status ModulePlayer::Update()
 	}
 	else
 	{
-		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && (!isAttacking)) && (!isCrouch) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
-			current_animation = &forward;
+			current_animation = &backward;
 			position.x -= speed;
 			hDir = 1;
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && (!isAttacking)) && (!isCrouch) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			current_animation = &backward;
+			current_animation = &forward;
 			position.x += speed;
 			hDir = 2;
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		//--------------Crouch------
+
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{   
+
+			current_animation = &crouch;
+			hDir = 0;
+		}
+
+		
+		//---------------Jumps-------
+
+		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
+
 			doNeutraljump = true;
-
-			current_animation = &forward;
-
 			platform = false;
 			Jump = true;
+			vDir = 1;
 			vely = Jumpspeed;
+
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			current_animation = &forward;
+
+			doForwardjump = true;
 			platform = false;
 			Jump = true;
 			vDir = 1;
-			velx = 1;
+			velx = 5;
 			vely = Jumpspeed;
+
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			current_animation = &forward;
+			doForwardjump = true;
 			platform = false;
 			Jump = true;
 			vDir = 1;
-			velx = -1;
+			velx = -5;
 			vely = Jumpspeed;
 
 		}
@@ -360,6 +371,8 @@ update_status ModulePlayer::Update()
 			current_animation = &idle;
 			hDir = 0;
 		}
+	
+	
 	}
 
 
@@ -480,28 +493,46 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 void ModulePlayer::Setposition()
 {   
 	
-	if (vely >= 0)//cuando la vely de abajo sea igual a 0 entonces entonces su dirección vertical será igual a 2 que quiere decir que cae
-	{
-		vDir = 2;
-		if (position.y == 216)
-		{
-			Jump = false;
-			platform = true;
-		}
 
-	}
-	if (Jump == true && platform == false)
-	{
-		vely += gravity;//la vely = jumpseed(-15) i gravity es 1, por lo tanto ira restando su velocidad(vely) para que el personaje caiga una vez salte 
+	if (doForwardjump == true || doNeutraljump == true)
+	{   
+		if (doForwardjump == true)
+	    {
+		current_animation = &forwardjump;
+	    }
+
+	    else if (doNeutraljump == true)
+	    {
+		current_animation = &neutraljump;
+	    }
 		
-	}
-	else
-	{
+		
+		if (vely >= 0)//cuando la vely de abajo sea igual a 0 entonces entonces su dirección vertical será igual a 2 que quiere decir que cae
+		{
+			vDir = 2;
+			if (position.y == 216)
+			{
+				Jump = false;
+				platform = true;
+
+			}
+
+		}
+		if (Jump == true && platform == false)
+		{
+			vely += gravity;//la vely = jumpseed(-15) i gravity es 1, por lo tanto ira restando su velocidad(vely) para que el personaje caiga una vez salte 
+
+		}
+		else
+		{
 			vely = 0;
 			velx = 0;
-	}
+			
+		}
 
-	position.y += vely;
-	position.x += velx;
+		position.y += vely;
+		position.x += velx;
+	}
+	
 
 }
