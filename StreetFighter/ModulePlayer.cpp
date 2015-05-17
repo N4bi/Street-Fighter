@@ -235,6 +235,8 @@ update_status ModulePlayer::Update()
 			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_PLAYER_SHOT,this);
 		}
 	}
+	// LEFT SIDE
+
 	//-----------------Movement
 
 	if (App->player->position.x < App->renderer->pivot.x){
@@ -304,18 +306,19 @@ update_status ModulePlayer::Update()
 		    hDir = 0;
 		}
 	}
+	// RIGHT SIDE
 	else
 	{
 		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && (!isAttacking)) && (!isCrouch) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
-			current_animation = &backward;
+			current_animation = &forward;
 			position.x -= speed;
 			hDir = 1;
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && (!isAttacking)) && (!isCrouch) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			current_animation = &forward;
+			current_animation = &backward;
 			position.x += speed;
 			hDir = 2;
 		}
