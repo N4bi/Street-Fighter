@@ -39,8 +39,13 @@ public:
 	Animation strongkick;
 	Animation weakknockback;
 	Animation strongknockback;
+	Animation neutraljump;
 	Animation jump;
 	Animation forwardjump;
+	Animation crouch;
+	Animation winround;
+	Animation winfight;
+	
 
 	//Others variables
 	unsigned int fx;
@@ -54,6 +59,9 @@ public:
 	bool doWeakfist;
 	bool doStrongkick;
 	bool doStrongpunch;
+	bool doNeutraljump;
+	bool doForwardjump;
+	bool hitWeak;
 	bool isAttacking;
 	p2Point<int> position;
 

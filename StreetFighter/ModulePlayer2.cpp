@@ -14,15 +14,6 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	player = NULL;
 
 	
-	
-
-	/*// idle animation (arcade sprite sheet)
-	idle.frames.PushBack({ 7, 14, 60, 90 });
-	idle.frames.PushBack({ 95, 15, 60, 89 });
-	idle.frames.PushBack({ 184, 14, 60, 90 });
-	idle.frames.PushBack({ 276, 11, 60, 93 });
-	idle.frames.PushBack({ 366, 12, 60, 92 });
-	idle.speed = 0.2f;*/
 
 	// idle animation (arcade sprite sheet)
 	idle.frames.PushBack({ 50, 50, 150,150});
@@ -33,22 +24,12 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	idle.speed = 0.2f;
 
 	// walk forward animation (arcade sprite sheet)
-	//forward.frames.PushBack({9, 136, 53, 83});
 	forward.frames.PushBack({ 50, 250, 150, 150 });
 	forward.frames.PushBack({ 250, 250, 150, 150 });
 	forward.frames.PushBack({ 450, 250, 150, 150 });
 	forward.frames.PushBack({ 650, 250, 150, 150 });
 	forward.frames.PushBack({ 850, 250, 150, 150 });
 	forward.speed = 0.1f;
-
-	/*// walk backward animation (arcade sprite sheet)
-	backward.frames.PushBack({ 542, 131, 61, 87 });
-	backward.frames.PushBack({ 628, 129, 59, 90 });
-	backward.frames.PushBack({ 713, 128, 57, 90 });
-	backward.frames.PushBack({ 797, 127, 57, 90 });
-	backward.frames.PushBack({ 883, 128, 58, 91 });
-	backward.frames.PushBack({ 974, 129, 57, 89 });
-	backward.speed = 0.1f;*/
 
 	// walk backward animation (arcade sprite sheet)
 	backward.frames.PushBack({ 1450, 250, 150, 150 });
@@ -58,12 +39,6 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	backward.frames.PushBack({ 2250, 250, 150, 150 });
 	backward.frames.PushBack({ 2450, 250, 150, 150 });
 	backward.speed = 0.1f;
-
-	// weak fist animation
-	/*weakfist.frames.PushBack({ 8, 270, 94, 94 });
-	weakfist.frames.PushBack({ 106, 270, 94, 94 });
-	weakfist.frames.PushBack({ 8, 270, 94, 94 });
-	weakfist.speed = 0.1f;*/
 
 	weakfist.frames.PushBack({ 50, 450, 150, 150 });
 	weakfist.frames.PushBack({ 250, 450, 150, 150 });
@@ -102,15 +77,23 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	strongknockback.frames.PushBack({ 1850, 650, 150, 150 });
 	strongknockback.speed = 0.1f;
 
-	//Jump Animation
+	//Neutral Jump Animation
+	neutraljump.frames.PushBack({ 50, 1050, 150, 150 });
+	neutraljump.frames.PushBack({ 250, 1050, 150, 150 });
+	neutraljump.frames.PushBack({ 450, 1050, 150, 150 });
+	neutraljump.frames.PushBack({ 650, 1050, 150, 150 });
+	neutraljump.frames.PushBack({ 850, 1050, 150, 150 });
+	neutraljump.frames.PushBack({ 1050, 1050, 150, 150 });
+	neutraljump.speed = 0.2f;
 
+	 //Jump Animation
 	jump.frames.PushBack({ 50, 1050, 150, 150 });
 	jump.frames.PushBack({ 250, 1050, 150, 150 });
 	jump.frames.PushBack({ 450, 1050, 150, 150 });
 	jump.frames.PushBack({ 650, 1050, 150, 150 });
 	jump.frames.PushBack({ 850, 1050, 150, 150 });
 	jump.frames.PushBack({ 1050, 1050, 150, 150 });
-	jump.speed = 2.0f;
+	jump.speed = 0.2f;
 
 	//Forward Jump Animation
 	forwardjump.frames.PushBack({ 1450, 1050, 150, 150 });
@@ -119,7 +102,24 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	forwardjump.frames.PushBack({ 2050, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2250, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2450, 1050, 150, 150 });
-	forwardjump.speed = 0.1f;
+
+	forwardjump.speed = 0.2f;
+
+	//Crouch Animation
+	crouch.frames.PushBack({ 250, 1250, 150, 150 });
+
+	crouch.speed = 0.2f;
+
+	//Winning Round Animation
+	winround.frames.PushBack({ 50, 850, 150, 150 });
+	winround.frames.PushBack({ 250, 850, 150, 150 });
+	winround.frames.PushBack({ 350, 850, 150, 150 });
+	winround.frames.PushBack({ 450, 850, 150, 150 });
+
+
+	//Winning Fight Animation
+	winfight.frames.PushBack({ 1050, 850, 150, 150 });
+	winfight.frames.PushBack({ 1250, 850, 150, 150 });
 
 }
 
@@ -232,6 +232,7 @@ update_status ModulePlayer2::Update()
 
 	if (App->player2->position.x > App->renderer->pivot.x){
 
+		//------------Movement-------
 		if ((App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && (!isAttacking)) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player2->position.x) <= 161))
 		{
 			current_animation = &forward;
@@ -245,26 +246,48 @@ update_status ModulePlayer2::Update()
 			current_animation = &backward;
 			position.x += speed;
 			hDir = 1;
+		}
+
+		//--------------Crouch------
+
+		if ((App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &crouch;
 
 		}
 
+			//---------------Jumps-------
+
 		if ((App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			current_animation = &forward;
+			doNeutraljump = true;
+
+			current_animation = &jump;
+
 			platform = false;
 			Jump = true;
-			vDir = 1;
 			vely = Jumpspeed;
 
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			current_animation = &forward;
+			current_animation = &forwardjump;
 			platform = false;
 			Jump = true;
 			vDir = 1;
 			velx = 5;
+			vely = Jumpspeed;
+
+		}
+		
+		if ((App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &forwardjump;
+			platform = false;
+			Jump = true;
+			vDir = 1;
+			velx = -5;
 			vely = Jumpspeed;
 
 		}
@@ -275,16 +298,7 @@ update_status ModulePlayer2::Update()
 			hDir = 0;
 		}
 		
-		if ((App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
-		{
-			current_animation = &forward;
-			platform = false;
-			Jump = true;
-			vDir = 1;
-			velx = -5;
-			vely = Jumpspeed;
-
-		}
+		
 
 	}
 	else
@@ -375,6 +389,25 @@ update_status ModulePlayer2::Update()
 			doStrongpunch = false;
 			a_strongpunch->to_delete = true;
 			isAttacking = false;
+		}
+
+
+		if (doNeutraljump){
+			isAttacking = true;
+			current_animation = &neutraljump;
+			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				doNeutraljump = false;
+				isAttacking = false;
+			}
+		}
+
+		if (doForwardjump){
+			isAttacking = true;
+			current_animation = &forwardjump;
+			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				doForwardjump = false;
+				isAttacking = false;
+			}
 		}
 
 	}
