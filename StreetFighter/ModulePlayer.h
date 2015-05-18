@@ -44,6 +44,7 @@ public:
 	Animation neutraljump;
 	Animation jump;
 	Animation forwardjump;
+	Animation backjump;
 	Animation crouch;
 	Animation winround;
 	Animation winfight;
@@ -63,6 +64,7 @@ public:
 	bool doStrongpunch;
 	bool doNeutraljump;
 	bool doForwardjump;
+	bool doBackjump;
 	bool hitWeak;
 	bool isAttacking;
 	p2Point<int> position;

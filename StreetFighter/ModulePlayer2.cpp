@@ -105,6 +105,16 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 
 	forwardjump.speed = 0.2f;
 
+	//Back Jump Animation
+	backjump.frames.PushBack({ 2450, 1050, 150, 150 });
+	backjump.frames.PushBack({ 2250, 1050, 150, 150 });
+	backjump.frames.PushBack({ 2050, 1050, 150, 150 });
+	backjump.frames.PushBack({ 1850, 1050, 150, 150 });
+	backjump.frames.PushBack({ 1650, 1050, 150, 150 });
+	backjump.frames.PushBack({ 1450, 1050, 150, 150 });
+
+	backjump.speed = 0.2f;
+
 	//Crouch Animation
 	crouch.frames.PushBack({ 250, 1250, 150, 150 });
 
@@ -274,7 +284,7 @@ update_status ModulePlayer2::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			doForwardjump = true;
+			doBackjump = true;
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -356,7 +366,7 @@ update_status ModulePlayer2::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			doForwardjump = true;
+			doBackjump = true;
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -407,7 +417,7 @@ update_status ModulePlayer2::Update()
 			a_strongpunch->to_delete = true;
 			isAttacking = false;
 		}
-
+	}
 
 		if (doNeutraljump){
 			isAttacking = true;
@@ -427,7 +437,17 @@ update_status ModulePlayer2::Update()
 			}
 		}
 
-	}
+		if (doBackjump){
+			isAttacking = true;
+			current_animation = &backjump;
+			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				doBackjump = false;
+				isAttacking = false;
+			}
+
+		}
+
+	
 
 	// Draw everything --------------------------------------
 	SDL_Rect r = current_animation->GetCurrentFrame();
@@ -488,18 +508,22 @@ void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 
 void ModulePlayer2::Setposition()
 {
-	if (doForwardjump == true || doNeutraljump == true)
+
+	if (doForwardjump == true || doNeutraljump == true || doBackjump == true)
 	{
 		if (doForwardjump == true)
 		{
 			current_animation = &forwardjump;
+		}
+		if (doBackjump == true)
+		{
+			current_animation = &backjump;
 		}
 
 		else if (doNeutraljump == true)
 		{
 			current_animation = &neutraljump;
 		}
-
 
 		if (vely >= 0)//cuando la vely de abajo sea igual a 0 entonces entonces su dirección vertical será igual a 2 que quiere decir que cae
 		{
@@ -522,8 +546,6 @@ void ModulePlayer2::Setposition()
 		{
 			vely = 0;
 			velx = 0;
-			doForwardjump = false;
-			doNeutraljump = false;
 		}
 
 		position.y += vely;

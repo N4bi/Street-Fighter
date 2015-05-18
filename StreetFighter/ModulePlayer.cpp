@@ -113,8 +113,17 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	forwardjump.frames.PushBack({ 2050, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2250, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2450, 1050, 150, 150 });
-
 	forwardjump.speed = 0.2f;
+
+	//Back Jump Animation
+	backjump.frames.PushBack({ 2450, 1050, 150, 150 });
+	backjump.frames.PushBack({ 2250, 1050, 150, 150 });
+	backjump.frames.PushBack({ 2050, 1050, 150, 150 });
+	backjump.frames.PushBack({ 1850, 1050, 150, 150 });
+	backjump.frames.PushBack({ 1650, 1050, 150, 150 });
+	backjump.frames.PushBack({ 1450, 1050, 150, 150 });
+
+	backjump.speed = 0.2f;
 
 	//Crouch Animation
 	crouch.frames.PushBack({ 250, 1250, 150, 150 });
@@ -291,7 +300,7 @@ update_status ModulePlayer::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			doForwardjump = true;
+			doBackjump = true;
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -349,7 +358,7 @@ update_status ModulePlayer::Update()
 		if ((App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 
-			doForwardjump = true;
+			doBackjump = true;
 			platform = false;
 			Jump = true;
 			vDir = 1;
@@ -434,6 +443,15 @@ update_status ModulePlayer::Update()
 		}
 	}
 
+	if (doBackjump){
+		isAttacking = true;
+		current_animation = &backjump;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			doBackjump = false;
+			isAttacking = false;
+		}
+		
+	}
 	// Draw everything --------------------------------------
 	SDL_Rect r = current_animation->GetCurrentFrame();
 
@@ -497,12 +515,16 @@ void ModulePlayer::Setposition()
 {   
 	
 
-	if (doForwardjump == true || doNeutraljump == true)
+	if (doForwardjump == true || doNeutraljump == true || doBackjump == true)
 	{   
 		if (doForwardjump == true)
 	    {
 		current_animation = &forwardjump;
 	    }
+		if (doBackjump == true)
+		{
+			current_animation = &backjump;
+		}
 
 	    else if (doNeutraljump == true)
 	    {
