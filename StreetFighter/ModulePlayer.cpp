@@ -678,19 +678,19 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		App->audio->PlayFx(6, 0);
 		animation_reac = true;
 	}
-	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
+	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_WEAKATTACK) /*|| c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)*/
 	{
 		App->audio->PlayFx(4, 0);
 		animation_reachead = true;
 	}
 	
-	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
+	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_MIDATTACK) /* c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_MIDATTACK)*/
 	{
 		App->audio->PlayFx(5, 0);
 		animation_reachead = true;
 	}
 
-	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
+	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_STRONGATTACK) /*|| c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)*/
 	{
 		App->audio->PlayFx(7, 0);
 		animation_reachead_strong = true;
@@ -707,6 +707,7 @@ void ModulePlayer::Reaction()
 		speed = 0;
 		current_animation = &cover;
 		animation_reac = false;
+
 	}
 
 	if (animation_reachead == true)
@@ -714,13 +715,30 @@ void ModulePlayer::Reaction()
 		speed = 0;
 		current_animation = &weakknockback;
 		animation_reachead = false;
+		if (App->player->position.x < App->renderer->pivot.x)
+		{
+			position.x--;
+		}
+		else
+		{
+			position.x++;
+		}
 	}
 	
 	if (animation_reachead_strong == true)
 	{
+
 		speed = 0;
 		current_animation = &strongknockback;
 		animation_reachead_strong = false;
+		if (App->player->position.x < App->renderer->pivot.x)
+		{
+			position.x--;
+		}
+		else
+			{
+			position.x++;
+			}
 	}
 
 }
