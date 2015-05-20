@@ -27,22 +27,28 @@ public:
 	Collider* feet;
 	Collider* player;
 	Collider* block;
-	Collider* a_weakfist;
-	Collider* a_strongkick;
+	Collider* a_weakpunch;
+	Collider* a_midpunch;
 	Collider* a_strongpunch;
+	Collider* a_weakkick;
+	Collider* a_midkick;
+	Collider* a_strongkick;
 
 	//Animations
 	Animation idle;
 	Animation* current_animation;
 	Animation forward;
 	Animation backward;
-	Animation weakfist;
+	Animation weakpunch;
+	Animation midpunch;
 	Animation strongpunch;
 	Animation weakkick;
+	Animation midkick;
 	Animation strongkick;
 	Animation weakknockback;
 	Animation strongknockback;
 	Animation neutraljump;
+	Animation jump;
 	Animation forwardjump;
 	Animation backjump;
 	Animation cover;
@@ -58,15 +64,18 @@ public:
 	float Jumpspeed;
 	bool Jump;
 	int lives;
-	bool doWeakfist;
-	bool isCrouch;
-	bool doStrongkick;
+	bool doWeakpunch;
+	bool doMidpunch;
 	bool doStrongpunch;
+	bool doWeakkick;
+	bool doMidkick;
+	bool doStrongkick;
 	bool doNeutraljump;
 	bool doForwardjump;
 	bool doBackjump;
 	bool hitWeak;
 	bool isAttacking;
+	bool isCrouch;
 	p2Point<int> position;
 
 };

@@ -14,6 +14,7 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	player = NULL;
 	block = NULL;
 
+
 	
 
 	// idle animation (arcade sprite sheet)
@@ -41,22 +42,46 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	backward.frames.PushBack({ 2450, 250, 150, 150 });
 	backward.speed = 0.1f;
 
-	weakfist.frames.PushBack({ 50, 450, 150, 150 });
-	weakfist.frames.PushBack({ 250, 450, 150, 150 });
-	weakfist.frames.PushBack({ 450, 450, 150, 150 });
-	weakfist.speed = 0.3f;
+	//Weak Punch Animation
+	weakpunch.frames.PushBack({ 50, 450, 150, 150 });
+	weakpunch.frames.PushBack({ 250, 450, 150, 150 });
+	weakpunch.frames.PushBack({ 450, 450, 150, 150 });
+	weakpunch.speed = 0.3f;
+
+
+	//Mid Punch Animation
+	midpunch.frames.PushBack({ 850, 450, 150, 150 });
+	midpunch.frames.PushBack({ 1050, 450, 150, 150 });
+	midpunch.frames.PushBack({ 1250, 450, 150, 150 });
+	midpunch.speed = 0.2f;
+
 
 	//Strong Punch Animation
+	strongpunch.frames.PushBack({ 1250, 450, 150, 150 });
 	strongpunch.frames.PushBack({ 850, 450, 150, 150 });
 	strongpunch.frames.PushBack({ 1050, 450, 150, 150 });
+	strongpunch.frames.PushBack({ 850, 450, 150, 150 });
+	strongpunch.frames.PushBack({ 850, 450, 150, 150 });
 	strongpunch.frames.PushBack({ 1250, 450, 150, 150 });
+	
+
+
+	
 	strongpunch.speed = 0.2f;
 
 	//WeakKick Animation
 	weakkick.frames.PushBack({ 1650, 450, 150, 150 });
 	weakkick.frames.PushBack({ 1850, 450, 150, 150 });
 	weakkick.frames.PushBack({ 2050, 450, 150, 150 });
-	weakkick.speed = 0.3f;
+	weakkick.speed = 0.2f;
+
+	//MidKick Animation
+	midkick.frames.PushBack({ 1650, 450, 150, 150 });
+	midkick.frames.PushBack({ 1650, 450, 150, 150 });
+	midkick.frames.PushBack({ 1850, 450, 150, 150 });
+	midkick.frames.PushBack({ 2050, 450, 150, 150 });
+	midkick.frames.PushBack({ 2050, 450, 150, 150 });
+	midkick.speed = 0.2f;
 
 	//StrongKick Animation
 	strongkick.frames.PushBack({ 50, 650, 150, 150 });
@@ -146,7 +171,7 @@ bool ModulePlayer2::Start()
 {
 	LOG("Loading player");
 
-   
+	fx = NULL;
 	lives = 1;
 	position.x = 133;
 	position.y = 216;
@@ -159,7 +184,8 @@ bool ModulePlayer2::Start()
 	
 	graphics = App->textures->Load("Game/ken7.png"); // arcade version
 	fx = App->audio->LoadFx("Game/sounds/sfx/01jab.wav");
-	fx = App->audio->LoadFx("Game/sounds/sfx/02strongpk.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/03midpk.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/04strongpk.wav");
 
 	if (App->player->position.x > App->renderer->pivot.x){
 		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_ENEMY_HEAD);
@@ -193,19 +219,37 @@ update_status ModulePlayer2::Update()
 	current_animation = &idle;
 	// debug camera movement --------------------------------
 
+	//ATTACKS P2
+
+	//--PUNCHS
 
 	if ((App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) && (!isAttacking))
 	{
 		isAttacking = true;
 		if (App->player2->position.x > App->renderer->pivot.x){
-			doWeakfist = true;
+			doWeakpunch = true;
 			App->audio->PlayFx(1, 0);
-			a_weakfist = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_ENEMY_WEAKATTACK,this);
+			a_weakpunch = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_ENEMY_WEAKATTACK,this);
 		}
 		else{
-			doWeakfist = true;
+			doWeakpunch = true;
 			App->audio->PlayFx(1, 0);
-			a_weakfist = App->collision->AddCollider({ position.x + 163, position.y - 80, 43, 17 }, COLLIDER_ENEMY_WEAKATTACK,this);
+			a_weakpunch = App->collision->AddCollider({ position.x + 163, position.y - 80, 43, 17 }, COLLIDER_ENEMY_WEAKATTACK,this);
+		}
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) && (!isAttacking))
+	{
+		isAttacking = true;
+		if (App->player2->position.x > App->renderer->pivot.x){
+			doMidpunch = true;
+			App->audio->PlayFx(2, 0);
+			a_midpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_ENEMY_MIDATTACK, this);
+		}
+		else{
+			doMidpunch = true;
+			App->audio->PlayFx(2, 0);
+			a_midpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_ENEMY_MIDATTACK, this);
 		}
 	}
 
@@ -214,37 +258,72 @@ update_status ModulePlayer2::Update()
 		isAttacking = true;
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doStrongpunch = true;
-			App->audio->PlayFx(2, 0);
+			App->audio->PlayFx(3, 0);
 			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_ENEMY_STRONGATTACK,this);
 		}
 		else{
 			doStrongpunch = true;
-			App->audio->PlayFx(2, 0);
+			App->audio->PlayFx(3, 0);
 			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_ENEMY_STRONGATTACK,this);
 		}
 	}
 
-	if ((App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)) current_animation = &weakkick;
+
+
+
+	//---KICKS
+
+	if ((App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN) && (!isAttacking))
+	{
+		isAttacking = true;
+		if (App->player2->position.x > App->renderer->pivot.x){
+			doWeakkick = true;
+			App->audio->PlayFx(1, 0);
+			a_weakkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_ENEMY_WEAKATTACK, this);
+		}
+		else{
+			doWeakkick = true;
+			App->audio->PlayFx(1, 0);
+			a_weakkick = App->collision->AddCollider({ position.x + 170, position.y - 90, 43, 17 }, COLLIDER_ENEMY_WEAKATTACK, this);
+		}
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) && (!isAttacking))
+	{
+		isAttacking = true;
+		if (App->player2->position.x > App->renderer->pivot.x){
+			doMidkick = true;
+			App->audio->PlayFx(2, 0);
+			a_midkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_ENEMY_MIDATTACK, this);
+		}
+		else{
+			doMidkick = true;
+			App->audio->PlayFx(2, 0);
+			a_midkick = App->collision->AddCollider({ position.x + 170, position.y - 90, 43, 17 }, COLLIDER_ENEMY_MIDATTACK, this);
+		}
+	}
+
 	if ((App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) && (!isAttacking))
 	{
 		isAttacking = true;
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doStrongkick = true;
-			App->audio->PlayFx(2, 0);
+			App->audio->PlayFx(3, 0);
 			a_strongkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_ENEMY_STRONGATTACK,this);
 		}
 		else{
 			doStrongkick = true;
-			App->audio->PlayFx(2, 0);
-			a_strongkick = App->collision->AddCollider({ position.x + 160, position.y - 80, 43, 17 }, COLLIDER_ENEMY_STRONGATTACK, this);
+			App->audio->PlayFx(3, 0);
+			a_strongkick = App->collision->AddCollider({ position.x + 170, position.y - 90, 43, 17 }, COLLIDER_ENEMY_STRONGATTACK, this);
 		}
 	}
 
+	//RIGHT SIDE
 	int speed = 1;
 
 	if (App->player2->position.x > App->renderer->pivot.x){
 		
-		//RIGHT SIDE
+		
 
 		//------------Movement-------
 		if ((App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT) && (!Jump) && (!isCrouch) && (!isAttacking) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player2->position.x) <= 161))
@@ -378,15 +457,56 @@ update_status ModulePlayer2::Update()
 
 	// Actions P2
 
-	if (doWeakfist){
+	if (doWeakpunch){
 		isAttacking = true;
-		current_animation = &weakfist;
+		current_animation = &weakpunch;
 		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
-			doWeakfist = false;
-			a_weakfist->to_delete = true;
+			doWeakpunch = false;
+			a_weakpunch->to_delete = true;
 			isAttacking = false;
 		}
 
+	}
+
+
+	if (doMidpunch){
+		isAttacking = true;
+		current_animation = &midpunch;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			doMidpunch = false;
+			a_midpunch->to_delete = true;
+			isAttacking = false;
+		}
+	}
+
+	if (doStrongpunch){
+		isAttacking = true;
+		current_animation = &strongpunch;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			doStrongpunch = false;
+			a_strongpunch->to_delete = true;
+			isAttacking = false;
+		}
+	}
+
+	if (doWeakkick) {
+		isAttacking = true;
+		current_animation = &weakkick;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			doWeakkick = false;
+			a_weakkick->to_delete = true;
+			isAttacking = false;
+		}
+	}
+
+	if (doMidkick) {
+		isAttacking = true;
+		current_animation = &midkick;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			doMidkick = false;
+			a_midkick->to_delete = true;
+			isAttacking = false;
+		}
 	}
 
 	if (doStrongkick){
@@ -398,16 +518,6 @@ update_status ModulePlayer2::Update()
 			isAttacking = false;
 		}
 
-	}
-
-	if (doStrongpunch){
-		isAttacking = true;
-		current_animation = &strongpunch;
-		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
-			doStrongpunch = false;
-			a_strongpunch->to_delete = true;
-			isAttacking = false;
-		}
 	}
 
 		if (doNeutraljump){
