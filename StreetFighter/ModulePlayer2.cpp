@@ -115,23 +115,32 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 
 	//Forward Jump Animation
 	forwardjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 1450, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 1650, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 1850, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2050, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2250, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2450, 1050, 150, 150 });
-
-	forwardjump.speed = 0.15f;
+	forwardjump.frames.PushBack({ 2650, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 2650, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 2650, 1050, 150, 150 });
+	forwardjump.speed = 0.28f;
 
 	//Back Jump Animation
+	backjump.frames.PushBack({ 2450, 1050, 150, 150 });
+	backjump.frames.PushBack({ 2450, 1050, 150, 150 });
 	backjump.frames.PushBack({ 2450, 1050, 150, 150 });
 	backjump.frames.PushBack({ 2250, 1050, 150, 150 });
 	backjump.frames.PushBack({ 2050, 1050, 150, 150 });
 	backjump.frames.PushBack({ 1850, 1050, 150, 150 });
 	backjump.frames.PushBack({ 1650, 1050, 150, 150 });
 	backjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	backjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	backjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	backjump.frames.PushBack({ 1450, 1050, 150, 150 });
 
-	backjump.speed = 0.15f;
+	backjump.speed = 0.28f;
 
 	//Cover Animation
 	//Transición----cover.frames.PushBack({ 50, 1450, 150, 150 });
