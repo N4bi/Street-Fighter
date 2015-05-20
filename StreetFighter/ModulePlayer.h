@@ -66,6 +66,8 @@ public:
 	int speed;
 	bool Jump;
 	int lives;
+	bool animation_reachead;
+	bool animation_reachead_strong;
 	bool animation_reac;
 	bool doCover;
 	bool doWeakpunch;

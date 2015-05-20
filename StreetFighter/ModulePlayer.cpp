@@ -186,6 +186,8 @@ bool ModulePlayer::Start()
 	velx = 0.0f;
 	Jumpspeed = -10.0f;
 	animation_reac = false;
+	animation_reachead = false;
+	animation_reachead_strong = false;
 
 	graphics = App->textures->Load("Game/ryu7.png"); // arcade version
 	fx = App->audio->LoadFx("Game/sounds/sfx/01jab.wav");
@@ -194,14 +196,14 @@ bool ModulePlayer::Start()
 
 
 	if (App->player->position.x > App->renderer->pivot.x){
-		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD);
+		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD,this);
 		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
 		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_FEET);
 		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 100 }, COLLIDER_PLAYER);
 		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK,this);
 	}
 	else {
-		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD);
+		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD,this);
 		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
 		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_FEET);
 		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_PLAYER);
@@ -655,7 +657,22 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	{
 		animation_reac = true;
 	}
+	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
+	{
+		animation_reachead = true;
+	}
 	
+	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
+	{
+		animation_reachead = true;
+	}
+
+	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
+	{
+		animation_reachead_strong = true;
+	}
+
+
 
 }
 
@@ -667,6 +684,21 @@ void ModulePlayer::Reaction()
 		current_animation = &cover;
 		animation_reac = false;
 	}
+
+	if (animation_reachead == true)
+	{
+		speed = 0;
+		current_animation = &weakknockback;
+		animation_reachead = false;
+	}
+	
+	if (animation_reachead_strong == true)
+	{
+		speed = 0;
+		current_animation = &strongknockback;
+		animation_reachead_strong = false;
+	}
+
 }
 
 void ModulePlayer::Setposition()
