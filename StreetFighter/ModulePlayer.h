@@ -22,10 +22,11 @@ public:
 public:
 	//Colliders
 	SDL_Texture* graphics;
-	//Collider* head;
+	Collider* head;
 	Collider* body;
-	//Collider* feet;
+	Collider* feet;
 	Collider* player;
+	Collider* block;
 	Collider* a_weakfist;
 	Collider* a_strongkick;
 	Collider* a_strongpunch;

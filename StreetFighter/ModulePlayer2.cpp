@@ -12,6 +12,7 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	body = NULL;
 	feet = NULL;
 	player = NULL;
+	block = NULL;
 
 	
 
@@ -174,15 +175,15 @@ bool ModulePlayer2::Start()
 	fx = App->audio->LoadFx("Game/sounds/sfx/02strongpk.wav");
 
 	if (App->player->position.x > App->renderer->pivot.x){
-	//	head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
+		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_ENEMY_HEAD);
 		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_ENEMY_BODY);
-	//	feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
+		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_ENEMY_FEET);
 		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_ENEMY);
 	}
 	else{
-		//head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
+		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_ENEMY_HEAD);
 		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_ENEMY_BODY);
-		//feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
+		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_ENEMY_FEET);
 		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 92 }, COLLIDER_ENEMY);
 	}
 	return true;
@@ -212,12 +213,12 @@ update_status ModulePlayer2::Update()
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doWeakfist = true;
 			App->audio->PlayFx(1, 0);
-			a_weakfist = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_ENEMY_SHOT,this);
+			a_weakfist = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_ENEMY_WEAKATTACK,this);
 		}
 		else{
 			doWeakfist = true;
 			App->audio->PlayFx(1, 0);
-			a_weakfist = App->collision->AddCollider({ position.x + 163, position.y - 80, 43, 17 }, COLLIDER_ENEMY_SHOT,this);
+			a_weakfist = App->collision->AddCollider({ position.x + 163, position.y - 80, 43, 17 }, COLLIDER_ENEMY_WEAKATTACK,this);
 		}
 	}
 
@@ -227,12 +228,12 @@ update_status ModulePlayer2::Update()
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doStrongpunch = true;
 			App->audio->PlayFx(2, 0);
-			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_ENEMY_SHOT,this);
+			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_ENEMY_STRONGATTACK,this);
 		}
 		else{
 			doStrongpunch = true;
 			App->audio->PlayFx(2, 0);
-			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_ENEMY_SHOT,this);
+			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_ENEMY_STRONGATTACK,this);
 		}
 	}
 
@@ -243,12 +244,12 @@ update_status ModulePlayer2::Update()
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doStrongkick = true;
 			App->audio->PlayFx(2, 0);
-			a_strongkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_ENEMY_SHOT,this);
+			a_strongkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_ENEMY_STRONGATTACK,this);
 		}
 		else{
 			doStrongkick = true;
 			App->audio->PlayFx(2, 0);
-			a_strongkick = App->collision->AddCollider({ position.x + 160, position.y - 80, 43, 17 }, COLLIDER_ENEMY_SHOT, this);
+			a_strongkick = App->collision->AddCollider({ position.x + 160, position.y - 80, 43, 17 }, COLLIDER_ENEMY_STRONGATTACK, this);
 		}
 	}
 
@@ -276,7 +277,7 @@ update_status ModulePlayer2::Update()
 
 		//--------------Crouch------
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_REPEAT && (position.y == 216)  && (position.x + 120 < 828)) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT && (position.y == 216)  && (position.x + 120 < 828)) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &crouch;
 			hDir = 0;
@@ -348,7 +349,7 @@ update_status ModulePlayer2::Update()
 
 		//--------------Crouch------
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_REPEAT && (position.y == 216) && (position.x + 120 < 828)) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT && (position.y == 216) && (position.x + 120 < 828)) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &crouch;
 
@@ -466,18 +467,18 @@ update_status ModulePlayer2::Update()
 	
 
 	if (App->player2->position.x > App->renderer->pivot.x){
-		/*if (head != NULL)
+		if (head != NULL)
 		{
 			head->rect = { position.x + 135, position.y - 95, 24, 18 };
-		}*/
+		}
 		if (body != NULL)
 		{
 			body->rect = { position.x + 138, position.y - 95 + 9, 36, 40 };
 		}
-		/*if (feet != NULL)
+		if (feet != NULL)
 		{
 			feet->rect = { position.x + 136, position.y - 95 + 40, 42, 45 };
-		}*/
+		}
 		if (player != NULL)
 		{
 			player->rect = { position.x + 125, position.y - 95, 61, 92 };
@@ -487,18 +488,18 @@ update_status ModulePlayer2::Update()
 		App->renderer->Blit(graphics, position.x + (r.w/2) , position.y - r.h, &r, 1.0f, true);
 	}
 	else {
-		/*if (head != NULL)
+		if (head != NULL)
 		{
 			head->rect = { position.x + 140, position.y - 95, 24, 18 };
-		}*/
+		}
 		if (body != NULL)
 		{
 			body->rect = { position.x + 125, position.y - 95 + 9, 36, 40 };
 		}
-		/*if (feet != NULL)
+		if (feet != NULL)
 		{
 			feet->rect = { position.x + 121, position.y - 95 + 40, 42, 45 };
-		}*/
+		}
 		if (player != NULL)
 		{
 			player->rect = { position.x + 115, position.y - 95, 61, 92 };
