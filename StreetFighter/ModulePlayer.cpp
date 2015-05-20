@@ -110,12 +110,17 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 
 	//Forward Jump Animation
 	forwardjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 1450, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 1650, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 1850, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2050, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2250, 1050, 150, 150 });
 	forwardjump.frames.PushBack({ 2450, 1050, 150, 150 });
-	forwardjump.speed = 0.15f;
+	forwardjump.frames.PushBack({ 2650, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 2650, 1050, 150, 150 });
+	forwardjump.frames.PushBack({ 2650, 1050, 150, 150 });
+	forwardjump.speed = 0.28f;
 
 	//Back Jump Animation
 	backjump.frames.PushBack({ 2450, 1050, 150, 150 });
