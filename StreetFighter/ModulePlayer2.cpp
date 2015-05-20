@@ -115,10 +115,22 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 
 	backjump.speed = 0.2f;
 
-	//Crouch Animation
-	crouch.frames.PushBack({ 250, 1250, 150, 150 });
+	//Cover Animation
+	//Transición----cover.frames.PushBack({ 50, 1450, 150, 150 });
+	cover.frames.PushBack({ 250, 1450, 150, 150 });
+	cover.speed = 0.2f;
 
+	//Crouch Animation
+	//Transición---crouch.frames.PushBack({ 50, 1250, 150, 150 });
+	crouch.frames.PushBack({ 250, 1250, 150, 150 });
 	crouch.speed = 0.2f;
+
+	//Crouch Cover Animation
+	//Transición----crouchcover.frames.PushBack({ 450, 1250, 150, 150 });
+	crouchcover.frames.PushBack({ 650, 1250, 150, 150 });
+	crouchcover.speed = 0.2f;
+
+	
 
 	//Winning Round Animation
 	winround.frames.PushBack({ 50, 850, 150, 150 });

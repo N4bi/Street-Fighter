@@ -45,7 +45,9 @@ public:
 	Animation jump;
 	Animation forwardjump;
 	Animation backjump;
+	Animation cover;
 	Animation crouch;
+	Animation crouchcover;
 	Animation winround;
 	Animation winfight;
 	

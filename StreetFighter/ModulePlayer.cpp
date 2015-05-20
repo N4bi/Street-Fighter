@@ -125,8 +125,21 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 
 	backjump.speed = 0.2f;
 
+	//Cover Animation
+	//Transición----cover.frames.PushBack({ 50, 1450, 150, 150 });
+	cover.frames.PushBack({ 250, 1450, 150, 150 });
+	cover.speed = 0.2f;
+
 	//Crouch Animation
+	//Transición---crouch.frames.PushBack({ 50, 1250, 150, 150 });
 	crouch.frames.PushBack({ 250, 1250, 150, 150 });
+	crouch.speed = 0.2f;
+
+	//Crouch Cover Animation
+	//Transición----crouchcover.frames.PushBack({ 450, 1250, 150, 150 });
+	crouchcover.frames.PushBack({ 650, 1250, 150, 150 });
+	crouchcover.speed = 0.2f;
+
 
 
 	//Winning Round Animation

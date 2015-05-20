@@ -9,7 +9,7 @@ Application::Application()
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this);
 	vs_scene = new ModuleVsScreen(this, false);
-	scene_ken = new ModuleSceneKen(this, false); 	// TODO 0: Decidir quina scene començar
+	scene_ken = new ModuleSceneKen(this, false); 	
 	match_over = new ModuleMatchOver(this, false);
 	player = new ModulePlayer(this, false);
 	player2 = new ModulePlayer2(this, false);
@@ -19,9 +19,6 @@ Application::Application()
 	particles = new ModuleParticles(this);
 	collision = new ModuleCollision(this, false);
 
-	// The order of calls is very important!
-	// Modules will Init() Start() and Update in this order
-	// They will CleanUp() in reverse order
 
 	// Main Modules
 	AddModule(window);
@@ -44,7 +41,7 @@ Application::Application()
 	// Misc
 	AddModule(particles);
 	AddModule(collision);
-	AddModule(fade); // let this after all drawing
+	AddModule(fade); 
 }
 
 Application::~Application()
