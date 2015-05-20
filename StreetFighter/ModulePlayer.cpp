@@ -8,10 +8,11 @@
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	graphics = NULL;
-	//head = NULL;
+	head = NULL;
 	body = NULL;
-	//feet = NULL;
+	feet = NULL;
 	player = NULL;
+	block = NULL;
 
 
 	
@@ -78,15 +79,6 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	strongknockback.frames.PushBack({ 1650, 650, 150, 150 });
 	strongknockback.frames.PushBack({ 1850, 650, 150, 150 });
 	strongknockback.speed = 0.1f;
-
-	//Jump Animation
-	/*jump.frames.PushBack({ 1450, 250, 150, 150 });
-	jump.frames.PushBack({ 1650, 250, 150, 150 });
-	jump.frames.PushBack({ 1850, 250, 150, 150 });
-	jump.frames.PushBack({ 2050, 250, 150, 150 });
-	jump.frames.PushBack({ 2250, 250, 150, 150 });
-	jump.frames.PushBack({ 2450, 250, 150, 150 });
-	jump.speed = 7.0f;*/
 	
 	//Neutral Jump Animation
 	neutraljump.frames.PushBack({ 50, 1050, 150, 150 });
@@ -172,15 +164,15 @@ bool ModulePlayer::Start()
 
 
 	if (App->player->position.x > App->renderer->pivot.x){
-		//head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
+		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD);
 		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
-		//feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
+		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_FEET);
 		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 100 }, COLLIDER_PLAYER);
 	}
 	else {
-		//head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_BODY);
+		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD);
 		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
-		//feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
+		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_FEET);
 		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_PLAYER);
 	}
 	return true;
@@ -212,13 +204,13 @@ update_status ModulePlayer::Update()
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doWeakfist = true;
 			App->audio->PlayFx(1, 0);
-			a_weakfist = App->collision->AddCollider({ position.x + 163, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT,this);
+			a_weakfist = App->collision->AddCollider({ position.x + 163, position.y - 80, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK,this);
 			
 		}
 		else{
 			doWeakfist = true;
 			App->audio->PlayFx(1, 0);
-			a_weakfist = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_PLAYER_SHOT,this);
+			a_weakfist = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK,this);
 			
 		}
 
@@ -233,12 +225,12 @@ update_status ModulePlayer::Update()
 		if (App->player2->position.x > App->renderer->pivot.x){
 			doStrongpunch = true;
 			App->audio->PlayFx(2, 0);
-			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_PLAYER_SHOT,this);
+			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_PLAYER_STRONGATTACK,this);
 		}
 		else{
 			doStrongpunch = true;
 			App->audio->PlayFx(2, 0);
-			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_PLAYER_SHOT,this);
+			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_PLAYER_STRONGATTACK,this);
 		}
 	}
 	// LEFT SIDE
@@ -438,18 +430,18 @@ update_status ModulePlayer::Update()
 
 
 	if (App->player->position.x > App->renderer->pivot.x){
-		/*if (head != NULL)
+		if (head != NULL)
 		{
 			head->rect = { position.x + 135, position.y - 95, 24, 18 };
-		}*/
+		}
 		if (body != NULL)
 		{
 			body->rect = { position.x + 138, position.y -95 + 9, 36, 40 };
 		}
-		/*if (feet != NULL)
+		if (feet != NULL)
 		{
 			feet->rect = { position.x + 136, position.y - 95 + 40, 42, 45 };
-		}*/
+		}
 		if (player != NULL)
 		{
 			player->rect = { position.x + 125, position.y - 95, 61, 92 };
@@ -458,18 +450,18 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r, 1.0f, true);
 	}
 	else {
-		/*if (head != NULL)
+		if (head != NULL)
 		{
 			head->rect = { position.x + 140, position.y - 95, 24, 18 };
-		}*/
+		}
 		if (body != NULL)
 		{
 			body->rect = { position.x + 125, position.y - 95 + 9, 36, 40 };
 		}
-	/*	if (feet != NULL)
+		if (feet != NULL)
 		{
 			feet->rect = { position.x + 121, position.y - 95 + 40, 42, 45 };
-		}*/
+		}
 		if (player != NULL)
 		{
 			player->rect = { position.x + 115, position.y - 95, 61, 92};

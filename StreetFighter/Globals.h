@@ -24,4 +24,4 @@ enum update_status
 #define WIN_BORDERLESS false
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
-#define TITLE "Street Fighter II"
+#define TITLE "Street Fighter II: World Warrior"
