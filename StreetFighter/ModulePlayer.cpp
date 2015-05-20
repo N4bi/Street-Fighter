@@ -188,11 +188,29 @@ bool ModulePlayer::Start()
 	animation_reac = false;
 	animation_reachead = false;
 	animation_reachead_strong = false;
+	
+	/*
+	SOUNDS FX LIST
 
+	0-> INTRO
+	1-> WEAKACTION
+	2-> MIDACTION
+	3-> STRONG ACTION
+	4-> WEAK HIT
+	5-> MID HIT
+	6-> BLOCK
+	7-> STRONG HIT
+	
+	
+	*/
 	graphics = App->textures->Load("Game/ryu7.png"); // arcade version
 	fx = App->audio->LoadFx("Game/sounds/sfx/01jab.wav");
 	fx = App->audio->LoadFx("Game/sounds/sfx/03midpk.wav");
 	fx = App->audio->LoadFx("Game/sounds/sfx/04strongpk.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/05weakhit.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/06midhit.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/07Block.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/08stronghit.wav");
 
 
 	if (App->player->position.x > App->renderer->pivot.x){
@@ -645,30 +663,36 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	}
 	else if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
 	{
+		App->audio->PlayFx(6, 0);
 		animation_reac = true;
 	}
 
 	else if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
 	{
+		App->audio->PlayFx(6, 0);
 		animation_reac = true;
 	}
 
 	else if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
 	{
+		App->audio->PlayFx(6, 0);
 		animation_reac = true;
 	}
 	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
 	{
+		App->audio->PlayFx(4, 0);
 		animation_reachead = true;
 	}
 	
 	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
 	{
+		App->audio->PlayFx(5, 0);
 		animation_reachead = true;
 	}
 
 	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
 	{
+		App->audio->PlayFx(7, 0);
 		animation_reachead_strong = true;
 	}
 
