@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModulePlayer2.h"
 #include "ModuleCollision.h"
+#include "ModulePlayer.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -613,8 +614,11 @@ update_status ModulePlayer2::Update()
 
 void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 {
+	/*if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
+		{
+			App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
+		}*/
 	
-	App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
 
 }
 

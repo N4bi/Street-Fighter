@@ -31,7 +31,7 @@ public:
 	Collider* a_weakkick;
 	Collider* a_midkick;
 	Collider* a_strongkick;
-
+	Animation a;
 	
 
 	//Animations

@@ -140,7 +140,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	//Cover Animation
 	//Transición----cover.frames.PushBack({ 50, 1450, 150, 150 });
 	cover.frames.PushBack({ 250, 1450, 150, 150 });
-	cover.speed = 0.2f;
+	cover.speed = 0.1f;
 
 	//Crouch Animation
 	//Transición---crouch.frames.PushBack({ 50, 1250, 150, 150 });
@@ -185,6 +185,7 @@ bool ModulePlayer::Start()
 	vely = 0.0f;
 	velx = 0.0f;
 	Jumpspeed = -10.0f;
+	animation_reac = false;
 
 	graphics = App->textures->Load("Game/ryu7.png"); // arcade version
 	fx = App->audio->LoadFx("Game/sounds/sfx/01jab.wav");
@@ -197,12 +198,14 @@ bool ModulePlayer::Start()
 		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
 		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_FEET);
 		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 100 }, COLLIDER_PLAYER);
+		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK,this);
 	}
 	else {
 		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD);
 		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
 		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_FEET);
 		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_PLAYER);
+		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK,this);
 	}
 	return true;
 }
@@ -224,7 +227,7 @@ update_status ModulePlayer::Update()
 	current_animation = &idle;
 
 	// debug camera movement --------------------------------
-	int speed = 1;
+	 speed = 1;
 
 	//-- PUNCHS
 
@@ -330,6 +333,13 @@ update_status ModulePlayer::Update()
 
 	// LEFT SIDE
 
+	if (doCover == false)
+	{
+		block->rect = { position.x + 160, position.y + 100, 20, 60 };
+		body->rect = { position.x + 138, position.y + 100, 36, 40 };
+		head->rect = { position.x + 135, position.y + 100, 24, 18 };
+	}
+
 	//-----------------Movement
 
 	if (App->player->position.x < App->renderer->pivot.x){
@@ -337,7 +347,13 @@ update_status ModulePlayer::Update()
 		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (!Jump) && (!isCrouch) && (!isAttacking) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &backward;
+			doCover = true;
 			position.x -= speed;
+		}
+
+		if (((App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)))
+		{
+			doCover = false;
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) && (!Jump) && (!isCrouch) && (!isAttacking)  && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
@@ -403,7 +419,12 @@ update_status ModulePlayer::Update()
 		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &backward;
+			doCover = true;
 			position.x += speed;
+		}
+		if (((App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)))
+		{
+			doCover = false;
 		}
 
 		//--------------Crouch------
@@ -455,6 +476,7 @@ update_status ModulePlayer::Update()
 
 
     ModulePlayer::Setposition();
+	ModulePlayer::Reaction();
 
 	//Actions P1
 
@@ -555,11 +577,15 @@ update_status ModulePlayer::Update()
 
 
 	if (App->player->position.x > App->renderer->pivot.x){
-		if (head != NULL)
+		if (head != NULL && doCover == false)
 		{
 			head->rect = { position.x + 135, position.y - 95, 24, 18 };
 		}
-		if (body != NULL)
+		if (block != NULL && doCover == true)
+		{
+			block->rect = { position.x + 120, position.y - 95, 20, 60 };
+		}
+		if (body != NULL && doCover == false)
 		{
 			body->rect = { position.x + 138, position.y -95 + 9, 36, 40 };
 		}
@@ -575,11 +601,15 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r, 1.0f, true);
 	}
 	else {
-		if (head != NULL)
+		if (head != NULL && doCover == false)
 		{
 			head->rect = { position.x + 140, position.y - 95, 24, 18 };
 		}
-		if (body != NULL)
+		if (block != NULL && doCover == true)
+		{
+			block->rect = { position.x + 160, position.y - 95, 20, 60 };
+		}
+		if (body != NULL && doCover == false)
 		{
 			body->rect = { position.x + 125, position.y - 95 + 9, 36, 40 };
 		}
@@ -595,10 +625,11 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r);
 	}
 
-	if (lives == 0)
+	if (animation_reac == true)
 	{
-		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
+		current_animation = &cover;
 	}
+	
 
 	return UPDATE_CONTINUE;
 }
@@ -606,7 +637,36 @@ update_status ModulePlayer::Update()
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-	App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
+	if (c1->type == COLLIDER_PLAYER_MIDATTACK && c2->type == COLLIDER_ENEMY_BODY || c2->type == COLLIDER_PLAYER_MIDATTACK &&  c1->type == COLLIDER_ENEMY_BODY)
+	{
+		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
+	}
+	else if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
+	{
+		animation_reac = true;
+	}
+
+	else if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
+	{
+		animation_reac = true;
+	}
+
+	else if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
+	{
+		animation_reac = true;
+	}
+	
+
+}
+
+void ModulePlayer::Reaction()
+{
+	if (animation_reac == true)
+	{ 
+		speed = 0;
+		current_animation = &cover;
+		animation_reac = false;
+	}
 }
 
 void ModulePlayer::Setposition()
