@@ -42,7 +42,6 @@ public:
 	Animation weakknockback;
 	Animation strongknockback;
 	Animation neutraljump;
-	Animation jump;
 	Animation forwardjump;
 	Animation backjump;
 	Animation cover;
@@ -57,8 +56,6 @@ public:
 	float gravity;
 	float Jumpspeed;
 	bool Jump;
-	bool platform;
-	int hDir, vDir;
 	int lives;
 	bool doWeakfist;
 	bool isCrouch;
