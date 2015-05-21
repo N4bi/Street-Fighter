@@ -15,7 +15,9 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(Collider*, Collider*);
+	void Reaction();
 	void Setposition();
+
 
 public:
 	//Colliders
@@ -31,7 +33,6 @@ public:
 	Collider* a_weakkick;
 	Collider* a_midkick;
 	Collider* a_strongkick;
-	Animation a;
 	
 
 	//Animations
@@ -63,8 +64,13 @@ public:
 	float  vely, velx;
 	float gravity;
 	float Jumpspeed;
+	int speed;
 	bool Jump;
 	int lives;
+	bool animation_reachead;
+	bool animation_reachead_strong;
+	bool animation_reac;
+	bool doCover;
 	bool doWeakpunch;
 	bool doMidpunch;
 	bool doStrongpunch;
