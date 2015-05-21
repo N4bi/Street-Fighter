@@ -92,12 +92,15 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	//WeakKnockBack Animation
 	weakknockback.frames.PushBack({ 1250, 650, 150, 150 });
 	weakknockback.frames.PushBack({ 1450, 650, 150, 150 });
+	weakknockback.frames.PushBack({ 1450, 650, 150, 150 });
 	weakknockback.speed = 0.1f;
 
 	//StrongKnockBack Animation
 	strongknockback.frames.PushBack({ 1250, 650, 150, 150 });
 	strongknockback.frames.PushBack({ 1450, 650, 150, 150 });
 	strongknockback.frames.PushBack({ 1650, 650, 150, 150 });
+	strongknockback.frames.PushBack({ 1650, 650, 150, 150 });
+	strongknockback.frames.PushBack({ 1850, 650, 150, 150 });
 	strongknockback.frames.PushBack({ 1850, 650, 150, 150 });
 	strongknockback.speed = 0.1f;
 
@@ -201,6 +204,7 @@ bool ModulePlayer2::Start()
 	5-> MID HIT
 	6-> BLOCK
 	7-> STRONG HIT
+	8-> JUMP
 
 
 	*/
@@ -213,6 +217,7 @@ bool ModulePlayer2::Start()
 	fx = App->audio->LoadFx("Game/sounds/sfx/06midhit.wav");
 	fx = App->audio->LoadFx("Game/sounds/sfx/07Block.wav");
 	fx = App->audio->LoadFx("Game/sounds/sfx/08stronghit.wav");
+	fx = App->audio->LoadFx("Game/sounds/sfx/09jump.wav");
 
 	if (App->player->position.x > App->renderer->pivot.x){
 		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_ENEMY_HEAD,this);
@@ -572,6 +577,7 @@ update_status ModulePlayer2::Update()
 			Jump = true;
 			current_animation = &neutraljump;
 			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				App->audio->PlayFx(8, 0);
 				doNeutraljump = false;
 				Jump = false;
 			}
@@ -588,6 +594,7 @@ update_status ModulePlayer2::Update()
 			}
 			current_animation = &forwardjump;
 			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				App->audio->PlayFx(8, 0);
 				doForwardjumpLeft = false;
 				Jump = false;
 				velx = 0;
@@ -605,6 +612,7 @@ update_status ModulePlayer2::Update()
 			}
 			current_animation = &forwardjump;
 			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				App->audio->PlayFx(8, 0);
 				doForwardjumpRight = false;
 				Jump = false;
 				velx = 0;
@@ -623,6 +631,7 @@ update_status ModulePlayer2::Update()
 
 			current_animation = &backjump;
 			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				App->audio->PlayFx(8, 0);
 				doBackjumpLeft = false;
 				Jump = false;
 				velx = 0;
@@ -642,6 +651,7 @@ update_status ModulePlayer2::Update()
 
 			current_animation = &backjump;
 			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				App->audio->PlayFx(8, 0);
 				doBackjumpRight = false;
 				Jump = false;
 				velx = 0;
