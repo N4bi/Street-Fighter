@@ -82,7 +82,5 @@ bool ModuleWindow::CleanUp()
 	//Quit SDL subsystems
 	SDL_Quit();
 	return true;
-
-	
 }
 

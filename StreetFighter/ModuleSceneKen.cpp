@@ -93,8 +93,6 @@ ModuleSceneKen::~ModuleSceneKen()
 bool ModuleSceneKen::Start()
 {
 	LOG("Loading ken scene");
-
-	
 	
 	graphics = App->textures->Load("Game/ken_stage.png");
 
@@ -127,7 +125,7 @@ bool ModuleSceneKen::CleanUp()
 update_status ModuleSceneKen::Update()
 {
 	
-
+	
 	// Calculate boat Y position -----------------------------
 	if(foreground_pos < -6.0f)
 		forward = false;
