@@ -77,8 +77,10 @@ public:
 	bool doMidkick;
 	bool doStrongkick;
 	bool doNeutraljump;
-	bool doForwardjump;
-	bool doBackjump;
+	bool doForwardjumpLeft;
+	bool doForwardjumpRight;
+	bool doBackjumpLeft;
+	bool doBackjumpRight;
 	bool hitWeak;
 	bool isAttacking;
 	bool isCrouch;

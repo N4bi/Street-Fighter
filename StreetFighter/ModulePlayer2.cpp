@@ -409,16 +409,14 @@ update_status ModulePlayer2::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			doBackjump = true;
-			velx = 5;
+			doBackjumpRight = true;
 			vely = Jumpspeed;
 
 		}
 		
 		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			doForwardjump = true;
-			velx = -5;
+			doForwardjumpRight = true;
 			vely = Jumpspeed;
 
 		}
@@ -483,16 +481,14 @@ update_status ModulePlayer2::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			doForwardjump = true;
-			velx = 5;
+			doForwardjumpLeft = true;
 			vely = Jumpspeed;
 
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			doBackjump = true;
-			velx = -5;
+			doBackjumpLeft = true;
 			vely = Jumpspeed;
 
 		}
@@ -581,27 +577,85 @@ update_status ModulePlayer2::Update()
 			}
 		}
 
-		if (doForwardjump){
+		if (doForwardjumpLeft){
+
 			Jump = true;
+			velx = 5;
+			if (position.x + 120 < 828 && App->renderer->camera.x > -512 * SCREEN_SIZE)
+				App->renderer->camera.x -= 5;
+
+			if (position.x + 120 > 828){
+				velx = 0;
+
+			}
 			current_animation = &forwardjump;
 			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
-				doForwardjump = false;
+				doForwardjumpLeft = false;
 				Jump = false;
 				velx = 0;
 			}
 		}
 
-		if (doBackjump){
+		if (doForwardjumpRight){
+
 			Jump = true;
+			velx = -5;
+			if (position.x + 120 > 0 && App->renderer->camera.x < 0)
+				App->renderer->camera.x += 5;
+
+			if (position.x + 120 < 0){
+				velx = 0;
+
+			}
+			current_animation = &forwardjump;
+			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				doForwardjumpRight = false;
+				Jump = false;
+				velx = 0;
+			}
+		}
+
+		if (doBackjumpLeft){
+
+			Jump = true;
+			velx = -5;
+			if (position.x + 120 > 0 && App->renderer->camera.x < 0)
+				App->renderer->camera.x += 5;
+
+			if (position.x + 120 < 0){
+				velx = 0;
+
+			}
+
 			current_animation = &backjump;
 			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
-				doBackjump = false;
+				doBackjumpLeft = false;
 				Jump = false;
 				velx = 0;
 			}
 
 		}
 
+		if (doBackjumpRight){
+
+			Jump = true;
+			velx = 5;
+			if (position.x + 120 < 828 && App->renderer->camera.x > -512 * SCREEN_SIZE)
+				App->renderer->camera.x -= 5;
+
+			if (position.x + 120 > 828){
+				velx = 0;
+
+			}
+
+			current_animation = &backjump;
+			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				doBackjumpRight = false;
+				Jump = false;
+				velx = 0;
+			}
+
+		}
 	
 
 	// Draw everything --------------------------------------
@@ -781,7 +835,7 @@ void ModulePlayer2::Reaction()
 void ModulePlayer2::Setposition()
 {
 
-	if (doForwardjump == true || doNeutraljump == true || doBackjump == true)
+	if (doNeutraljump == true || doForwardjumpLeft == true || doBackjumpLeft == true || doForwardjumpRight == true || doBackjumpRight == true)
 	{
 
 		vely += gravity;
