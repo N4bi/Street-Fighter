@@ -398,24 +398,26 @@ update_status ModulePlayer::Update()
 		
 		//---------------Jumps-------
 
-		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)  && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)  && (Jump == false) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doNeutraljump = true;
 			vely = Jumpspeed;
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) && (Jump == false) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 
-			doForwardjumpLeft = true;
+			doForwardjump = true;
+			velx = 5;
 			vely = Jumpspeed;
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 > -10) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) && (Jump == false) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			doBackjumpLeft = true;
+			doBackjump = true;
+			velx = -5;
 			vely = Jumpspeed;
 
 		}
@@ -459,7 +461,7 @@ update_status ModulePlayer::Update()
 		}
 		//---------------Jumps-------
 
-		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && (!Jump) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && (Jump == false) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 
 			doNeutraljump = true;
@@ -467,17 +469,19 @@ update_status ModulePlayer::Update()
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && (!Jump) && (!isAttacking)) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && (Jump == false) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 
-			doBackjumpRight = true;
+			doBackjump = true;
+			velx = 5;
 			vely = Jumpspeed;
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && (!Jump) && (!isAttacking)) && (position.x + 120 > -10) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && (Jump == false) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			doForwardjumpRight = true;
+			doForwardjump = true;
+			velx = -5;
 			vely = Jumpspeed;
 
 		}
@@ -568,74 +572,25 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if (doForwardjumpLeft){
-
+	if (doForwardjump){
 		Jump = true;
-		velx = 5;
-		if (position.x + 120 > 828){
-			velx = 0;
-
-		}
 		current_animation = &forwardjump;
 		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
-			doForwardjumpLeft = false;
+			doForwardjump = false;
 			Jump = false;
 			velx = 0;
 		}
 	}
 
-	if (doForwardjumpRight){
-
+	if (doBackjump){
 		Jump = true;
-		velx = -5;
-
-		if (position.x + 120 < 0 ){
-			velx = 0;
-
-		}
-		current_animation = &forwardjump;
-		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
-			doForwardjumpRight = false;
-			Jump = false;
-			velx = 0;
-		}
-	}
-
-	if (doBackjumpLeft){
-
-			Jump = true;
-			velx = -5;
-			if (position.x + 120 < 0){
-				velx = 0;
-
-			}
-		
 		current_animation = &backjump;
 		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
-			doBackjumpLeft = false;
+			doBackjump = false;
 			Jump = false;
 			velx = 0;
 		}
 		
-	}
-
-	if (doBackjumpRight){
-
-		Jump = true;
-		velx = 5;
-
-		if (position.x + 120 > 828){
-			velx = 0;
-
-		}
-
-		current_animation = &backjump;
-		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
-			doBackjumpRight = false;
-			Jump = false;
-			velx = 0;
-		}
-
 	}
 	// Draw everything --------------------------------------
 	SDL_Rect r = current_animation->GetCurrentFrame();
@@ -702,7 +657,7 @@ update_status ModulePlayer::Update()
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-	if (c1->type == COLLIDER_PLAYER_MIDATTACK && c2->type == COLLIDER_ENEMY_BODY || c2->type == COLLIDER_PLAYER_MIDATTACK &&  c1->type == COLLIDER_ENEMY_BODY)
+	if (c1->type == COLLIDER_PLAYER_STRONGATTACK && c2->type == COLLIDER_ENEMY_BODY || c2->type == COLLIDER_PLAYER_STRONGATTACK &&  c1->type == COLLIDER_ENEMY_BODY)
 	{
 		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
 	}
@@ -710,32 +665,56 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	{
 		App->audio->PlayFx(6, 0);
 		animation_reac = true;
+		if (App->player->position.x < App->renderer->pivot.x)
+		{
+			position.x++;
+		}
+		else
+		{
+			position.x--;
+		}
 	}
 
 	else if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
 	{
 		App->audio->PlayFx(6, 0);
 		animation_reac = true;
+		if (App->player->position.x < App->renderer->pivot.x)
+		{
+			position.x++;
+		}
+		else
+		{
+			position.x--;
+		}
 	}
 
 	else if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
 	{
 		App->audio->PlayFx(6, 0);
 		animation_reac = true;
+		if (App->player->position.x < App->renderer->pivot.x)
+		{
+			position.x++;
+		}
+		else
+		{
+			position.x--;
+		}
 	}
-	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_WEAKATTACK) /*|| c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)*/
+	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
 	{
 		App->audio->PlayFx(4, 0);
 		animation_reachead = true;
 	}
 	
-	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_MIDATTACK) /* c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_MIDATTACK)*/
+	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
 	{
 		App->audio->PlayFx(5, 0);
 		animation_reachead = true;
 	}
 
-	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_STRONGATTACK) /*|| c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)*/
+	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
 	{
 		App->audio->PlayFx(7, 0);
 		animation_reachead_strong = true;
@@ -792,7 +771,7 @@ void ModulePlayer::Setposition()
 {   
 	
 
-	if (doNeutraljump == true || doForwardjumpLeft == true || doBackjumpLeft == true || doForwardjumpRight == true || doBackjumpRight == true)
+	if (doForwardjump == true || doNeutraljump == true || doBackjump == true)
 	{   
 
 		vely += gravity;
