@@ -572,8 +572,6 @@ update_status ModulePlayer::Update()
 
 		Jump = true;
 		velx = 5;
-		if (position.x + 120 < 828 && App->renderer->camera.x > -512 * SCREEN_SIZE)
-			App->renderer->camera.x -= 5;
 
 		if (position.x + 120 > 828){
 			velx = 0;
@@ -591,8 +589,6 @@ update_status ModulePlayer::Update()
 
 		Jump = true;
 		velx = -5;
-		if (position.x + 120 > 0 && App->renderer->camera.x < 0)
-			App->renderer->camera.x += 5;
 
 		if (position.x + 120 < 0 ){
 			velx = 0;
@@ -610,8 +606,6 @@ update_status ModulePlayer::Update()
 
 			Jump = true;
 			velx = -5;
-			if (position.x + 120 > 0 && App->renderer->camera.x < 0)
-			App->renderer->camera.x += 5;
 
 			if (position.x + 120 < 0){
 				velx = 0;
@@ -631,8 +625,6 @@ update_status ModulePlayer::Update()
 
 		Jump = true;
 		velx = 5;
-		if (position.x + 120 < 828 && App->renderer->camera.x > -512 * SCREEN_SIZE)
-			App->renderer->camera.x -= 5;
 
 		if (position.x + 120 > 828){
 			velx = 0;

@@ -407,14 +407,14 @@ update_status ModulePlayer2::Update()
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doBackjumpRight = true;
 			vely = Jumpspeed;
 
 		}
 		
-		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doForwardjumpRight = true;
 			vely = Jumpspeed;
@@ -479,14 +479,14 @@ update_status ModulePlayer2::Update()
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doForwardjumpLeft = true;
 			vely = Jumpspeed;
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doBackjumpLeft = true;
 			vely = Jumpspeed;
@@ -581,8 +581,6 @@ update_status ModulePlayer2::Update()
 
 			Jump = true;
 			velx = 5;
-			if (position.x + 120 < 828 && App->renderer->camera.x > -512 * SCREEN_SIZE)
-				App->renderer->camera.x -= 5;
 
 			if (position.x + 120 > 828){
 				velx = 0;
@@ -600,8 +598,6 @@ update_status ModulePlayer2::Update()
 
 			Jump = true;
 			velx = -5;
-			if (position.x + 120 > 0 && App->renderer->camera.x < 0)
-				App->renderer->camera.x += 5;
 
 			if (position.x + 120 < 0){
 				velx = 0;
@@ -619,8 +615,6 @@ update_status ModulePlayer2::Update()
 
 			Jump = true;
 			velx = -5;
-			if (position.x + 120 > 0 && App->renderer->camera.x < 0)
-				App->renderer->camera.x += 5;
 
 			if (position.x + 120 < 0){
 				velx = 0;
@@ -640,8 +634,6 @@ update_status ModulePlayer2::Update()
 
 			Jump = true;
 			velx = 5;
-			if (position.x + 120 < 828 && App->renderer->camera.x > -512 * SCREEN_SIZE)
-				App->renderer->camera.x -= 5;
 
 			if (position.x + 120 > 828){
 				velx = 0;
