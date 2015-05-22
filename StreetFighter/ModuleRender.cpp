@@ -55,7 +55,7 @@ update_status ModuleRender::Update()
 	char title[250];
 
 	//sprintf_s(title, "Camera X: %f Player1X: %f Player2X: %f", -(camera.x), (App->player->position.x), (App->player2->position.x));
-	sprintf_s(title, "Player1 Health: %i Player2 Health: %i", App->player->p1_vida, App->player2->p2_vida);
+	sprintf_s(title, "Street Fighter II: World Warrior        RYU Health: %i              VS              KEN Health: %i", App->player->p1_vida, App->player2->p2_vida);
 
 	App->window->SetTitle(title);
 

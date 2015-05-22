@@ -361,7 +361,7 @@ update_status ModulePlayer::Update()
 	if (doCover == false)
 	{
 		block->rect = { position.x + 160, position.y + 100, 20, 60 };
-		//body->rect = { position.x + 138, position.y + 100, 36, 40 };
+		body->rect = { position.x + 138, position.y + 100, 36, 40 };
 		head->rect = { position.x + 135, position.y + 100, 24, 18 };
 	}
 
