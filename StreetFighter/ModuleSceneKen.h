@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Animation.h"
 #include "Globals.h"
+#include "ModulePlayer.h"
 
 
 
@@ -33,6 +34,9 @@ public:
 	SDL_Rect littleharborelement;
 	Collider* wall;
 
+	bool reac_life;
+	unsigned int p1_lifes;
+	int p2_lifes;
 	float foreground_pos;
 	bool forward;
 };

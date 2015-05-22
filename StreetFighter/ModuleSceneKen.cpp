@@ -94,6 +94,9 @@ bool ModuleSceneKen::Start()
 {
 	LOG("Loading ken scene");
 
+	p1_lifes = 100;
+	p2_lifes = 5;
+	reac_life = false;
 	
 	
 	graphics = App->textures->Load("Game/ken_stage.png");
@@ -156,8 +159,9 @@ update_status ModuleSceneKen::Update()
 	//App->renderer->Blit //big harbor element 2
 	App->renderer->Blit(graphics, 250, 167, &littleharborelement); //little harbor element 2
 	
-
+  
 	// TODO 3: Fer que al apretar el espai es façi un fade i es carregui HondaStage
 
 	return UPDATE_CONTINUE;
 }
+

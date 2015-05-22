@@ -182,7 +182,7 @@ bool ModulePlayer2::Start()
 	LOG("Loading player");
 
 	
-	lives = 1;
+	p2_vida = 100;
 	position.x = 133;
 	position.y = 216;
 	gravity = 0.5f;
@@ -716,9 +716,9 @@ update_status ModulePlayer2::Update()
 
 	}
 
-	if (animation_reac == true)
+	if (p2_vida <= 0)
 	{
-		current_animation = &cover;
+		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
 	}
 
 	return UPDATE_CONTINUE;
@@ -726,11 +726,11 @@ update_status ModulePlayer2::Update()
 
 void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 {
-	if (c1->type == COLLIDER_ENEMY_STRONGATTACK && c2->type == COLLIDER_PLAYER_BODY || c2->type == COLLIDER_ENEMY_STRONGATTACK &&  c1->type == COLLIDER_PLAYER_BODY)
+	/*if (c1->type == COLLIDER_ENEMY_STRONGATTACK && c2->type == COLLIDER_PLAYER_BODY || c2->type == COLLIDER_ENEMY_STRONGATTACK &&  c1->type == COLLIDER_PLAYER_BODY)
 	{
 		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
-	}
-	else if (c1->type == COLLIDER_ENEMY_BLOCK && c2->type == COLLIDER_PLAYER_MIDATTACK || c2->type == COLLIDER_ENEMY_BLOCK &&  c1->type == COLLIDER_PLAYER_MIDATTACK)
+	}*/
+	 if (c1->type == COLLIDER_ENEMY_BLOCK && c2->type == COLLIDER_PLAYER_MIDATTACK || c2->type == COLLIDER_ENEMY_BLOCK &&  c1->type == COLLIDER_PLAYER_MIDATTACK)
 	{
 		App->audio->PlayFx(6, 0);
 		animation_reac = true;
@@ -773,18 +773,21 @@ void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 	}
 	else if (c1->type == COLLIDER_ENEMY_HEAD && c2->type == COLLIDER_PLAYER_WEAKATTACK || c2->type == COLLIDER_ENEMY_HEAD &&  c1->type == COLLIDER_PLAYER_WEAKATTACK)
 	{
+		p2_vida--;
 		App->audio->PlayFx(4, 0);
 		animation_reachead = true;
 	}
 
 	else if (c1->type == COLLIDER_ENEMY_HEAD && c2->type == COLLIDER_PLAYER_MIDATTACK || c2->type == COLLIDER_ENEMY_HEAD &&  c1->type == COLLIDER_PLAYER_MIDATTACK)
 	{
+		p2_vida--;
 		App->audio->PlayFx(5, 0);
 		animation_reachead = true;
 	}
 
 	else if (c1->type == COLLIDER_ENEMY_HEAD && c2->type == COLLIDER_PLAYER_STRONGATTACK || c2->type == COLLIDER_ENEMY_HEAD &&  c1->type == COLLIDER_PLAYER_STRONGATTACK)
 	{
+		p2_vida--;
 		App->audio->PlayFx(7, 0);
 		animation_reachead_strong = true;
 	}

@@ -169,7 +169,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	winfight.frames.PushBack({ 1450, 850, 150, 150 });
 	winfight.frames.PushBack({ 1650, 850, 150, 150 });
 	winfight.frames.PushBack({ 1850, 850, 150, 150 });
-	
+	winfight.speed = 0.1f;
 	
 }
 
@@ -181,7 +181,7 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	lives = 1;
+	p1_vida = 100;
 	position.x = -50;
 	position.y = 216;
 	gravity = 0.5f;
@@ -361,7 +361,7 @@ update_status ModulePlayer::Update()
 	if (doCover == false)
 	{
 		block->rect = { position.x + 160, position.y + 100, 20, 60 };
-		body->rect = { position.x + 138, position.y + 100, 36, 40 };
+		//body->rect = { position.x + 138, position.y + 100, 36, 40 };
 		head->rect = { position.x + 135, position.y + 100, 24, 18 };
 	}
 
@@ -494,8 +494,7 @@ update_status ModulePlayer::Update()
 	
 	
 	}
-
-
+	
     ModulePlayer::Setposition();
 	ModulePlayer::Reaction();
 
@@ -702,11 +701,11 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r);
 	}
 
-	if (animation_reac == true)
+
+	if (p1_vida <= 0)
 	{
-		current_animation = &cover;
+		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
 	}
-	
 
 	return UPDATE_CONTINUE;
 }
@@ -714,11 +713,11 @@ update_status ModulePlayer::Update()
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-	if (c1->type == COLLIDER_PLAYER_STRONGATTACK && c2->type == COLLIDER_ENEMY_BODY || c2->type == COLLIDER_PLAYER_STRONGATTACK &&  c1->type == COLLIDER_ENEMY_BODY)
+	/*if (c1->type == COLLIDER_PLAYER_STRONGATTACK && c2->type == COLLIDER_ENEMY_BODY || c2->type == COLLIDER_PLAYER_STRONGATTACK &&  c1->type == COLLIDER_ENEMY_BODY)
 	{
 		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
-	}
-	else if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
+	}*/
+	 if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
 	{
 		App->audio->PlayFx(6, 0);
 		animation_reac = true;
@@ -761,18 +760,21 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	}
 	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
 	{
+		p1_vida--;
 		App->audio->PlayFx(4, 0);
 		animation_reachead = true;
 	}
 	
 	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
 	{
+		p1_vida--;
 		App->audio->PlayFx(5, 0);
 		animation_reachead = true;
 	}
 
 	else if (c1->type == COLLIDER_PLAYER_HEAD && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_HEAD &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
 	{
+		p1_vida --;
 		App->audio->PlayFx(7, 0);
 		animation_reachead_strong = true;
 	}
@@ -791,6 +793,7 @@ void ModulePlayer::Reaction()
 
 	}
 
+
 	if (animation_reachead == true)
 	{
 		speed = 0;
@@ -804,6 +807,7 @@ void ModulePlayer::Reaction()
 		{
 			position.x++;
 		}
+		
 	}
 	
 	if (animation_reachead_strong == true)
