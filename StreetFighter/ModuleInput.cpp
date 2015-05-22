@@ -32,6 +32,18 @@ bool ModuleInput::Init()
 	return ret;
 }
 
+/*MAQUINA DE ESTADOS*/
+
+//1-. Crear states.h
+//2-. Introducir los comandos
+
+
+
+
+
+
+
+
 // Called every draw update
 update_status ModuleInput::PreUpdate()
 {
