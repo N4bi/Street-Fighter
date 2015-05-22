@@ -576,7 +576,7 @@ update_status ModulePlayer::Update()
 	if (doForwardjumpLeft){
 
 		Jump = true;
-		velx = 5;
+		velx = 3;
 
 		if (position.x + 120 > 828){
 			velx = 0;
@@ -594,7 +594,7 @@ update_status ModulePlayer::Update()
 	if (doForwardjumpRight){
 
 		Jump = true;
-		velx = -5;
+		velx = -3;
 
 		if (position.x + 120 < 0 ){
 			velx = 0;
@@ -612,7 +612,7 @@ update_status ModulePlayer::Update()
 	if (doBackjumpLeft){
 
 			Jump = true;
-			velx = -5;
+			velx = -3;
 
 			if (position.x + 120 < 0){
 				velx = 0;
@@ -632,7 +632,7 @@ update_status ModulePlayer::Update()
 	if (doBackjumpRight){
 
 		Jump = true;
-		velx = 5;
+		velx = 3;
 
 		if (position.x + 120 > 828){
 			velx = 0;
