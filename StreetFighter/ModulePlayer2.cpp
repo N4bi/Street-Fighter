@@ -15,9 +15,6 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	player = NULL;
 	block = NULL;
 
-
-	
-
 	// idle animation (arcade sprite sheet)
 	idle.frames.PushBack({ 50, 50, 150,150});
 	idle.frames.PushBack({ 250, 50, 150, 150 });

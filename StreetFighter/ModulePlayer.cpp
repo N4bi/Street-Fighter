@@ -14,9 +14,6 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	player = NULL;
 	block = NULL;
 
-
-	
-
 	// idle animation (arcade sprite sheet)
 	idle.frames.PushBack({ 50, 50, 150, 150 });
 	idle.frames.PushBack({ 250, 50, 150, 150 });
@@ -140,6 +137,37 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 
 	backjump.speed = 0.28f;
 
+
+	//Jumping Weak Punch
+	weakpunchjump.frames.PushBack({ 650, 1450, 150, 150 });
+	weakpunchjump.frames.PushBack({ 850, 1450, 150, 150 });
+
+	weakpunchjump.speed = 0.2f;
+
+	//Jumping Medium Punch
+	midpunchjump.frames.PushBack({ 650, 1450, 150, 150 });
+	midpunchjump.frames.PushBack({ 850, 1450, 150, 150 });
+	
+	midpunchjump.speed = 0.2f;
+
+	//Jumping Strong Punch
+
+	strongpunchjump.frames.PushBack({ 1050, 1450, 150, 150 });
+	strongpunchjump.frames.PushBack({ 1250, 1450, 150, 150 });
+	strongpunchjump.frames.PushBack({ 1450, 1450, 150, 150 });
+	strongpunchjump.speed = 0.2f;
+
+	/*
+	//Jumping Weak Kick
+	weakkickjump.
+
+	//Jumping Medium Kick
+	mediumkickjump.
+
+	//Jumping Strong Kick
+	strongkickjump.
+	*/
+
 	//Cover Animation
 	//Transición----cover.frames.PushBack({ 50, 1450, 150, 150 });
 	cover.frames.PushBack({ 250, 1450, 150, 150 });
@@ -154,6 +182,10 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	//Transición----crouchcover.frames.PushBack({ 450, 1250, 150, 150 });
 	crouchcover.frames.PushBack({ 650, 1250, 150, 150 });
 	crouchcover.speed = 0.2f;
+
+
+
+
 
 
 

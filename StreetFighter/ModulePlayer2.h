@@ -52,9 +52,21 @@ public:
 	Animation jump;
 	Animation forwardjump;
 	Animation backjump;
+	Animation weakpunchjump;
+	Animation midpunchjump;
+	Animation strongpunchjump;
+	Animation weakkickjump;
+	Animation midkickjump;
+	Animation strongkickjump;
 	Animation cover;
 	Animation crouch;
 	Animation crouchcover;
+	Animation weakpunchcrouch;
+	Animation midpunchcrouch;
+	Animation strongpunchcrouch;
+	Animation weakkickcrouch;
+	Animation midkickcrouch;
+	Animation strongkickcrouch;
 	Animation winround;
 	Animation winfight;
 	
