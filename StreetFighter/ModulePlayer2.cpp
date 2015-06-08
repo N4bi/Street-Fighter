@@ -137,13 +137,82 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	backjump.frames.PushBack({ 1450, 1050, 150, 150 });
 	backjump.frames.PushBack({ 1450, 1050, 150, 150 });
 	backjump.frames.PushBack({ 1450, 1050, 150, 150 });
-
 	backjump.speed = 0.28f;
+
+	//Jumping Weak Punch
+	weakpunchjump.frames.PushBack({ 650, 1450, 150, 150 });
+	weakpunchjump.frames.PushBack({ 850, 1450, 150, 150 });
+	weakpunchjump.speed = 0.2f;
+
+	//Jumping Medium Punch
+	midpunchjump.frames.PushBack({ 650, 1450, 150, 150 });
+	midpunchjump.frames.PushBack({ 850, 1450, 150, 150 });
+	midpunchjump.speed = 0.2f;
+
+	//Jumping Strong Punch
+	strongpunchjump.frames.PushBack({ 1250, 1450, 150, 150 });
+	strongpunchjump.frames.PushBack({ 1450, 1450, 150, 150 });
+	strongpunchjump.frames.PushBack({ 1650, 1450, 150, 150 });
+	strongpunchjump.speed = 0.2f;
+
+
+	//Jumping Weak Kick
+	weakkickjump.frames.PushBack({ 650, 1650, 150, 150 });
+	weakkickjump.frames.PushBack({ 850, 1650, 150, 150 });
+	weakkickjump.speed = 0.2f;
+
+	//Jumping Medium Kick
+	midkickjump.frames.PushBack({ 650, 1650, 150, 150 });
+	midkickjump.frames.PushBack({ 850, 1650, 150, 150 });
+	midkickjump.speed = 0.2f;
+
+	//Jumping Strong Kick
+	strongkickjump.frames.PushBack({ 1250, 1650, 150, 150 });
+	strongkickjump.frames.PushBack({ 1450, 1650, 150, 150 });
+	strongkickjump.frames.PushBack({ 1650, 1650, 150, 150 });
+	strongkickjump.frames.PushBack({ 1850, 1650, 150, 150 });
+	strongkickjump.frames.PushBack({ 2050, 1650, 150, 150 });
+	strongkickjump.speed = 0.2f;
 
 	//Cover Animation
 	//Transición----cover.frames.PushBack({ 50, 1450, 150, 150 });
 	cover.frames.PushBack({ 250, 1450, 150, 150 });
 	cover.speed = 0.2f;
+
+	//Crouching Weak Punch
+	weakpunchcrouch.frames.PushBack({ 50, 2050, 150, 150 });
+	weakpunchcrouch.frames.PushBack({ 250, 2050, 150, 150 });
+	weakpunchcrouch.speed = 0.2;
+
+	//Crouching Medium Punch
+	midpunchcrouch.frames.PushBack({ 650, 2050, 150, 150 });
+	midpunchcrouch.frames.PushBack({ 850, 2050, 150, 150 });
+	midpunchcrouch.frames.PushBack({ 1050, 2050, 150, 150 });
+	midpunchcrouch.speed = 0.2f;
+
+	//Crouching Strong Punch
+	strongpunchcrouch.frames.PushBack({ 1450, 2050, 150, 150 });
+	strongpunchcrouch.frames.PushBack({ 1650, 2050, 150, 150 });
+	strongpunchcrouch.frames.PushBack({ 1850, 2050, 150, 150 });
+	strongpunchcrouch.speed = 0.2f;
+
+	//Crouching Weak Kick
+	weakkickcrouch.frames.PushBack({ 50, 1850, 150, 150 });
+	weakkickcrouch.frames.PushBack({ 250, 1850, 150, 150 });
+	weakkickcrouch.speed = 0.2f;
+
+	//Crouching Medium Kick
+	midkickcrouch.frames.PushBack({ 650, 1850, 150, 150 });
+	midkickcrouch.frames.PushBack({ 850, 1850, 150, 150 });
+	midkickcrouch.speed = 0.2f;
+
+	//Crouching Strong Kick
+	strongkickcrouch.frames.PushBack({ 1250, 1250, 150, 150 });
+	strongkickcrouch.frames.PushBack({ 1450, 1250, 150, 150 });
+	strongkickcrouch.frames.PushBack({ 1650, 1250, 150, 150 });
+	strongkickcrouch.frames.PushBack({ 1850, 1250, 150, 150 });
+	strongkickcrouch.frames.PushBack({ 2050, 1250, 150, 150 });
+	strongkickcrouch.speed = 0.2f;
 
 	//Crouch Animation
 	//Transición---crouch.frames.PushBack({ 50, 1250, 150, 150 });
