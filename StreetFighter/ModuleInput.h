@@ -1,6 +1,8 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "States.h"
+#include "p2Qeue.h"
 
 enum KEY_STATE
 {
@@ -21,6 +23,8 @@ public:
 	bool Init();
 	update_status PreUpdate();
 	bool CleanUp();
+
+	bool external_inputs(p2Qeue<PLAYER_inputs>& inputs, p2Qeue<PLAYER_inputs>& inputs2);
 
 	KEY_STATE GetKey(int id) const
 	{

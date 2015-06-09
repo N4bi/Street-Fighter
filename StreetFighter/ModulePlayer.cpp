@@ -2,6 +2,9 @@
 #include "Application.h"
 #include "ModulePlayer.h"
 #include "ModuleCollision.h"
+#include "ModuleInput.h"
+#include "States.h"
+
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -288,8 +291,10 @@ bool ModulePlayer::Start()
 	animation_reac = false;
 	animation_reachead = false;
 	animation_reachead_strong = false;
+	PLAYER_states current_state = ST_UNKNOWN;
 	
 	/*
+
 	SOUNDS FX LIST
 
 	0-> INTRO
@@ -301,9 +306,9 @@ bool ModulePlayer::Start()
 	6-> BLOCK
 	7-> STRONG HIT
 	8-> JUMP
-	
-	
+
 	*/
+
 	graphics = App->textures->Load("Game/ryu7.png"); // arcade version
 	fx = App->audio->LoadFx("Game/sounds/sfx/01jab.wav");
 	fx = App->audio->LoadFx("Game/sounds/sfx/03midpk.wav");
@@ -342,9 +347,23 @@ bool ModulePlayer::CleanUp()
 	return true;
 }
 
+void internal_input(p2Qeue<PLAYER_inputs>& inputs)
+{
+
+	//Aqui se deben añadir los inputs de ataques y saltos 
+
+}
+
+PLAYER_states ModulePlayer::process_fsm(p2Qeue<PLAYER_inputs>& inputs)
+{
+	// Esta es la maquina de estados en si 
+}
+
 // Update: draw background
 update_status ModulePlayer::Update()
 {
+	//TODO: hacer modificaciones para la maquina de estados 
+
 	//isCrouch = false;
 	current_animation = &idle;
 

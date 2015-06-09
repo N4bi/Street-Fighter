@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "p2Point.h"
 #include "ModuleCollision.h"
+#include "States.h"
 
 
 class ModulePlayer : public Module
@@ -18,6 +19,9 @@ public:
 	void OnCollision(Collider*, Collider*);
 	void Reaction();
 	void Setposition();
+	void internal_input(p2Qeue<PLAYER_inputs>& inputs);
+	PLAYER_states process_fsm(p2Qeue<PLAYER_inputs>& inputs);
+
 
 
 public:
@@ -101,5 +105,7 @@ public:
 	bool isAttacking;
 	bool isCrouch;
 	p2Point<int> position;
+	PLAYER_states current_state;
+	p2Qeue<PLAYER_inputs> inputs;
 
 };
