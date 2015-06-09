@@ -37,7 +37,7 @@ bool ModuleInput::Init()
 //1-. Crear states.h
 //2-. Introducir los comandos
 
-bool external_input(p2Qeue<PLAYER_inputs>& inputs, p2Qeue<PLAYER_inputs>& inputs2)
+/*bool external_input(p2Qeue<PLAYER_inputs>& inputs, p2Qeue<PLAYER_inputs>& inputs2)
 {
 	//-- PLAYER 1 BOOLS
 
@@ -355,7 +355,7 @@ bool external_input(p2Qeue<PLAYER_inputs>& inputs, p2Qeue<PLAYER_inputs>& inputs
 	return true;
 }
 
-
+*/
 
 
 
@@ -393,7 +393,7 @@ update_status ModuleInput::PreUpdate()
 	mouse_x /= SCREEN_SIZE;
 	mouse_y /= SCREEN_SIZE;
 
-	App->input->external_inputs(App->player->inputs, App->player2->inputs2);
+	//App->input->external_inputs(App->player->inputs, App->player2->inputs2);
 
 	return UPDATE_CONTINUE;
 }

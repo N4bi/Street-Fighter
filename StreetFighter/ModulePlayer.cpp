@@ -291,7 +291,7 @@ bool ModulePlayer::Start()
 	animation_reac = false;
 	animation_reachead = false;
 	animation_reachead_strong = false;
-	PLAYER_states current_state = ST_UNKNOWN;
+	//PLAYER_states current_state = ST_UNKNOWN;
 	
 	/*
 
@@ -347,17 +347,17 @@ bool ModulePlayer::CleanUp()
 	return true;
 }
 
-void internal_input(p2Qeue<PLAYER_inputs>& inputs)
+/*void internal_input(p2Qeue<PLAYER_inputs>& inputs)
 {
 
 	//Aqui se deben añadir los inputs de ataques y saltos 
 
-}
+}*/
 
-PLAYER_states ModulePlayer::process_fsm(p2Qeue<PLAYER_inputs>& inputs)
+/*PLAYER_states ModulePlayer::process_fsm(p2Qeue<PLAYER_inputs>& inputs)
 {
 	// Esta es la maquina de estados en si 
-}
+}*/
 
 // Update: draw background
 update_status ModulePlayer::Update()
