@@ -224,6 +224,36 @@ ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app,
 	crouchcover.frames.PushBack({ 650, 1250, 150, 150 });
 	crouchcover.speed = 0.2f;
 
+	//Hadouken
+	hadouken.frames.PushBack({ 50, 2450, 150, 150 });
+	hadouken.frames.PushBack({ 250, 2450, 150, 150 });
+	hadouken.frames.PushBack({ 450, 2450, 150, 150 });
+	hadouken.frames.PushBack({ 650, 2450, 150, 150 });
+	hadouken.speed = 0.2f;
+
+	//Shoryuken
+	shoryuken.frames.PushBack({ 50, 2250, 150, 150 });
+	shoryuken.frames.PushBack({ 250, 2250, 150, 150 });
+	shoryuken.frames.PushBack({ 450, 2250, 150, 150 });
+	shoryuken.frames.PushBack({ 650, 2250, 150, 150 });
+	shoryuken.frames.PushBack({ 850, 2250, 150, 150 });
+	shoryuken.frames.PushBack({ 1050, 2250, 150, 150 });
+	shoryuken.speed = 0.2f;
+
+	//Tatsumaki
+	tatsumaki.frames.PushBack({ 50, 2650, 150, 150 });
+	tatsumaki.frames.PushBack({ 250, 2650, 150, 150 });
+	tatsumaki.frames.PushBack({ 450, 2650, 150, 150 });
+	tatsumaki.frames.PushBack({ 650, 2650, 150, 150 });
+	tatsumaki.frames.PushBack({ 850, 2650, 150, 150 });
+	tatsumaki.frames.PushBack({ 1050, 2650, 150, 150 });
+	tatsumaki.frames.PushBack({ 1250, 2650, 150, 150 });
+	tatsumaki.frames.PushBack({ 1450, 2650, 150, 150 });
+	tatsumaki.frames.PushBack({ 1650, 2650, 150, 150 });
+	tatsumaki.frames.PushBack({ 1850, 2650, 150, 150 });
+	tatsumaki.frames.PushBack({ 2050, 2650, 150, 150 });
+	tatsumaki.speed = 0.2f;
+
 	
 
 	//Winning Round Animation

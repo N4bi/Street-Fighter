@@ -67,8 +67,12 @@ public:
 	Animation weakkickcrouch;
 	Animation midkickcrouch;
 	Animation strongkickcrouch;
+	Animation hadouken;
+	Animation shoryuken;
+	Animation tatsumaki;
 	Animation winround;
 	Animation winfight;
+
 	
 	//Others variables
 	unsigned int fx;
