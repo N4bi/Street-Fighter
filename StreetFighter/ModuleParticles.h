@@ -44,6 +44,10 @@ private:
 public:
 
 	Particle hadouken;
-	
+	Particle blood;
+	Particle bluehit1;
+	Particle bluehit2;
+	Particle bluehit3;
+	Particle redhit;
 
 };

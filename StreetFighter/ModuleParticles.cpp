@@ -21,7 +21,44 @@ bool ModuleParticles::Start()
 	hadouken.anim.frames.PushBack({ 50, 650, 150, 150 });
 	hadouken.anim.frames.PushBack({ 250, 650, 150, 150 });
 	hadouken.anim.loop = true;
+	hadouken.life = 500;
 	hadouken.anim.speed = 0.3f;
+
+	blood.anim.frames.PushBack({ 1050, 250, 150, 150 });
+	blood.anim.frames.PushBack({ 1250, 250, 150, 150 });
+	blood.anim.frames.PushBack({ 1450, 250, 150, 150 });
+	blood.anim.frames.PushBack({ 1650, 250, 150, 150 });
+	blood.anim.frames.PushBack({ 1850, 250, 150, 150 });
+	blood.anim.loop = false;
+	blood.anim.speed = 0.3f;
+	 
+	bluehit1.anim.frames.PushBack({ 250, 50, 150, 150 });
+	bluehit1.anim.frames.PushBack({ 450, 50, 150, 150 });
+	bluehit1.anim.frames.PushBack({ 650, 50, 150, 150 });
+	bluehit1.anim.loop = false;
+	bluehit1.anim.speed = 0.3f;
+
+	bluehit2.anim.frames.PushBack({ 1050, 50, 150, 150 });
+	bluehit2.anim.frames.PushBack({ 1250, 50, 150, 150 });
+	bluehit2.anim.frames.PushBack({ 1450, 50, 150, 150 });
+	bluehit2.anim.frames.PushBack({ 1650, 50, 150, 150 });
+	bluehit2.anim.loop = false;
+	bluehit2.anim.speed = 0.3f;
+
+	bluehit3.anim.frames.PushBack({  50, 250, 150, 150 });
+	bluehit3.anim.frames.PushBack({ 250, 250, 150, 150 });
+	bluehit3.anim.frames.PushBack({ 450, 250, 150, 150 });
+	bluehit3.anim.frames.PushBack({ 650, 250, 150, 150 });
+	bluehit3.anim.loop = false;
+	bluehit3.anim.speed = 0.3f;
+
+	redhit.anim.frames.PushBack({  50, 450, 150, 150 });
+	redhit.anim.frames.PushBack({ 250, 450, 150, 150 });
+	redhit.anim.frames.PushBack({ 450, 450, 150, 150 });
+	redhit.anim.frames.PushBack({ 650, 450, 150, 150 });
+	redhit.anim.frames.PushBack({ 850, 450, 150, 150 });
+	redhit.anim.loop = false;
+	redhit.anim.speed = 0.3f;
 	/*
 	explosion.anim.frames.PushBack({ 419, 296, 33, 30 });
 	explosion.anim.frames.PushBack({ 457, 296, 33, 30 });
@@ -33,7 +70,7 @@ bool ModuleParticles::Start()
 	laser.anim.frames.PushBack({ 200, 120, 32, 12 });
 	laser.anim.frames.PushBack({ 230, 120, 32, 12 });
 	laser.speed.x = 7;
-	laser.life = 1000;
+	
 	laser.anim.speed = 0.05f;*/
 
 	return true;
@@ -79,11 +116,13 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
+//if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
 // Always destroy particles that collide
 /*bool ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 {
 	// TODO 5: Fer que cada vegada que un laser collisini sorti una explosio
 	p2List_item<Particle*>* tmp = active.getFirst();
+
 
 	while (tmp != NULL)
 	{
