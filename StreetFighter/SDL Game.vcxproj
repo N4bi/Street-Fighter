@@ -71,6 +71,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="ModuleHUD.h" />
     <ClInclude Include="ModuleMatchOver.h" />
     <ClInclude Include="ModuleVsScreen.h" />
     <ClInclude Include="p2List.h" />
@@ -99,6 +100,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ModuleAudio.cpp" />
     <ClCompile Include="ModuleCollision.cpp" />
+    <ClCompile Include="ModuleHUD.cpp" />
     <ClCompile Include="ModuleMatchOver.cpp" />
     <ClCompile Include="ModuleParticles.cpp" />
     <ClCompile Include="ModulePlayer2.cpp" />

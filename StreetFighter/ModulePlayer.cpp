@@ -281,7 +281,7 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	p1_vida = 100;
+	p1_vida = 146;
 	position.x = -50;
 	position.y = 216;
 	gravity = 0.5f;

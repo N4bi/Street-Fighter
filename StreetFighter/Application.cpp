@@ -18,6 +18,7 @@ Application::Application()
 	scene_intro = new ModuleSceneIntro(this, true);
 	particles = new ModuleParticles(this);
 	collision = new ModuleCollision(this, false);
+	hud = new ModuleHUD(this, false);
 
 
 	// Main Modules
@@ -30,6 +31,7 @@ Application::Application()
 	// Scenes
 	AddModule(scene_intro);
 	AddModule(vs_scene);
+	AddModule(hud);
 	AddModule(scene_ken);
 	AddModule(match_over);
 	AddModule(scene_honda);
@@ -59,6 +61,7 @@ Application::~Application()
 	delete match_over;
 	delete player;
 	delete player2;
+	delete hud;
 	delete fade;
 	delete collision;
 }

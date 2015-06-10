@@ -19,6 +19,7 @@
 #include "ModuleCollision.h"
 #include "ModuleVsScreen.h"
 #include "ModuleMatchOver.h"
+#include "ModuleHUD.h"
 
 class Application
 {
@@ -38,6 +39,7 @@ public:
 	ModuleSceneHonda* scene_honda;
 	ModuleParticles* particles;
 	ModuleCollision* collision;
+	ModuleHUD* hud;
 
 private:
 
