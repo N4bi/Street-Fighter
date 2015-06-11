@@ -3,7 +3,6 @@
 #include "ModuleHUD.h"
 
 
-// Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
 ModuleHUD::ModuleHUD(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -15,21 +14,19 @@ ModuleHUD::ModuleHUD(Application* app, bool start_enabled) : Module(app, start_e
 	health.w = 324;
 	health.h = 16;
 
-
-
 	// Health bar P1
 
 	p1_healthBar.x = 45;
 	p1_healthBar.y = 158;
-	p1_healthBar.w = health1 = 144;
-	p1_healthBar.h = 9;
+	p1_healthBar.w = health1 = 145;
+	p1_healthBar.h = 11;
 
 	// Health bar P2
 
 	p2_healthBar.x = 45;
 	p2_healthBar.y = 158;
-	p2_healthBar.w = health2 = 146;
-	p2_healthBar.h = 9;
+	p2_healthBar.w = health2 = 145;
+	p2_healthBar.h = 11;
 
 	// P1 Name
 
@@ -86,7 +83,11 @@ update_status ModuleHUD::Update()
 
 	// Draw everything --------------------------------------
 
-	// AQUI HAY QUE PONER EL PINTAR EL PROBLEMA ES QUE SE HACE CON LA CAMARA Y NO SE HACERLO BIEN. 
+	App->renderer->Blit(graphics, App->renderer->pivot.x - 15, App->renderer->pivot.y - 100, &health);
+	App->renderer->Blit(graphics, App->renderer->pivot.x + 130 - p1_healthBar.w, App->renderer->pivot.y - 98, &p1_healthBar);
+	App->renderer->Blit(graphics, App->renderer->pivot.x + 162, App->renderer->pivot.y - 98, &p2_healthBar);
+	App->renderer->Blit(graphics, App->renderer->pivot.x - 15, App->renderer->pivot.y - 85, &p1_name);
+	App->renderer->Blit(graphics, App->renderer->pivot.x + 276, App->renderer->pivot.y - 85, &p2_name);
 
 
 

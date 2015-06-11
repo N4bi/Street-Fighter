@@ -16,6 +16,7 @@ public:
 public:
 
 	SDL_Texture* graphics;
+	Animation* current_animation;
 	SDL_Rect portraitRyuWin;
 	SDL_Rect portraitRyuLose;
 	SDL_Rect portraitKenWin;

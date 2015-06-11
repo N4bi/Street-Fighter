@@ -31,10 +31,11 @@ Application::Application()
 	// Scenes
 	AddModule(scene_intro);
 	AddModule(vs_scene);
-	AddModule(hud);
-	AddModule(scene_ken);
 	AddModule(match_over);
+	
+	AddModule(scene_ken);
 	AddModule(scene_ryu);
+	
 	
 	// Characters
 	AddModule(player);
@@ -43,7 +44,9 @@ Application::Application()
 	// Misc
 	AddModule(particles);
 	AddModule(collision);
+	AddModule(hud);
 	AddModule(fade); 
+	
 }
 
 Application::~Application()
@@ -56,9 +59,9 @@ Application::~Application()
 	delete particles;
 	delete scene_intro;
 	delete vs_scene;
+	delete match_over;
 	delete scene_ryu;
 	delete scene_ken;
-	delete match_over;
 	delete player;
 	delete player2;
 	delete hud;

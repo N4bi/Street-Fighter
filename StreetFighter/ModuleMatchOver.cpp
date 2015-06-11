@@ -1,9 +1,10 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleMatchOver.h"
+#include"ModulePlayer.h"
+#include"ModulePlayer2.h"
 
 
-// Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
 ModuleMatchOver::ModuleMatchOver(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -61,6 +62,7 @@ bool ModuleMatchOver::Start()
 	// TODO 1: Fer Enable/Disable del jugador i posar la musica
 
 	App->audio->PlayMusic("Game/sounds/music/lose.ogg");
+	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	return ret;
 }
@@ -80,22 +82,30 @@ bool ModuleMatchOver::CleanUp()
 // Update: draw background
 update_status ModuleMatchOver::Update()
 {
-
+	//SDL_Rect r = current_animation->GetCurrentFrame();
 
 
 	// Draw everything --------------------------------------
 	
 	//hacer un if Ryu Win
 
-	App->renderer->Blit(graphics, 6, 0, &portraitRyuWin);
-	App->renderer->Blit(graphics, 230, 0, &portraitKenLose, 1.0f, true);
-	App->renderer->Blit(graphics, 43, 167, &speechRyu);
 	
-	//hacer un if Ken Win
-	App->renderer->Blit(graphics, 6, 0, &portraitRyuLose);
-	App->renderer->Blit(graphics, 230, 0, &portraitKenWin, 1.0f, true);
-	App->renderer->Blit(graphics, 43, 167, &speechKen);
+	if (App->player->p1_vida < App->player2->p2_vida)
+	{
 
+
+		App->renderer->Blit(graphics, 6, 0, &portraitRyuWin);
+		App->renderer->Blit(graphics, 230, 0, &portraitKenLose, 1.0f, true);
+		App->renderer->Blit(graphics, 43, 167, &speechRyu);
+	}
+	
+	else 
+	{
+		//hacer un if Ken Win
+		App->renderer->Blit(graphics, 6, 0, &portraitRyuLose);
+		App->renderer->Blit(graphics, 230, 0, &portraitKenWin, 1.0f, true);
+		App->renderer->Blit(graphics, 43, 167, &speechKen);
+	}
 
 
 
@@ -104,7 +114,7 @@ update_status ModuleMatchOver::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
-		App->fade->FadeToBlack(this, App->scene_intro, 2.0f);
+		App->fade->FadeToBlack(App->match_over, App->scene_intro, 2.0f);
 	}
 
 	return UPDATE_CONTINUE;

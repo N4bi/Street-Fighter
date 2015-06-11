@@ -4,7 +4,6 @@
 #include "ModuleCollision.h"
 #include "ModulePlayer.h"
 
-// Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
 ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app, start_enabled)
 { 
@@ -278,7 +277,7 @@ bool ModulePlayer2::Start()
 	LOG("Loading player");
 
 	
-	p2_vida = 100;
+	p2_vida = 145;
 	position.x = 133;
 	position.y = 216;
 	gravity = 0.5f;
@@ -289,21 +288,6 @@ bool ModulePlayer2::Start()
 	animation_reachead = false;
 	animation_reachead_strong = false;
 
-	/*
-	SOUNDS FX LIST
-
-	0-> INTRO
-	1-> WEAKACTION
-	2-> MIDACTION
-	3-> STRONG ACTION
-	4-> WEAK HIT
-	5-> MID HIT
-	6-> BLOCK
-	7-> STRONG HIT
-	8-> JUMP
-
-
-	*/
 
 	graphics = App->textures->Load("Game/ken7.png"); // arcade version
 	fx = App->audio->LoadFx("Game/sounds/sfx/01jab.wav");
@@ -824,7 +808,7 @@ update_status ModulePlayer2::Update()
 
 	if (p2_vida <= 0)
 	{
-		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
+		App->fade->FadeToBlack(App->scene_ryu, App->match_over, 2.0f);
 	}
 
 	return UPDATE_CONTINUE;

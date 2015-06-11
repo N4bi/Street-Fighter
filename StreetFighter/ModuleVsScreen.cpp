@@ -3,8 +3,6 @@
 #include "ModuleVsScreen.h"
 
 
-// Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
-
 ModuleVsScreen::ModuleVsScreen(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	graphics = NULL;

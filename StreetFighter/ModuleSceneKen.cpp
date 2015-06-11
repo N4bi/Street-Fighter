@@ -3,7 +3,6 @@
 #include "ModuleSceneKen.h"
 #include "ModulePlayer.h"
 
-// Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
 ModuleSceneKen::ModuleSceneKen(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -105,6 +104,7 @@ bool ModuleSceneKen::Start()
 	App->player->Enable();
 	App->player2->Enable();
 	//App->audio->Enable();
+	App->hud->Enable();
 	App->audio->PlayMusic("Game/sounds/music/ken.ogg",0);
 	
 
@@ -120,6 +120,7 @@ bool ModuleSceneKen::CleanUp()
 	App->collision->Disable();
 	App->player->Disable();
 	App->player2->Disable();
+	App->hud->Disable();
 	//App->audio->Disable();
 
 	

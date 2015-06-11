@@ -5,9 +5,6 @@
 #include "ModuleInput.h"
 #include "States.h"
 
-
-// Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
-
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	graphics = NULL;
@@ -281,7 +278,7 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	p1_vida = 146;
+	p1_vida = 145;
 	position.x = -50;
 	position.y = 216;
 	gravity = 0.5f;
@@ -1127,7 +1124,7 @@ update_status ModulePlayer::Update()
 
 	if (p1_vida <= 0)
 	{
-		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
+		App->fade->FadeToBlack(App->scene_ryu, App->match_over, 2.0f);
 	}
 
 	return UPDATE_CONTINUE;

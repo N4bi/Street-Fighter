@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleSceneRyu.h"
 #include "ModulePlayer.h"
+#include "ModuleHUD.h"
 
 
 ModuleSceneRyu::ModuleSceneRyu(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -51,7 +52,7 @@ ModuleSceneRyu::ModuleSceneRyu(Application* app, bool start_enabled) : Module(ap
 	element.h = 104;
 
 	// bird animation
-	bird.frames.PushBack({ 669, 325, 11, 11 });
+	bird.frames.PushBack({ 670, 325, 11, 11 });
 	bird.frames.PushBack({ 682, 325, 11, 11 });
 	bird.frames.PushBack({ 695, 325, 11, 11 });
 	bird.frames.PushBack({ 707, 325, 11, 11 });
@@ -60,6 +61,12 @@ ModuleSceneRyu::ModuleSceneRyu(Application* app, bool start_enabled) : Module(ap
 	bird.frames.PushBack({ 747, 325, 11, 11 });
 	bird.frames.PushBack({ 761, 325, 11, 11 });
 	bird.speed = 0.08f;
+
+	// Health bar
+	health.x = 45;
+	health.y = 103;
+	health.w = 324;
+	health.h = 16;
 
 }
 
@@ -73,10 +80,12 @@ bool ModuleSceneRyu::Start()
 	bool ret = true;
 	graphics = App->textures->Load("Game/ryu_stage.png");
 
-
+	App->collision->Enable();
+	App->hud->Enable();
 	App->player->Enable();
 	App->player2->Enable();
 	App->audio->PlayMusic("Game/sounds/music/ryu.ogg", 0);
+	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	return ret;
 }
@@ -90,6 +99,7 @@ bool ModuleSceneRyu::CleanUp()
 	App->collision->Disable();
 	App->player->Disable();
 	App->player2->Disable();
+	App->hud->Disable();
 
 
 	return true;
@@ -103,15 +113,18 @@ update_status ModuleSceneRyu::Update()
 	
 	
 	App->renderer->Blit(graphics, 10, 0, &background, 0.75f); 
-	App->renderer->Blit(graphics, 200, 30, &foreground3, 0.80f);
+	App->renderer->Blit(graphics, 300, 30, &foreground3, 0.80f);
 	App->renderer->Blit(graphics, 100, -15, &foreground2, 0.85f);
 	App->renderer->Blit(graphics, -15, -10, &foreground); 
 	App->renderer->Blit(graphics, -70, 180, &ground);
+	App->renderer->Blit(graphics, 70, 90, &element);
+	App->renderer->Blit(graphics, 500, 90, &element);
 	App->renderer->Blit(graphics, -69, 215, &border);
-	//App->renderer->Blit(graphics, 305, 136, &(bird.GetCurrentFrame())); 
-	//App->renderer->Blit(graphics, 0, -16, &element, 0.75f);
-	
-	//App->renderer->Blit(graphics, 280, 700, &foreground3);
+	App->renderer->Blit(graphics, 470, 45, &(bird.GetCurrentFrame()), 0.92f);
+
+
+
+
 
 	return UPDATE_CONTINUE;
 }
