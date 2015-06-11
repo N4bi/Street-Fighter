@@ -83,6 +83,7 @@ public:
 	float Jumpspeed;
 	int speed;
 	bool Jump;
+	bool stop;
 	unsigned int p2_vida;
 	bool animation_reachead;
 	bool animation_reachead_strong;

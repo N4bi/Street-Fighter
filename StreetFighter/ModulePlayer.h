@@ -38,6 +38,7 @@ public:
 	Collider* a_weakkick;
 	Collider* a_midkick;
 	Collider* a_strongkick;
+	Collider* block_crouch;
 
 	//Animations
 	Animation idle;
@@ -76,6 +77,7 @@ public:
 	Animation tatsumaki;
 	Animation winround;
 	Animation winfight;
+	
 
 	
 	//Others variables
@@ -89,7 +91,10 @@ public:
 	bool animation_reachead;
 	bool animation_reachead_strong;
 	bool animation_reac;
+	bool animation_reac_2;
 	bool doCover;
+	bool Cover_Punch;
+	bool doCover_crouch;
 	bool doWeakpunch;
 	bool doMidpunch;
 	bool doStrongpunch;
@@ -104,6 +109,7 @@ public:
 	bool hitWeak;
 	bool isAttacking;
 	bool isCrouch;
+	bool doJumpWeakpunch;
 	p2Point<int> position;
 	PLAYER_states current_state;
 	p2Qeue<PLAYER_inputs> inputs;

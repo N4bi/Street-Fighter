@@ -324,15 +324,17 @@ bool ModulePlayer::Start()
 		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD,this);
 		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
 		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_FEET);
-		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 100 }, COLLIDER_PLAYER);
+		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 100 }, COLLIDER_PLAYER,this);
 		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK,this);
+		block_crouch = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK_CROUCH, this);
 	}
 	else {
 		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD,this);
 		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
 		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_FEET);
-		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_PLAYER);
+		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_PLAYER,this);
 		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK,this);
+		block_crouch = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK_CROUCH, this);
 	}
 	return true;
 }
@@ -372,7 +374,7 @@ update_status ModulePlayer::Update()
 
 	//-- PUNCHS
 
-	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) && (!isAttacking)){
+	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) && (!isAttacking) && (!isCrouch)){
 
 		isAttacking = true;
 
@@ -387,6 +389,26 @@ update_status ModulePlayer::Update()
 			App->audio->PlayFx(1, 0);
 			a_weakpunch = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK,this);
 			
+		}
+
+
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) && (!isAttacking) && (isCrouch)){
+
+		isAttacking = true;
+
+		if (App->player2->position.x > App->renderer->pivot.x){
+			Cover_Punch = true;
+			App->audio->PlayFx(1, 0);
+			a_weakpunch = App->collision->AddCollider({ position.x + 163, position.y - 50, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+
+		}
+		else{
+			Cover_Punch = true;
+			App->audio->PlayFx(1, 0);
+			a_weakpunch = App->collision->AddCollider({ position.x + 95, position.y - 50, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+
 		}
 
 
@@ -476,16 +498,19 @@ update_status ModulePlayer::Update()
 
 	if (doCover == false)
 	{
-		block->rect = { position.x + 160, position.y + 100, 20, 60 };
-		body->rect = { position.x + 138, position.y + 100, 36, 40 };
-		head->rect = { position.x + 135, position.y + 100, 24, 18 };
+		block->rect = { position.x + 160, position.y + 120, 20, 60 };
+	}
+
+	if (doCover_crouch == false)
+	{
+		block_crouch->rect = { position.x + 160, position.y + 120, 20, 60 };
 	}
 
 	//-----------------Movement
 
 	if (App->player->position.x < App->renderer->pivot.x){
 
-		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (!Jump) && (!isCrouch) && (!isAttacking) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (App->player2->stop == false) && (!Jump) && (!isCrouch) && (!isAttacking) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &backward;
 			doCover = true;
@@ -511,10 +536,30 @@ update_status ModulePlayer::Update()
 			current_animation = &crouch;
 		}
 
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			current_animation = &crouch;
+		}
+
 		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_UP))
 		{
 			isCrouch = false;
+			doCover_crouch = false;
 		}
+
+
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			doCover_crouch = true;
+			current_animation = &crouch;
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_Z) == KEY_UP))
+		{
+			doCover_crouch = false;
+		}
+
+		
 
 		
 		//---------------Jumps-------
@@ -549,7 +594,7 @@ update_status ModulePlayer::Update()
 	// RIGHT SIDE
 	else
 	{
-		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (App->player2->stop == false) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &forward;
 			position.x -= speed;
@@ -577,7 +622,20 @@ update_status ModulePlayer::Update()
 		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_UP))
 		{
 			isCrouch = false;
+			doCover_crouch = false;
 		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			doCover_crouch = true;
+			current_animation = &crouch;
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_Z) == KEY_UP))
+		{
+			doCover_crouch = false;
+		}
+
 		//---------------Jumps-------
 
 		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && (!Jump) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
@@ -624,6 +682,17 @@ update_status ModulePlayer::Update()
 			a_weakpunch->to_delete = true;
 			isAttacking = false;
 		}
+	}
+
+	
+	if (Cover_Punch){
+			isAttacking = true;
+			current_animation = &weakpunchcrouch;
+			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+				Cover_Punch = false;
+				a_weakpunch->to_delete = true;
+				isAttacking = false;
+			}
 
 	}
 
@@ -769,49 +838,181 @@ update_status ModulePlayer::Update()
 
 
 	if (App->player->position.x > App->renderer->pivot.x){
+	
+		//COLLISIONS HEAD
+		//-----------------------------
 		if (head != NULL && doCover == false)
 		{
 			head->rect = { position.x + 135, position.y - 95, 24, 18 };
 		}
+		if (head != NULL && doCover == true)
+		{
+			head->rect = { position.x + 135, position.y + 120, 24, 18 };
+		}
+		if (head != NULL && isCrouch == true)
+		{
+			head->rect = { position.x + 135, position.y - 65, 24, 18 };
+		}
+		if (head != NULL && doCover_crouch == true)
+		{
+			head->rect = { position.x + 135, position.y + 120, 24, 18 };
+		}
+
+
+
+
+		//COLLSISIONS BLOCK
+		//-----------------------------
 		if (block != NULL && doCover == true)
 		{
-			block->rect = { position.x + 120, position.y - 95, 20, 60 };
+			block->rect = { position.x + 125, position.y - 95, 20, 60 };
 		}
+		if (block_crouch != NULL && doCover_crouch == true)
+		{
+			block_crouch->rect = { position.x + 120, position.y - 65, 20, 60 };
+		}
+		
+		
+		//COLLISIONS BODY
+		//-----------------------------
 		if (body != NULL && doCover == false)
 		{
 			body->rect = { position.x + 138, position.y -95 + 9, 36, 40 };
 		}
-		if (feet != NULL)
+		if (body != NULL && doCover == true)
+		{
+			body->rect = { position.x + 138, position.y + 120, 36, 40 };
+		}
+		if (body != NULL && isCrouch == true)
+		{
+			body->rect = { position.x + 129, position.y - 48, 45, 45 };
+		}
+		if (body != NULL && doCover_crouch == true)
+		{
+			body->rect = { position.x + 138, position.y + 120, 36, 40 };
+		}
+		
+		//COLLISIONS FEET
+		//-----------------------------
+		if (feet != NULL && doCover == false)
 		{
 			feet->rect = { position.x + 136, position.y - 95 + 40, 42, 45 };
 		}
+		if (feet != NULL && doCover == true)
+		{
+			feet->rect = { position.x + 121, position.y - 95 + 40 + 150, 42, 45 };
+		}
+		if (feet != NULL && isCrouch == true)
+		{
+			feet->rect = { position.x + 121, position.y - 95 + 40 + 150, 42, 45 };
+		}
+		if (feet != NULL && doCover_crouch == true)
+		{
+			feet->rect = { position.x + 121, position.y - 95 + 40 + 150, 42, 45 };
+		}
+		
+		//COLLISIONS PLAYER
+		//-----------------------------
 		if (player != NULL)
 		{
 			player->rect = { position.x + 125, position.y - 95, 61, 92 };
+		}
+		if (player != NULL && isCrouch == true)
+		{
+			player->rect = { position.x + 121, position.y - 65, 61, 62 };
+		}
+		if (player != NULL && doCover_crouch == true)
+		{
+			player->rect = { position.x + 121, position.y - 65, 61, 62 };
 		}
 
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r, 1.0f, true);
 	}
 	else {
+		
+		//COLLISIONS HEAD
+		//-----------------------------
 		if (head != NULL && doCover == false)
 		{
 			head->rect = { position.x + 140, position.y - 95, 24, 18 };
 		}
+	    if (head != NULL && doCover == true)
+	    {
+	    	head->rect = { position.x + 135, position.y + 100, 24, 18 };
+	    }
+		if (head != NULL && isCrouch == true)
+		{
+			head->rect = { position.x + 140, position.y - 65, 24, 18 };
+		}
+		if (head != NULL && doCover_crouch == true)
+		{
+			head->rect = { position.x + 135, position.y + 120, 24, 18 };
+		}
+
+
+		//COLLISIONS BLOCK
+		//-----------------------------
 		if (block != NULL && doCover == true)
 		{
-			block->rect = { position.x + 160, position.y - 95, 20, 60 };
+			block->rect = { position.x + 155, position.y - 95, 20, 60 };
 		}
+		if (block_crouch != NULL && doCover_crouch == true)
+		{
+			block_crouch->rect = { position.x + 160, position.y - 65, 20, 60 };
+		}
+
+		//COLLISIONS BODY
+		//-----------------------------
 		if (body != NULL && doCover == false)
 		{
 			body->rect = { position.x + 125, position.y - 95 + 9, 36, 40 };
 		}
-		if (feet != NULL)
+		if (body != NULL && doCover == true)
+		{
+			body->rect = { position.x + 138, position.y + 100, 36, 40 };
+		}
+		if (body != NULL && isCrouch == true)
+		{
+			body->rect = { position.x + 125, position.y - 48, 45, 45 };
+		}
+		if (body != NULL && doCover_crouch == true)
+		{
+			body->rect = { position.x + 138, position.y + 120, 36, 40 };
+		}
+
+
+		//COLLISIONS FEET
+		//-----------------------------
+		if (feet != NULL && doCover == false)
 		{
 			feet->rect = { position.x + 121, position.y - 95 + 40, 42, 45 };
 		}
+		if (feet != NULL && doCover == true)
+		{
+			feet->rect = { position.x + 121, position.y - 95 + 40 + 150, 42, 45 };
+		}
+		if (feet != NULL && isCrouch == true)
+		{
+			feet->rect = { position.x + 121, position.y - 95 + 40 + 150, 42, 45 };
+		}
+		if (feet != NULL && doCover_crouch == true)
+		{
+			feet->rect = { position.x + 121, position.y - 95 + 40 + 150, 42, 45 };
+		}
+
+		//COLLISIONS PLAYER
+		//-----------------------------
 		if (player != NULL)
 		{
 			player->rect = { position.x + 115, position.y - 95, 61, 92};
+		}
+		if (player != NULL && isCrouch == true)
+		{
+			player->rect = { position.x + 118, position.y - 65, 61, 62 };
+		}
+		if (player != NULL && doCover_crouch == true)
+		{
+			player->rect = { position.x + 118, position.y - 65, 61, 62 };
 		}
 
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r);
@@ -833,6 +1034,40 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	{
 		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
 	}*/
+
+	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_ENEMY || c2->type == COLLIDER_PLAYER &&  c1->type == COLLIDER_ENEMY)
+	{
+		if (App->player->position.x < App->renderer->pivot.x )
+		{
+			App->player2->position.x++;
+		}
+		else
+		{
+			App->player2->position.x--;
+		}
+	}
+
+	if (c1->type == COLLIDER_PLAYER_BLOCK_CROUCH && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_BLOCK_CROUCH &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
+	{
+		App->audio->PlayFx(6, 0);
+		animation_reac_2 = true;
+	}
+
+
+	if (c1->type == COLLIDER_PLAYER_BLOCK_CROUCH && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_BLOCK_CROUCH &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
+	{
+		App->audio->PlayFx(6, 0);
+		animation_reac_2 = true;
+	}
+
+	if (c1->type == COLLIDER_PLAYER_BLOCK_CROUCH && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_BLOCK_CROUCH &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
+	{
+		App->audio->PlayFx(6, 0);
+		animation_reac_2 = true;
+	}
+
+
+
 	 if (c1->type == COLLIDER_PLAYER_BLOCK && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_BLOCK &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
 	{
 		App->audio->PlayFx(6, 0);
@@ -904,9 +1139,18 @@ void ModulePlayer::Reaction()
 	if (animation_reac == true)
 	{ 
 		speed = 0;
-		current_animation = &cover;
+		if (doCover == true)
+		{
+			current_animation = &cover;
+		}
+		
 		animation_reac = false;
-
+	}
+	
+	if (animation_reac_2 == true)
+	{
+			current_animation = &crouchcover;
+			animation_reac_2 = false;
 	}
 
 

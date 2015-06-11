@@ -352,6 +352,16 @@ update_status ModulePlayer2::Update()
 	//ATTACKS P2
 
 	//--PUNCHS
+	if (position.x < -60)
+	{
+		stop = true;
+	}
+
+	if (App->player->position.x > -60 )
+	{
+		stop = false;
+	}
+	
 
 	if ((App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) && (!isAttacking))
 	{
@@ -471,7 +481,7 @@ update_status ModulePlayer2::Update()
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 828) && ((App->player2->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) &&(!stop) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 828) && ((App->player2->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &backward;
 			doCover = true;
