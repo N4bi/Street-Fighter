@@ -763,7 +763,7 @@ update_status ModulePlayer::Update()
 		Jump = true;
 		velx = 3;
 
-		if (position.x + 120 > 828){
+		if (position.x + 120 > 828 || ((App->renderer->pivot.x - App->player->position.x)> 162)){
 			velx = 0;
 
 		}
@@ -781,7 +781,7 @@ update_status ModulePlayer::Update()
 		Jump = true;
 		velx = -3;
 
-		if (position.x + 120 < 0 ){
+		if (position.x + 120 < 0 || ((App->renderer->pivot.x - App->player->position.x)> 162)){
 			velx = 0;
 
 		}
@@ -799,7 +799,7 @@ update_status ModulePlayer::Update()
 			Jump = true;
 			velx = -3;
 
-			if (position.x + 120 < 0){
+			if (position.x + 120 < 0 || ((App->renderer->pivot.x - App->player->position.x)> 162)){
 				velx = 0;
 
 			}
@@ -819,7 +819,7 @@ update_status ModulePlayer::Update()
 		Jump = true;
 		velx = 3;
 
-		if (position.x + 120 > 828){
+		if (position.x + 120 > 828 || ((App->player->position.x - App->renderer->pivot.x)> 162)){
 			velx = 0;
 
 		}

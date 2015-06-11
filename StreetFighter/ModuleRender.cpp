@@ -65,11 +65,21 @@ update_status ModuleRender::Update()
 	
 	if ((App->renderer->pivot.x < App->renderer->center.x) && (App->renderer->camera.x < 0) && ((App->renderer->pivot.x - App->player->position.x)< 162) && ((App->renderer->pivot.x - App->player2->position.x)< 162) ){
 		App->renderer->center.x = App->renderer->pivot.x;
+		if (App->player->doForwardjumpLeft || App->player->doForwardjumpRight || App->player2->doForwardjumpLeft || App->player2->doForwardjumpRight){
+			if(((App->renderer->pivot.x - App->player->position.x)> 162) || ((App->renderer->pivot.x - App->player2->position.x)> 162)){ App->renderer->camera.x += 0;}
+			else { App->renderer->camera.x += 5; }
+		}
+		else
 		App->renderer->camera.x += speed;
 	}
 
 	if ((App->renderer->pivot.x > App->renderer->center.x) && (App->renderer->camera.x > -512 * speed) && ((App->player->position.x - App->renderer->pivot.x)< 162) && ((App->player2->position.x - App->renderer->pivot.x)< 162)){
 		App->renderer->center.x = App->renderer->pivot.x;
+		if (App->player->doBackjumpLeft == true || App->player->doBackjumpRight == true || App->player2->doBackjumpLeft == true || App->player2->doBackjumpRight == true){
+			if (((App->player->position.x - App->renderer->pivot.x)> 162) || ((App->player2->position.x - App->renderer->pivot.x)> 162)){ App->renderer->camera.x += 0; }
+			else{ App->renderer->camera.x += -5;}
+		}
+		else
 		App->renderer->camera.x -= speed;
 	}
 		
