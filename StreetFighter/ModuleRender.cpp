@@ -78,7 +78,7 @@ update_status ModuleRender::Update()
 		
 	}
 
-	if ((App->renderer->pivot.x > App->renderer->center.x) && (App->renderer->camera.x > -200 * speed) && ((App->player->position.x - App->renderer->pivot.x)< 162) && ((App->player2->position.x - App->renderer->pivot.x)< 162)){
+	if ((App->renderer->pivot.x > App->renderer->center.x) && (App->renderer->camera.x  > -200 * speed) && ((App->player->position.x - App->renderer->pivot.x)< 162) && ((App->player2->position.x - App->renderer->pivot.x)< 162)){
 		App->renderer->center.x = App->renderer->pivot.x;
 		if (App->player->doBackjumpLeft == true || App->player->doBackjumpRight == true || App->player2->doBackjumpLeft == true || App->player2->doBackjumpRight == true){
 			if (((App->player->position.x - App->renderer->pivot.x)>= 162) || ((App->player2->position.x - App->renderer->pivot.x)>= 162)){ App->renderer->camera.x += 0; }

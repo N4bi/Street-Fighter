@@ -1405,12 +1405,14 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_ENEMY || c2->type == COLLIDER_PLAYER &&  c1->type == COLLIDER_ENEMY)
 	{
-		if (App->player->position.x < App->renderer->pivot.x )
+		if (App->player->position.x < App->renderer->pivot.x)
 		{
+			if (App->player2->position.x + 120 < 528)
 			App->player2->position.x++;
 		}
 		else
 		{
+			if (App->player2->position.x +120 > 0)
 			App->player2->position.x--;
 		}
 	}

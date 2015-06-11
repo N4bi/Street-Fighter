@@ -87,9 +87,9 @@ update_status ModuleHUD::Update()
 	
 	int speed = SCREEN_SIZE;
 	pivot.y = SCREEN_HEIGHT / 2;
-	pivot.x = ((App->player->position.x) + (App->player2->position.x)) / 2;
+	pivot.x = ((App->player->position.x ) + (App->player2->position.x )) / 2;
 
-	if ((pivot.x < center.x) && (App->renderer->camera.x < 0) && ((pivot.x - App->player->position.x)< 162) && ((pivot.x - App->player2->position.x)< 162)){
+	if ((pivot.x < center.x) && (App->renderer->camera.x< 0) && ((pivot.x - App->player->position.x)< 162) && ((pivot.x - App->player2->position.x)< 162)){
 		center.x = pivot.x;
 		if (App->player->doForwardjumpLeft || App->player->doForwardjumpRight || App->player2->doForwardjumpLeft || App->player2->doForwardjumpRight){
 			if (((pivot.x - App->player->position.x) >= 162) || ((pivot.x - App->player2->position.x) >= 162)){App->renderer->camera.x += 0; }

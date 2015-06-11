@@ -820,6 +820,19 @@ void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 	{
 		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
 	}*/
+	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_ENEMY || c2->type == COLLIDER_PLAYER &&  c1->type == COLLIDER_ENEMY)
+	{
+		if (App->player2->position.x > App->renderer->pivot.x)
+		{
+			if (App->player->position.x + 120 < 528)
+				App->player->position.x++;
+		}
+		else
+		{
+			if (App->player->position.x + 120 > 0)
+				App->player->position.x--;
+		}
+	}
 	 if (c1->type == COLLIDER_ENEMY_BLOCK && c2->type == COLLIDER_PLAYER_MIDATTACK || c2->type == COLLIDER_ENEMY_BLOCK &&  c1->type == COLLIDER_PLAYER_MIDATTACK)
 	{
 		App->audio->PlayFx(6, 0);
