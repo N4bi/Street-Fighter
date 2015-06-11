@@ -3,11 +3,11 @@
 #include "Animation.h"
 #include "Globals.h"
 
-class ScenerySelection : public Module
+class ModuleScenerySelection : public Module
 {
 public:
-	ScenerySelection(Application* app, bool start_enabled = true);
-	~ScenerySelection();
+	ModuleScenerySelection(Application* app, bool start_enabled = true);
+	~ModuleScenerySelection();
 
 	bool Start();
 	update_status Update();

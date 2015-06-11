@@ -49,8 +49,6 @@ bool ModuleVsScreen::Start()
 	bool ret = true;
 	graphics = App->textures->Load("Game/portraits.png");
 
-	// TODO 1: Fer Enable/Disable del jugador i posar la musica
-
 	App->audio->PlayMusic("Game/sounds/music/VS.ogg");
 
 	return ret;

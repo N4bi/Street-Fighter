@@ -71,7 +71,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Globals.h" />
-    <ClInclude Include="ScenerySelection.h" />
+    <ClInclude Include="ModuleScenerySelection.h" />
     <ClInclude Include="ModuleHUD.h" />
     <ClInclude Include="ModuleMatchOver.h" />
     <ClInclude Include="ModuleVsScreen.h" />
@@ -115,7 +115,7 @@
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleVsScreen.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
-    <ClCompile Include="ScenerySelection.cpp" />
+    <ClCompile Include="ModuleScenerySelection.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

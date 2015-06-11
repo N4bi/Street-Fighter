@@ -17,6 +17,7 @@
 #include "ModuleSceneintro.h"
 #include "ModuleParticles.h"
 #include "ModuleCollision.h"
+#include "ModuleScenerySelection.h"
 #include "ModuleVsScreen.h"
 #include "ModuleMatchOver.h"
 #include "ModuleHUD.h"
@@ -31,6 +32,7 @@ public:
 	ModuleAudio* audio;
 	ModuleSceneIntro* scene_intro;
 	ModuleVsScreen* vs_scene;
+	ModuleScenerySelection* scenery_selection;
 	ModuleSceneKen* scene_ken;
 	ModuleMatchOver* match_over;
 	ModulePlayer* player;

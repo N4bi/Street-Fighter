@@ -93,7 +93,7 @@
     <ClInclude Include="ModuleSceneRyu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ScenerySelection.h">
+    <ClInclude Include="ModuleScenerySelection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,7 +155,7 @@
     <ClCompile Include="ModuleSceneRyu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ScenerySelection.cpp">
+    <ClCompile Include="ModuleScenerySelection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

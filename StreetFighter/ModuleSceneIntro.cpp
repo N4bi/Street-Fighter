@@ -44,10 +44,14 @@ update_status ModuleSceneIntro::Update()
 	// Draw everything --------------------------------------	
 	App->renderer->Blit(graphics, 0, 0, NULL);
 
+
+
+
+
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
 		App->audio->PlayFx(0,0);
-		App->fade->FadeToBlack(this, App->vs_scene, 2.0f);
+		App->fade->FadeToBlack(this, App->scenery_selection, 2.0f);
 		
 	}
 

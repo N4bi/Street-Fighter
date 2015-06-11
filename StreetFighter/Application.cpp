@@ -9,6 +9,7 @@ Application::Application()
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this);
 	vs_scene = new ModuleVsScreen(this, false);
+	scenery_selection = new ModuleScenerySelection(this, false);
 	scene_ken = new ModuleSceneKen(this, false); 	
 	match_over = new ModuleMatchOver(this, false);
 	player = new ModulePlayer(this, false);
@@ -30,6 +31,7 @@ Application::Application()
 
 	// Scenes
 	AddModule(scene_intro);
+	AddModule(scenery_selection);
 	AddModule(vs_scene);
 	AddModule(match_over);
 	
@@ -58,6 +60,7 @@ Application::~Application()
 	delete audio;
 	delete particles;
 	delete scene_intro;
+	delete scenery_selection;
 	delete vs_scene;
 	delete match_over;
 	delete scene_ryu;
