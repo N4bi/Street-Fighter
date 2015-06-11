@@ -159,22 +159,53 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 
 	
 	//Jumping Weak Kick
+	weakkickjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	weakkickjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	weakkickjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	weakkickjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	weakkickjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	weakkickjump.frames.PushBack({ 650, 1650, 150, 150 });
 	weakkickjump.frames.PushBack({ 650, 1650, 150, 150 });
 	weakkickjump.frames.PushBack({ 850, 1650, 150, 150 });
-	weakkickjump.speed = 0.2f;
+	weakkickjump.frames.PushBack({ 850, 1650, 150, 150 });
+	weakkickjump.frames.PushBack({ 850, 1650, 150, 150 });
+	weakkickjump.frames.PushBack({ 850, 1650, 150, 150 });
+	weakkickjump.frames.PushBack({ 850, 1650, 150, 150 });
+	weakkickjump.frames.PushBack({ 2650, 1050, 150, 150 });
+	weakkickjump.speed = 0.33f;
 
 	//Jumping Medium Kick
+	midkickjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	midkickjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	midkickjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	midkickjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	midkickjump.frames.PushBack({ 1450, 1050, 150, 150 });
+	midkickjump.frames.PushBack({ 650, 1650, 150, 150 });
 	midkickjump.frames.PushBack({ 650, 1650, 150, 150 });
 	midkickjump.frames.PushBack({ 850, 1650, 150, 150 });
-	midkickjump.speed = 0.2f;
+	midkickjump.frames.PushBack({ 850, 1650, 150, 150 });
+	midkickjump.frames.PushBack({ 850, 1650, 150, 150 });
+	midkickjump.frames.PushBack({ 850, 1650, 150, 150 });
+	midkickjump.frames.PushBack({ 850, 1650, 150, 150 });
+	midkickjump.frames.PushBack({ 2650, 1050, 150, 150 });
+	midkickjump.speed = 0.33f;
 
 	//Jumping Strong Kick
+	strongkickjump.frames.PushBack({ 50, 1050, 150, 150 });
+	strongkickjump.frames.PushBack({ 250, 1050, 150, 150 });
+	strongkickjump.frames.PushBack({ 450, 1050, 150, 150 });
+	strongkickjump.frames.PushBack({ 650, 1050, 150, 150 });
+	strongkickjump.frames.PushBack({ 850, 1050, 150, 150 });
+	strongkickjump.frames.PushBack({ 1050, 1050, 150, 150 });
+	strongkickjump.frames.PushBack({ 1050, 1050, 150, 150 });
 	strongkickjump.frames.PushBack({ 1250, 1650, 150, 150 });
 	strongkickjump.frames.PushBack({ 1450, 1650, 150, 150 });
 	strongkickjump.frames.PushBack({ 1650, 1650, 150, 150 });
 	strongkickjump.frames.PushBack({ 1850, 1650, 150, 150 });
 	strongkickjump.frames.PushBack({ 2050, 1650, 150, 150 });
-	strongkickjump.speed = 0.2f;
+	strongkickjump.frames.PushBack({ 1050, 1050, 150, 150 });
+
+	strongkickjump.speed = 0.33f;
 
 
 	//Cover Animation
@@ -220,11 +251,11 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	midkickcrouch.speed = 0.2f;
 
 	//Crouching Strong Kick
-	strongkickcrouch.frames.PushBack({ 1250, 1250, 150, 150 });
-	strongkickcrouch.frames.PushBack({ 1450, 1250, 150, 150 });
-	strongkickcrouch.frames.PushBack({ 1650, 1250, 150, 150 });
-	strongkickcrouch.frames.PushBack({ 1850, 1250, 150, 150 });
-	strongkickcrouch.frames.PushBack({ 2050, 1250, 150, 150 });
+	strongkickcrouch.frames.PushBack({ 1250, 1850, 150, 150 });
+	strongkickcrouch.frames.PushBack({ 1450, 1850, 150, 150 });
+	strongkickcrouch.frames.PushBack({ 1650, 1850, 150, 150 });
+	strongkickcrouch.frames.PushBack({ 1850, 1850, 150, 150 });
+	strongkickcrouch.frames.PushBack({ 2050, 1850, 150, 150 });
 	strongkickcrouch.speed = 0.2f;
 
 	//Hadouken
@@ -327,6 +358,7 @@ bool ModulePlayer::Start()
 		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 100 }, COLLIDER_PLAYER,this);
 		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK,this);
 		block_crouch = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK_CROUCH, this);
+		weak_kick_jump = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_WEAKATTACK,this);
 	}
 	else {
 		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD,this);
@@ -335,6 +367,7 @@ bool ModulePlayer::Start()
 		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_PLAYER,this);
 		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK,this);
 		block_crouch = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK_CROUCH, this);
+		weak_kick_jump = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_WEAKATTACK, this);
 	}
 	return true;
 }
@@ -482,7 +515,7 @@ update_status ModulePlayer::Update()
 
 	//---KICKS
 
-	if ((App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
+	if ((App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false) && (Jump_weak_kick_Left == false))
 	{
 		isAttacking = true;
 		if (App->player2->position.x > App->renderer->pivot.x){
@@ -512,21 +545,6 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if ((App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
-	{
-		isAttacking = true;
-		if (App->player2->position.x > App->renderer->pivot.x){
-			doWeakkick = true;
-			App->audio->PlayFx(1, 0);
-			a_weakkick = App->collision->AddCollider({ position.x + 170, position.y - 90, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
-		}
-		else{
-			doWeakkick = true;
-			App->audio->PlayFx(1, 0);
-			a_weakkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
-		}
-	}
-
 	if ((App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
@@ -539,6 +557,21 @@ update_status ModulePlayer::Update()
 			doMidkick = true;
 			App->audio->PlayFx(2, 0);
 			a_midkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_PLAYER_MIDATTACK, this);
+		}
+	}
+	
+	if ((App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false))
+	{
+		isAttacking = true;
+		if (App->player2->position.x > App->renderer->pivot.x){
+			Cover_Kick_mid = true;
+			App->audio->PlayFx(1, 0);
+			mid_kick_crouch = App->collision->AddCollider({ position.x + 170, position.y - 19, 48, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+		}
+		else{
+			Cover_Kick_mid = true;
+			App->audio->PlayFx(1, 0);
+			mid_kick_crouch = App->collision->AddCollider({ position.x + 85, position.y - 19, 48, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
 		}
 	}
 
@@ -557,6 +590,21 @@ update_status ModulePlayer::Update()
 		}
 	}
 
+	if ((App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false))
+	{
+		isAttacking = true;
+		if (App->player2->position.x > App->renderer->pivot.x){
+			Cover_Kick_strong = true;
+			App->audio->PlayFx(1, 0);
+			strong_kick_crouch = App->collision->AddCollider({ position.x + 170, position.y - 19, 48, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+		}
+		else{
+			Cover_Kick_strong = true;
+			App->audio->PlayFx(1, 0);
+			strong_kick_crouch = App->collision->AddCollider({ position.x + 85, position.y - 19, 48, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+		}
+	}
+
 	// LEFT SIDE
 
 	if (doCover == false)
@@ -567,6 +615,11 @@ update_status ModulePlayer::Update()
 	if (doCover_crouch == false)
 	{
 		block_crouch->rect = { position.x + 160, position.y + 120, 20, 60 };
+	}
+	
+	if (Jump_weak_kick_Left == false)
+	{
+		weak_kick_jump->rect = { position.x + 136, position.y + 700, 38, 45 };
 	}
 
 	//-----------------Movement
@@ -641,12 +694,32 @@ update_status ModulePlayer::Update()
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)  && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
+			Jump_weak_kick_Left = true;
+			//doForwardjumpLeft = true;
+			vely = Jumpspeed;
+		}
 
+		if ((App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			Jump_mid_kick_Left = true;
+			//doForwardjumpLeft = true;
+			vely = Jumpspeed;
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			Jump_strong_Kick = true;
+			//doForwardjumpLeft = true;
+			vely = Jumpspeed;
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)  && (!Jump_weak_kick_Left) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			//Jump_weak_kick = true;
 			doForwardjumpLeft = true;
 			vely = Jumpspeed;
-
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 > -10) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
@@ -664,13 +737,13 @@ update_status ModulePlayer::Update()
 	// RIGHT SIDE
 	else
 	{
-		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (App->player2->stop == false) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (!doCover_crouch) && (App->player2->stop == false) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &forward;
 			position.x -= speed;
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) && (!isCrouch) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) && (!doCover_crouch) && (!isCrouch) && (App->player2->stop == false) && (!Jump) && (!isCrouch) && (!isAttacking) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &backward;
 			stop_to_crouch = true;
@@ -686,7 +759,7 @@ update_status ModulePlayer::Update()
 		//--------------Crouch------
 
 		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (!stop_to_crouch) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
-		{   
+		{
 			isCrouch = true;
 			current_animation = &crouch;
 		}
@@ -696,10 +769,17 @@ update_status ModulePlayer::Update()
 			isCrouch = false;
 			doCover_crouch = false;
 		}
-
-		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (!stop_to_crouch) && (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doCover_crouch = true;
+			doCover = false;
+			current_animation = &crouch;
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (stop_to_crouch) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			doCover_crouch = true;
+			doCover = false;
 			current_animation = &crouch;
 		}
 
@@ -712,7 +792,6 @@ update_status ModulePlayer::Update()
 
 		if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && (!Jump) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-
 			doNeutraljump = true;
 			vely = Jumpspeed;
 
@@ -726,8 +805,30 @@ update_status ModulePlayer::Update()
 
 		}
 
+		if ((App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			Jump_weak_kick_Rigth = true;
+			//doForwardjumpLeft = true;
+			vely = Jumpspeed;
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			Jump_weak_mid_Rigth = true;
+			//doForwardjumpLeft = true;
+			vely = Jumpspeed;
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			Jump_strong_Kick = true;
+			//doForwardjumpLeft = true;
+			vely = Jumpspeed;
+		}
+
 		if ((App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && (!Jump) && (!isAttacking)) && (position.x + 120 > -10) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
+			//Jump_weak_kick_Left = true;
 			doForwardjumpRight = true;
 			vely = Jumpspeed;
 
@@ -763,6 +864,28 @@ update_status ModulePlayer::Update()
 		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
 			Cover_Kick_weak = false;
 			weak_kick_crouch->to_delete = true;
+			isAttacking = false;
+		}
+
+	}
+
+	if (Cover_Kick_mid){
+		isAttacking = true;
+		current_animation = &midkickcrouch;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			Cover_Kick_mid = false;
+			mid_kick_crouch->to_delete = true;
+			isAttacking = false;
+		}
+
+	}
+
+	if (Cover_Kick_strong){
+		isAttacking = true;
+		current_animation = &strongkickcrouch;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			Cover_Kick_strong = false;
+			strong_kick_crouch->to_delete = true;
 			isAttacking = false;
 		}
 
@@ -864,14 +987,96 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if (doForwardjumpLeft){
+	if (Jump_weak_kick_Left){
 
 		Jump = true;
 		velx = 3;
 
 		if (position.x + 120 > 828 || ((App->renderer->pivot.x - App->player->position.x)> 162)){
 			velx = 0;
+		}
+		current_animation = &weakkickjump;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			App->audio->PlayFx(8, 0);
+			Jump_weak_kick_Left = false;
+			Jump = false;
+			velx = 0;
+		}
+	}
 
+	
+
+	if (Jump_weak_kick_Rigth){
+
+		Jump = true;
+		velx = -3;
+
+		if (position.x + 120 < 0 || ((App->renderer->pivot.x - App->player->position.x)> 162)){
+			velx = 0;
+
+		}
+		current_animation = &weakkickjump;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			App->audio->PlayFx(8, 0);
+			doForwardjumpRight = false;
+			Jump_weak_kick_Rigth = false;
+			Jump = false;
+			velx = 0;
+		}
+	}
+
+	if (Jump_mid_kick_Left){
+
+		Jump = true;
+		velx = 3;
+
+		if (position.x + 120 > 828 || ((App->renderer->pivot.x - App->player->position.x)> 162)){
+			velx = 0;
+		}
+		current_animation = &midkickjump;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			App->audio->PlayFx(8, 0);
+			Jump_mid_kick_Left = false;
+			Jump = false;
+			velx = 0;
+		}
+	}
+
+	if (Jump_weak_mid_Rigth){
+
+		Jump = true;
+		velx = -3;
+
+		if (position.x + 120 > 828 || ((App->renderer->pivot.x - App->player->position.x)> 162)){
+			velx = 0;
+		}
+		current_animation = &midkickjump;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			App->audio->PlayFx(8, 0);
+			Jump_weak_mid_Rigth = false;
+			Jump = false;
+			velx = 0;
+		}
+	}
+
+	if (Jump_strong_Kick){
+		Jump = true;
+		current_animation = &strongkickjump;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			App->audio->PlayFx(8, 0);
+			Jump_strong_Kick = false;
+			Jump = false;
+		}
+	}
+
+     if (doForwardjumpLeft)
+	 {
+
+		Jump = true;
+		velx = 3;
+
+		if (position.x + 120 > 828 || ((App->renderer->pivot.x - App->player->position.x)> 162)){
+			velx = 0;
 		}
 		current_animation = &forwardjump;
 		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
@@ -977,7 +1182,13 @@ update_status ModulePlayer::Update()
 		{
 			block_crouch->rect = { position.x + 120, position.y - 65, 20, 60 };
 		}
-		
+
+		//COLLSISIONS JUMPKICKS
+		//-----------------------------
+		if (weak_kick_jump != NULL && Jump_weak_kick_Rigth == true || Jump_weak_mid_Rigth == true)
+		{
+			weak_kick_jump->rect = { position.x + 85, position.y - 95 + 35, 100, 35 };
+		}
 		
 		//COLLISIONS BODY
 		//-----------------------------
@@ -1016,6 +1227,14 @@ update_status ModulePlayer::Update()
 		{
 			feet->rect = { position.x + 121, position.y - 95 + 40 + 150, 42, 45 };
 		}
+		if (feet != NULL && Jump_weak_kick_Rigth == true)
+		{
+			feet->rect = { position.x + 121, position.y  + 200, 42, 45 };
+		}
+		if (feet != NULL && Jump_weak_mid_Rigth == true)
+		{
+			feet->rect = { position.x + 121, position.y + 200, 42, 45 };
+		}
 		
 		//COLLISIONS PLAYER
 		//-----------------------------
@@ -1031,6 +1250,15 @@ update_status ModulePlayer::Update()
 		{
 			player->rect = { position.x + 121, position.y - 65, 61, 62 };
 		}
+		if (player != NULL && Jump_weak_kick_Rigth == true)
+		{
+			player->rect = { position.x + 121, position.y - 95, 61, 62 };
+		}
+		if (player != NULL && Jump_weak_mid_Rigth == true)
+		{
+			player->rect = { position.x + 121, position.y - 95, 61, 62 };
+		}
+
 
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r, 1.0f, true);
 	}
@@ -1052,7 +1280,7 @@ update_status ModulePlayer::Update()
 		}
 		if (head != NULL && doCover_crouch == true)
 		{
-			head->rect = { position.x + 135, position.y + 120, 24, 18 };
+			head->rect = { position.x + 135, position.y + 100, 24, 18 };
 		}
 
 
@@ -1065,6 +1293,14 @@ update_status ModulePlayer::Update()
 		if (block_crouch != NULL && doCover_crouch == true)
 		{
 			block_crouch->rect = { position.x + 160, position.y - 65, 20, 60 };
+		}
+
+
+		//COLLSISIONS JUMPKICKS
+		//-----------------------------
+		if (weak_kick_jump != NULL && Jump_weak_kick_Left == true || Jump_mid_kick_Left == true || Jump_strong_Kick == true)
+		{
+			weak_kick_jump->rect = { position.x + 118, position.y - 95 + 35, 100, 35 };
 		}
 
 		//COLLISIONS BODY
@@ -1085,6 +1321,8 @@ update_status ModulePlayer::Update()
 		{
 			body->rect = { position.x + 138, position.y + 120, 36, 40 };
 		}
+		
+
 
 
 		//COLLISIONS FEET
@@ -1105,6 +1343,18 @@ update_status ModulePlayer::Update()
 		{
 			feet->rect = { position.x + 121, position.y - 95 + 40 + 150, 42, 45 };
 		}
+		if (feet != NULL && Jump_weak_kick_Left == true)
+		{
+			feet->rect = { position.x + 121, position.y - 95 + 40 + 200, 42, 45 };
+		}
+		if (feet != NULL && Jump_mid_kick_Left == true)
+		{
+			feet->rect = { position.x + 121, position.y - 95 + 40 + 200, 42, 45 };
+		}
+		if (feet != NULL && Jump_strong_Kick == true)
+		{
+			feet->rect = { position.x + 121, position.y - 95 + 40 + 200, 42, 45 };
+		}
 
 		//COLLISIONS PLAYER
 		//-----------------------------
@@ -1120,6 +1370,19 @@ update_status ModulePlayer::Update()
 		{
 			player->rect = { position.x + 118, position.y - 65, 61, 62 };
 		}
+		if (player != NULL && Jump_weak_kick_Left == true)
+		{
+			player->rect = { position.x + 121, position.y - 95, 61, 62 };
+		}
+		if (player != NULL && Jump_mid_kick_Left == true)
+		{
+			player->rect = { position.x + 121, position.y - 95, 61, 62 };
+		}
+		if (player != NULL && Jump_strong_Kick == true)
+		{
+			player->rect = { position.x + 121, position.y - 95, 61, 62 };
+		}
+
 
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r);
 	}
@@ -1127,6 +1390,7 @@ update_status ModulePlayer::Update()
 
 	if (p1_vida <= 0)
 	{
+		Block_Controls = true;
 		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
 	}
 
@@ -1341,7 +1605,7 @@ void ModulePlayer::Setposition()
 {   
 	
 
-	if (doNeutraljump == true || doForwardjumpLeft == true || doBackjumpLeft == true || doForwardjumpRight == true || doBackjumpRight == true)
+	if (doNeutraljump == true || doForwardjumpLeft == true || doBackjumpLeft == true || doForwardjumpRight == true || doBackjumpRight == true || Jump_weak_kick_Left || Jump_weak_kick_Rigth || Jump_mid_kick_Left || Jump_weak_mid_Rigth || Jump_strong_Kick)
 	{   
 
 		vely += gravity;

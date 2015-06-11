@@ -40,6 +40,9 @@ public:
 	Collider* a_strongkick;
 	Collider* block_crouch;
 	Collider* weak_kick_crouch;
+	Collider* mid_kick_crouch;
+	Collider* strong_kick_crouch;
+	Collider* weak_kick_jump;
 
 	//Animations
 	Animation idle;
@@ -78,6 +81,7 @@ public:
 	Animation tatsumaki;
 	Animation winround;
 	Animation winfight;
+
 	
 
 	
@@ -87,7 +91,13 @@ public:
 	float gravity;
 	float Jumpspeed;
 	int speed;
+	bool Block_Controls;
 	bool Jump;
+	bool Jump_weak_kick_Left;
+	bool Jump_weak_kick_Rigth;
+	bool Jump_mid_kick_Left;
+	bool Jump_weak_mid_Rigth;
+	bool Jump_strong_Kick;
 	unsigned int p1_vida;
 	bool animation_reachead;
 	bool animation_reachead_strong;
