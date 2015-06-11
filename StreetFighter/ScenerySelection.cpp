@@ -21,42 +21,36 @@ ScenerySelection::ScenerySelection(Application* app, bool start_enabled) : Modul
 	
 	// usa
 
-	usa.x = ;
-	usa.y = ;
-	usa.h = ;
-	usa.h = ;
+	usa.x = 374;
+	usa.y = 594;
+	usa.h = 44;
+	usa.h = 38;
 
 
 	//japan
-	japan.x = ;
-	japan.y = ;
-	japan.w = ;
-	japan.h = ;
+	japan.x = 429;
+	japan.y = 594;
+	japan.w = 44;
+	japan.h = 38;
 
 	//p1 
-	p1selection.frames.PushBack({ 848, 208, 40, 40 });
-	p1selection.frames.PushBack({ 848, 256, 40, 40 });
+	p1selection.frames.PushBack({ 62, 663, 36, 39 });
+	p1selection.frames.PushBack({ 99, 662, 36, 39 });
 	p1selection.loop = true;
 	p1selection.speed = 0.08f;
 
 	//p2 
-	p2selection.frames.PushBack({ 848, 208, 40, 40 });
-	p2selection.frames.PushBack({ 848, 256, 40, 40 });
+	p2selection.frames.PushBack({ 62, 706, 40, 40 });
+	p2selection.frames.PushBack({ 99, 706, 40, 40 });
 	p2selection.loop = true;
 	p2selection.speed = 0.08f;
 
-	//ken
+	//faces
 
-	kenface.x = ;
-	kenface.y = ;
-	kenface.w = ;
-	kenface.h = ;
-
-	//ryu
-	ryuface.x = ;
-	ryuface.y = ;
-	ryuface.w = ;
-	ryuface.h = ;
+	faces.x = ;
+	faces.y = ;
+	faces.w = 132;
+	faces.h = 68;
 	
 
 
@@ -100,12 +94,6 @@ update_status ScenerySelection::Update()
 
 
 	// Draw everything --------------------------------------
-
-	App->renderer->Blit(graphics, 6, 0, &portraitleft);
-	App->renderer->Blit(graphics, 230, 0, &portraitright, 1.0f, true);
-	App->renderer->Blit(graphics, 3, 131, &nameleft);
-	App->renderer->Blit(graphics, 231, 131, &nameright);
-	App->renderer->Blit(graphics, 93, 107, &vs);
 
 
 

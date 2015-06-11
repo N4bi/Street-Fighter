@@ -21,8 +21,6 @@ public:
 	SDL_Rect japan;
 	SDL_Rect usa;
 	SDL_Rect faces;
-	SDL_Rect ryuface;
-	SDL_Rect kenface;
 
 	Animation p1selection;
 	Animation p2selection;
