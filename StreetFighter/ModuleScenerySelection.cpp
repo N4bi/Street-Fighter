@@ -8,10 +8,16 @@ ModuleScenerySelection::ModuleScenerySelection(Application* app, bool start_enab
 	graphics = NULL;
 
 	//map
-	map.x = 408;
-	map.y = 432;
+	map.x = 50;
+	map.y = 50;
+	map.w = 150;
+	map.h = 150;
+	
+	/*
+	map.x = 405;
+	map.y = 426;
 	map.w = 261;
-	map.h = 125;
+	map.h = 125;*/
 
 	//countries
 	countries.x = 60;
@@ -20,7 +26,6 @@ ModuleScenerySelection::ModuleScenerySelection(Application* app, bool start_enab
 	countries.h = 100;
 	
 	// usa
-
 	usa.x = 374;
 	usa.y = 594;
 	usa.h = 44;
@@ -61,11 +66,11 @@ ModuleScenerySelection::~ModuleScenerySelection()
 // Load assets
 bool ModuleScenerySelection::Start()
 {
-	LOG("Loading Scenery Selection Scene");
+	LOG("Loading Scenery Selection Screen");
 	bool ret = true;
 	graphics = App->textures->Load("Game/portraits.png");
-
 	App->audio->PlayMusic("Game/sounds/music/selection.ogg");
+	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	return ret;
 }
@@ -73,11 +78,9 @@ bool ModuleScenerySelection::Start()
 // UnLoad assets
 bool ModuleScenerySelection::CleanUp()
 {
-	LOG("Unloading VS scene");
+	LOG("Unloading Scenery Selection Screen");
 
 	App->textures->Unload(graphics);
-
-
 
 	return true;
 }
@@ -88,11 +91,14 @@ update_status ModuleScenerySelection::Update()
 
 	// Draw everything --------------------------------------
 
-	//App->renderer->Blit(graphics, 6, 0, &portraitleft);
-	/*App->renderer->Blit(graphics, 230, 0, &portraitright, 1.0f, true);
-	App->renderer->Blit(graphics, 3, 131, &nameleft);
-	App->renderer->Blit(graphics, 231, 131, &nameright);
-	App->renderer->Blit(graphics, 93, 107, &vs);*/
+	App->renderer->Blit(graphics, 57, 9, &map);
+	App->renderer->Blit(graphics, 39, 24, &countries);
+	App->renderer->Blit(graphics, 181, 72, &japan);
+	App->renderer->Blit(graphics, 39, 24, &usa);
+	App->renderer->Blit(graphics, 272, 24, &faces);
+	App->renderer->Blit(graphics, 124, 142, &(p1selection.GetCurrentFrame()), 0.92f);
+	App->renderer->Blit(graphics, 124, 175, &(p2selection.GetCurrentFrame()), 0.92f);
+	
 
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)

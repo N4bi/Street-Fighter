@@ -21,7 +21,4 @@ public:
 	SDL_Rect vs;
 	SDL_Rect nameleft;
 	SDL_Rect nameright;
-
-//	float foreground_pos;
-	//bool forward;
 };

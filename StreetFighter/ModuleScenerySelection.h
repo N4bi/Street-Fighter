@@ -16,6 +16,7 @@ public:
 public:
 
 	SDL_Texture* graphics;
+	Animation* current_animation;
 	SDL_Rect map;
 	SDL_Rect countries;
 	SDL_Rect japan;

@@ -48,7 +48,6 @@ bool ModuleVsScreen::Start()
 	LOG("Loading VS scene");
 	bool ret = true;
 	graphics = App->textures->Load("Game/portraits.png");
-
 	App->audio->PlayMusic("Game/sounds/music/VS.ogg");
 
 	return ret;
@@ -60,8 +59,6 @@ bool ModuleVsScreen::CleanUp()
 	LOG("Unloading VS scene");
 
 	App->textures->Unload(graphics);
-
-
 
 	return true;
 }
@@ -80,10 +77,6 @@ update_status ModuleVsScreen::Update()
 	App->renderer->Blit(graphics, 231,131, &nameright);
 	App->renderer->Blit(graphics, 93, 107, &vs);
 
-
-
-
-	// TODO 3: Fer que al apretar el espai es façi un fade i es carregui HondaStage
 	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{

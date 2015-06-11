@@ -1,8 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleMatchOver.h"
-#include"ModulePlayer.h"
-#include"ModulePlayer2.h"
+#include "ModulePlayer.h"
+#include "ModulePlayer2.h"
 
 
 
@@ -58,9 +58,6 @@ bool ModuleMatchOver::Start()
 	LOG("Loading Match Over Screen");
 	bool ret = true;
 	graphics = App->textures->Load("Game/portraits.png");
-
-	// TODO 1: Fer Enable/Disable del jugador i posar la musica
-
 	App->audio->PlayMusic("Game/sounds/music/lose.ogg");
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 

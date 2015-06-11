@@ -32,7 +32,6 @@ bool ModuleSceneIntro::CleanUp()
 	LOG("Unloading Intro scene");
 
 	App->textures->Unload(graphics);
-	//App->audio->Disable();
 
 
 	return true;
@@ -43,10 +42,6 @@ update_status ModuleSceneIntro::Update()
 {
 	// Draw everything --------------------------------------	
 	App->renderer->Blit(graphics, 0, 0, NULL);
-
-
-
-
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
