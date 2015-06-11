@@ -822,7 +822,7 @@ void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 	}*/
 	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_ENEMY || c2->type == COLLIDER_PLAYER &&  c1->type == COLLIDER_ENEMY)
 	{
-		if (App->player2->position.x > App->renderer->pivot.x)
+		if (App->player2->position.x < App->renderer->pivot.x)
 		{
 			if (App->player->position.x + 120 < 528)
 				App->player->position.x++;
@@ -839,10 +839,12 @@ void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 		animation_reac = true;
 		if (App->player2->position.x > App->renderer->pivot.x)
 		{
+			if (App->player2->position.x + 120 > 0)
 			position.x--;
 		}
 		else
 		{
+			if (App->player2->position.x + 120 < 528)
 			position.x++;
 		}
 	}
@@ -853,10 +855,12 @@ void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 		animation_reac = true;
 		if (App->player2->position.x > App->renderer->pivot.x)
 		{
+			if (App->player2->position.x + 120 > 0)
 			position.x--;
 		}
 		else
 		{
+			if (App->player2->position.x + 120 < 528)
 			position.x++;
 		}
 	}
@@ -867,10 +871,12 @@ void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 		animation_reac = true;
 		if (App->player2->position.x > App->renderer->pivot.x)
 		{
+			if (App->player2->position.x + 120 > 0)
 			position.x--;
 		}
 		else
 		{
+			if (App->player2->position.x + 120 < 528)
 			position.x++;
 		}
 	}
@@ -958,10 +964,12 @@ void ModulePlayer2::Reaction()
 		animation_reachead = false;
 		if (App->player2->position.x > App->renderer->pivot.x)
 		{
+			if (App->player2->position.x + 120 < 528)
 			position.x++;
 		}
 		else
 		{
+			if (App->player2->position.x + 120 > 0)
 			position.x--;
 		}
 	}
@@ -974,10 +982,12 @@ void ModulePlayer2::Reaction()
 		animation_reachead_strong = false;
 		if (App->player2->position.x > App->renderer->pivot.x)
 		{
+			if (App->player2->position.x + 120 < 528)
 			position.x++;
 		}
 		else
 		{
+			if (App->player2->position.x + 120 > 0)
 			position.x--;
 		}
 	}
