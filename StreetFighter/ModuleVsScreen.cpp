@@ -91,7 +91,7 @@ update_status ModuleVsScreen::Update()
 	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
-		App->fade->FadeToBlack(this, App->scene_ken, 2.0f);
+		App->fade->FadeToBlack(this, App->scene_ryu, 2.0f);
 	}
 
 	return UPDATE_CONTINUE;

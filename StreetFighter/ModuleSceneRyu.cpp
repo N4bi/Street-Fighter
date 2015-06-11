@@ -102,13 +102,15 @@ update_status ModuleSceneRyu::Update()
 	
 	
 	
-	App->renderer->Blit(graphics, 0, 0, &background, 0.75f); 
-	App->renderer->Blit(graphics, 80, 20, &foreground3);
-	App->renderer->Blit(graphics, 0, -15, &foreground2);
-	App->renderer->Blit(graphics, 0, -15, &foreground); 
+	App->renderer->Blit(graphics, 10, 0, &background, 0.75f); 
+	App->renderer->Blit(graphics, 200, 30, &foreground3, 0.80f);
+	App->renderer->Blit(graphics, 100, -15, &foreground2, 0.85f);
+	App->renderer->Blit(graphics, -15, -10, &foreground); 
+	App->renderer->Blit(graphics, -70, 180, &ground);
+	App->renderer->Blit(graphics, -69, 215, &border);
 	//App->renderer->Blit(graphics, 305, 136, &(bird.GetCurrentFrame())); 
 	//App->renderer->Blit(graphics, 0, -16, &element, 0.75f);
-	//App->renderer->Blit(graphics, 280, 700, &foreground2);
+	
 	//App->renderer->Blit(graphics, 280, 700, &foreground3);
 
 	return UPDATE_CONTINUE;
