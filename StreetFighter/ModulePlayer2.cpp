@@ -465,7 +465,7 @@ update_status ModulePlayer2::Update()
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) &&(!stop) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 828) && ((App->player2->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) &&(!stop) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 528) && ((App->player2->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &backward;
 			doCover = true;
@@ -481,7 +481,7 @@ update_status ModulePlayer2::Update()
 		//--------------Crouch------
 
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT) && (!Jump) && (position.y == 216)  && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT) && (!Jump) && (position.y == 216)  && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 
 		{
 			isCrouch = true;
@@ -495,28 +495,28 @@ update_status ModulePlayer2::Update()
 		}
 			//---------------Jumps-------
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doNeutraljump = true;
 			vely = Jumpspeed;
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doBackjumpRight = true;
 			vely = Jumpspeed;
 
 		}
 		
-		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doForwardjumpRight = true;
 			vely = Jumpspeed;
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &idle;
 		}
@@ -544,7 +544,7 @@ update_status ModulePlayer2::Update()
 		}
 
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 828) && ((App->player2->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 528) && ((App->player2->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &forward;
 			position.x += speed;
@@ -552,7 +552,7 @@ update_status ModulePlayer2::Update()
 
 		//--------------Crouch------
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT) && (position.y == 216) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT) && (position.y == 216) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 
 		{
 			isCrouch = true;
@@ -567,28 +567,28 @@ update_status ModulePlayer2::Update()
 
 		//---------------Jumps-------
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doNeutraljump = true;
 			vely = Jumpspeed;
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doForwardjumpLeft = true;
 			vely = Jumpspeed;
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 835) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doBackjumpLeft = true;
 			vely = Jumpspeed;
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &idle;
 		}
@@ -678,7 +678,7 @@ update_status ModulePlayer2::Update()
 			Jump = true;
 			velx = 3;
 
-			if (position.x + 120 > 828 || ((App->renderer->pivot.x - App->player2->position.x)> 162)){
+			if (position.x + 120 > 528 || ((App->renderer->pivot.x - App->player2->position.x)> 162)){
 				velx = 0;
 
 			}
@@ -734,7 +734,7 @@ update_status ModulePlayer2::Update()
 			Jump = true;
 			velx = 3;
 
-			if (position.x + 120 > 828 || ((App->player2->position.x - App->renderer->pivot.x)> 162)){
+			if (position.x + 120 > 528 || ((App->player2->position.x - App->renderer->pivot.x)> 162)){
 				velx = 0;
 
 			}
