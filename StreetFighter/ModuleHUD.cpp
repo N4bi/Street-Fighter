@@ -56,6 +56,7 @@ bool ModuleHUD::Start()
 	LOG("Loading HUD");
 	bool ret = true;
 	graphics = App->textures->Load("Game/HUD.png");
+	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 
 	return ret;
@@ -83,11 +84,11 @@ update_status ModuleHUD::Update()
 
 	// Draw everything --------------------------------------
 
-	App->renderer->Blit(graphics, App->renderer->pivot.x - 15, App->renderer->pivot.y - 100, &health);
-	App->renderer->Blit(graphics, App->renderer->pivot.x + 130 - p1_healthBar.w, App->renderer->pivot.y - 98, &p1_healthBar);
-	App->renderer->Blit(graphics, App->renderer->pivot.x + 162, App->renderer->pivot.y - 98, &p2_healthBar);
-	App->renderer->Blit(graphics, App->renderer->pivot.x - 15, App->renderer->pivot.y - 85, &p1_name);
-	App->renderer->Blit(graphics, App->renderer->pivot.x + 276, App->renderer->pivot.y - 85, &p2_name);
+	App->renderer->Blit(graphics, App->renderer->center.x - 15, App->renderer->pivot.y - 100, &health);
+	App->renderer->Blit(graphics, App->renderer->center.x + 130 - p1_healthBar.w, App->renderer->pivot.y - 98, &p1_healthBar);
+	App->renderer->Blit(graphics, App->renderer->center.x + 162, App->renderer->pivot.y - 98, &p2_healthBar);
+	App->renderer->Blit(graphics, App->renderer->center.x - 15, App->renderer->pivot.y - 85, &p1_name);
+	App->renderer->Blit(graphics, App->renderer->center.x + 276, App->renderer->pivot.y - 85, &p2_name);
 
 
 
