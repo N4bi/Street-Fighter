@@ -23,6 +23,7 @@ public:
 public:
 	p2Point<int>  pivot;
 	p2Point<int>  center;
+
 	SDL_Renderer* renderer;
 	SDL_Rect camera;
 };

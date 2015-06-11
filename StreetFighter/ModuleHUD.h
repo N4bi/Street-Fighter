@@ -21,7 +21,8 @@ public:
 	SDL_Rect p1_name;
 	SDL_Rect p2_name;
 
-
+	p2Point<int>  center; 
+	p2Point<int>  pivot;
 	int health1;
 	int health2;
 	p2Point<int> position;

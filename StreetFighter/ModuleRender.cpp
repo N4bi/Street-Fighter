@@ -21,6 +21,8 @@ ModuleRender::~ModuleRender()
 // Called before render is available
 bool ModuleRender::Init()
 {
+
+
 	LOG("Creating Renderer context");
 	bool ret = true;
 	Uint32 flags = 0;
@@ -44,7 +46,9 @@ bool ModuleRender::Init()
 // PreUpdate: clear buffer
 update_status ModuleRender::PreUpdate()
 {
+
 	SDL_RenderClear(renderer);
+
 	return UPDATE_CONTINUE;
 }
 
@@ -71,6 +75,7 @@ update_status ModuleRender::Update()
 		}
 		else
 		App->renderer->camera.x += speed;
+		
 	}
 
 	if ((App->renderer->pivot.x > App->renderer->center.x) && (App->renderer->camera.x > -200 * speed) && ((App->player->position.x - App->renderer->pivot.x)< 162) && ((App->player2->position.x - App->renderer->pivot.x)< 162)){
@@ -81,6 +86,7 @@ update_status ModuleRender::Update()
 		}
 		else
 		App->renderer->camera.x -= speed;
+		
 	}
 		
 
@@ -104,7 +110,6 @@ bool ModuleRender::CleanUp()
 	{
 		SDL_DestroyRenderer(renderer);
 	}
-
 	return true;
 }
 

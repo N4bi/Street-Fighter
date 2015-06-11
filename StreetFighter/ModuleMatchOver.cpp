@@ -73,6 +73,7 @@ bool ModuleMatchOver::CleanUp()
 
 
 
+
 	return true;
 }
 
@@ -112,6 +113,7 @@ update_status ModuleMatchOver::Update()
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
 		App->fade->FadeToBlack(App->match_over, App->scene_intro, 2.0f);
+		
 	}
 
 	return UPDATE_CONTINUE;
