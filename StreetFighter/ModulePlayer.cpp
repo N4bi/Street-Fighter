@@ -323,7 +323,7 @@ bool ModulePlayer::Start()
 	if (App->player->position.x > App->renderer->pivot.x){
 		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD,this);
 		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
-		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_FEET);
+		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
 		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 100 }, COLLIDER_PLAYER,this);
 		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK,this);
 		block_crouch = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK_CROUCH, this);
@@ -331,7 +331,7 @@ bool ModulePlayer::Start()
 	else {
 		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_PLAYER_HEAD,this);
 		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_PLAYER_BODY);
-		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_FEET);
+		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_PLAYER_BODY);
 		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_PLAYER,this);
 		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK,this);
 		block_crouch = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_PLAYER_BLOCK_CROUCH, this);
@@ -374,7 +374,7 @@ update_status ModulePlayer::Update()
 
 	//-- PUNCHS
 
-	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) && (!isAttacking) && (!isCrouch)){
+	 if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false)){
 
 		isAttacking = true;
 
@@ -390,22 +390,20 @@ update_status ModulePlayer::Update()
 			a_weakpunch = App->collision->AddCollider({ position.x + 95, position.y - 80, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK,this);
 			
 		}
-
-
 	}
 
-	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) && (!isAttacking) && (isCrouch)){
+	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false)){
 
 		isAttacking = true;
 
 		if (App->player2->position.x > App->renderer->pivot.x){
-			Cover_Punch = true;
+			Cover_Punch_weak = true;
 			App->audio->PlayFx(1, 0);
 			a_weakpunch = App->collision->AddCollider({ position.x + 163, position.y - 50, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
 
 		}
 		else{
-			Cover_Punch = true;
+			Cover_Punch_weak = true;
 			App->audio->PlayFx(1, 0);
 			a_weakpunch = App->collision->AddCollider({ position.x + 95, position.y - 50, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
 
@@ -414,7 +412,27 @@ update_status ModulePlayer::Update()
 
 	}
 
-	if ((App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) && (!isAttacking))
+	if ((App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false)){
+
+		isAttacking = true;
+
+		if (App->player2->position.x > App->renderer->pivot.x){
+			Cover_Punch_mid = true;
+			App->audio->PlayFx(1, 0);
+			a_weakpunch = App->collision->AddCollider({ position.x + 163, position.y - 50, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+
+		}
+		else{
+			Cover_Punch_mid = true;
+			App->audio->PlayFx(1, 0);
+			a_weakpunch = App->collision->AddCollider({ position.x + 95, position.y - 50, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+
+		}
+
+
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
 		if (App->player2->position.x > App->renderer->pivot.x){
@@ -431,8 +449,23 @@ update_status ModulePlayer::Update()
 
 
 	
-
-	if ((App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) && (!isAttacking))
+	if ((App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false))
+	{
+		isAttacking = true;
+		if (App->player2->position.x > App->renderer->pivot.x){
+			Cover_Punch_strong = true;
+			App->audio->PlayFx(3, 0);
+			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_PLAYER_STRONGATTACK, this);
+		}
+		else{
+			Cover_Punch_strong = true;
+			App->audio->PlayFx(3, 0);
+			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_PLAYER_STRONGATTACK, this);
+		}
+	}
+	
+	
+	if ((App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
 		if (App->player2->position.x > App->renderer->pivot.x){
@@ -449,7 +482,7 @@ update_status ModulePlayer::Update()
 
 	//---KICKS
 
-	if ((App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) && (!isAttacking))
+	if ((App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
 		if (App->player2->position.x > App->renderer->pivot.x){
@@ -464,7 +497,37 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if ((App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN) && (!isAttacking))
+	if ((App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false))
+	{
+		isAttacking = true;
+		if (App->player2->position.x > App->renderer->pivot.x){
+			Cover_Kick_weak = true;
+			App->audio->PlayFx(1, 0);
+			weak_kick_crouch = App->collision->AddCollider({ position.x + 170, position.y - 19, 48, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+		}
+		else{
+			Cover_Kick_weak = true;
+			App->audio->PlayFx(1, 0);
+			weak_kick_crouch = App->collision->AddCollider({ position.x + 85, position.y - 19, 48, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+		}
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
+	{
+		isAttacking = true;
+		if (App->player2->position.x > App->renderer->pivot.x){
+			doWeakkick = true;
+			App->audio->PlayFx(1, 0);
+			a_weakkick = App->collision->AddCollider({ position.x + 170, position.y - 90, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+		}
+		else{
+			doWeakkick = true;
+			App->audio->PlayFx(1, 0);
+			a_weakkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_PLAYER_WEAKATTACK, this);
+		}
+	}
+
+	if ((App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
 		if (App->player2->position.x > App->renderer->pivot.x){
@@ -479,7 +542,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if ((App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN) && (!isAttacking))
+	if ((App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
 		if (App->player2->position.x > App->renderer->pivot.x){
@@ -510,9 +573,10 @@ update_status ModulePlayer::Update()
 
 	if (App->player->position.x < App->renderer->pivot.x){
 
-		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (App->player2->stop == false) && (!Jump) && (!isCrouch) && (!isAttacking) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) &&(!doCover_crouch) && (!isCrouch) && (App->player2->stop == false) && (!Jump) && (!isCrouch) && (!isAttacking) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &backward;
+			stop_to_crouch = true;
 			doCover = true;
 			position.x -= speed;
 		}
@@ -520,6 +584,7 @@ update_status ModulePlayer::Update()
 		if (((App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)))
 		{
 			doCover = false;
+			stop_to_crouch = false;
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) && (!Jump) && (!isCrouch) && (!isAttacking)  && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
@@ -527,17 +592,14 @@ update_status ModulePlayer::Update()
 			current_animation = &forward;
 			position.x += speed;
 		}
+
+
 		
 		//--------------Crouch------
 
-		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (!stop_to_crouch) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			isCrouch = true;
-			current_animation = &crouch;
-		}
-
-		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
-		{
 			current_animation = &crouch;
 		}
 
@@ -548,13 +610,21 @@ update_status ModulePlayer::Update()
 		}
 
 
-		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doCover_crouch = true;
+			doCover = false;
 			current_animation = &crouch;
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_Z) == KEY_UP))
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && ( stop_to_crouch) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			doCover_crouch = true;
+			doCover = false;
+			current_animation = &crouch;
+		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_UP))
 		{
 			doCover_crouch = false;
 		}
@@ -600,20 +670,22 @@ update_status ModulePlayer::Update()
 			position.x -= speed;
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) && (!isCrouch) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &backward;
+			stop_to_crouch = true;
 			doCover = true;
 			position.x += speed;
 		}
 		if (((App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)))
 		{
 			doCover = false;
+			stop_to_crouch = false;
 		}
 
 		//--------------Crouch------
 
-		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && (position.y == 216) && (!isAttacking)) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (!stop_to_crouch) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{   
 			isCrouch = true;
 			current_animation = &crouch;
@@ -625,13 +697,13 @@ update_status ModulePlayer::Update()
 			doCover_crouch = false;
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) && (!stop_to_crouch) && (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 828) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doCover_crouch = true;
 			current_animation = &crouch;
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_Z) == KEY_UP))
+		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_UP))
 		{
 			doCover_crouch = false;
 		}
@@ -684,15 +756,49 @@ update_status ModulePlayer::Update()
 		}
 	}
 
+
+	if (Cover_Kick_weak){
+		isAttacking = true;
+		current_animation = &weakkickcrouch;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			Cover_Kick_weak = false;
+			weak_kick_crouch->to_delete = true;
+			isAttacking = false;
+		}
+
+	}
+
 	
-	if (Cover_Punch){
+	if (Cover_Punch_weak){
 			isAttacking = true;
 			current_animation = &weakpunchcrouch;
 			if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
-				Cover_Punch = false;
+				Cover_Punch_weak = false;
 				a_weakpunch->to_delete = true;
 				isAttacking = false;
 			}
+
+	}
+
+	if (Cover_Punch_mid){
+		isAttacking = true;
+		current_animation = &midpunchcrouch;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			Cover_Punch_mid = false;
+			a_weakpunch->to_delete = true;
+			isAttacking = false;
+		}
+
+	}
+
+	if (Cover_Punch_strong){
+		isAttacking = true;
+		current_animation = &strongpunchcrouch;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			Cover_Punch_strong = false;
+			a_weakpunch->to_delete = true;
+			isAttacking = false;
+		}
 
 	}
 
@@ -1129,6 +1235,49 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		App->audio->PlayFx(7, 0);
 		animation_reachead_strong = true;
 	}
+
+	else if (c1->type == COLLIDER_PLAYER_BODY && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_BODY &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
+	{
+		p1_vida--;
+		App->audio->PlayFx(4, 0);
+		animation_reachead = true;
+	}
+
+	else if (c1->type == COLLIDER_PLAYER_BODY && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_BODY &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
+	{
+		p1_vida--;
+		App->audio->PlayFx(5, 0);
+		animation_reachead = true;
+	}
+
+	else if (c1->type == COLLIDER_PLAYER_BODY && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_BODY &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
+	{
+		p1_vida--;
+		App->audio->PlayFx(7, 0);
+		animation_reachead_strong = true;
+	}
+
+	else if (c1->type == COLLIDER_PLAYER_FEET && c2->type == COLLIDER_ENEMY_WEAKATTACK || c2->type == COLLIDER_PLAYER_FEET &&  c1->type == COLLIDER_ENEMY_WEAKATTACK)
+	{
+		p1_vida--;
+		App->audio->PlayFx(4, 0);
+		animation_reachead = true;
+	}
+
+	else if (c1->type == COLLIDER_PLAYER_FEET && c2->type == COLLIDER_ENEMY_MIDATTACK || c2->type == COLLIDER_PLAYER_FEET &&  c1->type == COLLIDER_ENEMY_MIDATTACK)
+	{
+		p1_vida--;
+		App->audio->PlayFx(5, 0);
+		animation_reachead = true;
+	}
+
+	else if (c1->type == COLLIDER_PLAYER_FEET && c2->type == COLLIDER_ENEMY_STRONGATTACK || c2->type == COLLIDER_PLAYER_FEET &&  c1->type == COLLIDER_ENEMY_STRONGATTACK)
+	{
+		p1_vida--;
+		App->audio->PlayFx(7, 0);
+		animation_reachead_strong = true;
+	}
+
 
 
 

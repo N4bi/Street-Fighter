@@ -39,6 +39,7 @@ public:
 	Collider* a_midkick;
 	Collider* a_strongkick;
 	Collider* block_crouch;
+	Collider* weak_kick_crouch;
 
 	//Animations
 	Animation idle;
@@ -93,7 +94,13 @@ public:
 	bool animation_reac;
 	bool animation_reac_2;
 	bool doCover;
-	bool Cover_Punch;
+	bool Cover_Punch_weak;
+	bool Cover_Punch_mid;
+	bool Cover_Punch_strong;
+	bool Cover_Kick_weak;
+	bool Cover_Kick_mid;
+	bool Cover_Kick_strong;
+	bool stop_to_crouch;
 	bool doCover_crouch;
 	bool doWeakpunch;
 	bool doMidpunch;

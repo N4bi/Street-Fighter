@@ -318,14 +318,14 @@ bool ModulePlayer2::Start()
 	if (App->player->position.x > App->renderer->pivot.x){
 		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_ENEMY_HEAD,this);
 		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_ENEMY_BODY);
-		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_ENEMY_FEET);
+		feet = App->collision->AddCollider({ position.x + 125, position.y - 95 + 40, 38, 45 }, COLLIDER_ENEMY_FEET,this);
 		player = App->collision->AddCollider({ position.x + 115, position.y - 95, 61, 92 }, COLLIDER_ENEMY);
 		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_ENEMY_BLOCK, this);
 	}
 	else{
 		head = App->collision->AddCollider({ position.x + 135, position.y - 95, 24, 18 }, COLLIDER_ENEMY_HEAD,this);
 		body = App->collision->AddCollider({ position.x + 138, position.y - 95 + 9, 36, 40 }, COLLIDER_ENEMY_BODY);
-		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_ENEMY_FEET);
+		feet = App->collision->AddCollider({ position.x + 136, position.y - 95 + 40, 38, 45 }, COLLIDER_ENEMY_FEET,this);
 		player = App->collision->AddCollider({ position.x + 125, position.y - 95, 61, 92 }, COLLIDER_ENEMY);
 		block = App->collision->AddCollider({ position.x + 140, position.y - 95, 20, 40 }, COLLIDER_ENEMY_BLOCK, this);
 	}
@@ -897,6 +897,50 @@ void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 		App->audio->PlayFx(7, 0);
 		animation_reachead_strong = true;
 	}
+
+	else if (c1->type == COLLIDER_ENEMY_BODY && c2->type == COLLIDER_PLAYER_WEAKATTACK || c2->type == COLLIDER_ENEMY_BODY &&  c1->type == COLLIDER_PLAYER_WEAKATTACK)
+	{
+		p2_vida--;
+		App->audio->PlayFx(4, 0);
+		animation_reachead = true;
+	}
+
+	else if (c1->type == COLLIDER_ENEMY_BODY && c2->type == COLLIDER_PLAYER_MIDATTACK || c2->type == COLLIDER_ENEMY_BODY &&  c1->type == COLLIDER_PLAYER_MIDATTACK)
+	{
+		p2_vida--;
+		App->audio->PlayFx(5, 0);
+		animation_reachead = true;
+	}
+	
+	else if (c1->type == COLLIDER_ENEMY_BODY && c2->type == COLLIDER_PLAYER_STRONGATTACK || c2->type == COLLIDER_ENEMY_BODY &&  c1->type == COLLIDER_PLAYER_STRONGATTACK)
+	{
+		p2_vida--;
+		App->audio->PlayFx(7, 0);
+		animation_reachead_strong = true;
+	}
+
+	else if (c1->type == COLLIDER_ENEMY_FEET && c2->type == COLLIDER_PLAYER_STRONGATTACK || c2->type == COLLIDER_ENEMY_FEET &&  c1->type == COLLIDER_PLAYER_STRONGATTACK)
+	{
+		p2_vida--;
+		App->audio->PlayFx(7, 0);
+		animation_reachead_strong = true;
+	}
+
+	else if (c1->type == COLLIDER_ENEMY_FEET && c2->type == COLLIDER_PLAYER_WEAKATTACK || c2->type == COLLIDER_ENEMY_FEET &&  c1->type == COLLIDER_PLAYER_WEAKATTACK)
+	{
+		p2_vida--;
+		App->audio->PlayFx(4, 0);
+		animation_reachead = true;
+	}
+
+	else if (c1->type == COLLIDER_ENEMY_FEET && c2->type == COLLIDER_PLAYER_MIDATTACK || c2->type == COLLIDER_ENEMY_FEET &&  c1->type == COLLIDER_PLAYER_MIDATTACK)
+	{
+		p2_vida--;
+		App->audio->PlayFx(5, 0);
+		animation_reachead = true;
+	}
+
+	
 
 }
 
