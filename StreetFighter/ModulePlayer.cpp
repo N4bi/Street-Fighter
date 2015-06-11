@@ -1388,7 +1388,7 @@ update_status ModulePlayer::Update()
 	if (p1_vida <= 0)
 	{
 		Block_Controls = true;
-		App->fade->FadeToBlack(App->scene_ken, App->scene_intro, 2.0f);
+		App->fade->FadeToBlack(App->scene_ryu, App->match_over, 2.0f);
 
 	}
 
