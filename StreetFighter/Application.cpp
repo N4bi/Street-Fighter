@@ -13,7 +13,7 @@ Application::Application()
 	match_over = new ModuleMatchOver(this, false);
 	player = new ModulePlayer(this, false);
 	player2 = new ModulePlayer2(this, false);
-	scene_honda = new ModuleSceneHonda(this, false);
+	scene_ryu = new ModuleSceneRyu(this, false);
 	fade = new ModuleFadeToBlack(this);
 	scene_intro = new ModuleSceneIntro(this, true);
 	particles = new ModuleParticles(this);
@@ -34,7 +34,7 @@ Application::Application()
 	AddModule(hud);
 	AddModule(scene_ken);
 	AddModule(match_over);
-	AddModule(scene_honda);
+	AddModule(scene_ryu);
 	
 	// Characters
 	AddModule(player);
@@ -56,7 +56,7 @@ Application::~Application()
 	delete particles;
 	delete scene_intro;
 	delete vs_scene;
-	delete scene_honda;
+	delete scene_ryu;
 	delete scene_ken;
 	delete match_over;
 	delete player;

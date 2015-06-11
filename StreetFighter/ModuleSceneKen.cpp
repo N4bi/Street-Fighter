@@ -159,8 +159,6 @@ update_status ModuleSceneKen::Update()
 	//App->renderer->Blit //big harbor element 2
 	App->renderer->Blit(graphics, 250, 167, &littleharborelement); //little harbor element 2
 	
-  
-	// TODO 3: Fer que al apretar el espai es façi un fade i es carregui HondaStage
 
 	return UPDATE_CONTINUE;
 }

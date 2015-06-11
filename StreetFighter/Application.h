@@ -12,7 +12,7 @@
 #include "ModuleSceneKen.h"
 #include "ModulePlayer.h"
 #include "ModuleFadeToBlack.h"
-#include "ModuleSceneHonda.h"
+#include "ModuleSceneRyu.h"
 #include "ModulePlayer2.h"
 #include "ModuleSceneintro.h"
 #include "ModuleParticles.h"
@@ -36,7 +36,7 @@ public:
 	ModulePlayer* player;
 	ModulePlayer2* player2;
 	ModuleFadeToBlack* fade;
-	ModuleSceneHonda* scene_honda;
+	ModuleSceneRyu* scene_ryu;
 	ModuleParticles* particles;
 	ModuleCollision* collision;
 	ModuleHUD* hud;
