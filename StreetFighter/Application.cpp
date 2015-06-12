@@ -58,7 +58,7 @@ Application::~Application()
 	delete textures;
 	delete input;
 	delete audio;
-	delete particles;
+	/*delete particles;*/
 	delete scene_intro;
 	delete scenery_selection;
 	delete vs_scene;

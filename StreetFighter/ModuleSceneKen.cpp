@@ -103,7 +103,6 @@ bool ModuleSceneKen::Start()
 	App->collision->Enable();
 	App->player->Enable();
 	App->player2->Enable();
-	//App->audio->Enable();
 	App->hud->Enable();
 	App->audio->PlayMusic("Game/sounds/music/ken.ogg",0);
 	
@@ -121,7 +120,6 @@ bool ModuleSceneKen::CleanUp()
 	App->player->Disable();
 	App->player2->Disable();
 	App->hud->Disable();
-	//App->audio->Disable();
 
 	
 	return true;
@@ -155,14 +153,16 @@ update_status ModuleSceneKen::Update()
 	App->renderer->Blit(graphics, 128, 24 + (int)foreground_pos, &(purpleman.GetCurrentFrame()), 0.92f); //purple man animation
 	App->renderer->Blit(graphics, 0, 170, &ground);
 
-	//App->renderer->Blit(graphics, 80, 200, &bigharborelement, 0.92f);//big harbor element 1
+
 	App->renderer->Blit(graphics, 110, 167, &littleharborelement); //little harbor element 1
-	//App->renderer->Blit //big harbor element 2
+	
 	App->renderer->Blit(graphics, 250, 167, &littleharborelement); //little harbor element 2
 	
+	// Conditions when the match is over
+
 	if (App->player->p1_vida <= 0)
 	{
-		//Block_Controls = true;
+
 		App->fade->FadeToBlack(this, App->match_over, 2.0f);
 
 	}

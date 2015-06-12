@@ -44,6 +44,7 @@ public:
 	Collider* strong_kick_crouch;
 	Collider* weak_kick_jump;
 	Collider* tatsumaki_col;
+	Collider* a_hadouken;
 
 	//Animations
 	Animation idle;

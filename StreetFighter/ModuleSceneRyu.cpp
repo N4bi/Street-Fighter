@@ -122,10 +122,12 @@ update_status ModuleSceneRyu::Update()
 	App->renderer->Blit(graphics, 500, 90, &element);
 	App->renderer->Blit(graphics, -69, 215, &border);
 	App->renderer->Blit(graphics, 470, 45, &(bird.GetCurrentFrame()), 0.92f);
+	 
+	// Conditions when the match is over
 
 	if (App->player->p1_vida <= 0)
 	{
-		//Block_Controls = true;
+	
 		App->fade->FadeToBlack(this, App->match_over, 2.0f);
 
 	}

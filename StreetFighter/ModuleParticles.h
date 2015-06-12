@@ -19,7 +19,7 @@ struct Particle
 
 	Particle();
 	Particle(const Particle& p);
-	~Particle();
+	/*~Particle();*/
 	bool Update();
 };
 
@@ -34,7 +34,7 @@ public:
 	bool CleanUp();
 	//void OnCollision(Collider*, Collider*);
 
-	void AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE = COLLIDER_NONE, Uint32 delay = 0);
+	void AddParticle(const Particle& particle, int x, int y, Uint32 delay = 0);
 
 private:
 

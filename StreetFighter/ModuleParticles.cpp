@@ -6,14 +6,14 @@
 ModuleParticles::ModuleParticles(Application* app, bool start_enabled) : Module(app, start_enabled), graphics(NULL)
 {}
 
-ModuleParticles::~ModuleParticles()
-{}
+/*ModuleParticles::~ModuleParticles()
+{}*/
 
 // Load assets
 bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
-	graphics = App->textures->Load("particles.png");
+	graphics = App->textures->Load("Game/particles.png");
 
 	// Explosion particle
 	hadouken.fx = App->audio->LoadFx("sounds/voices/hadouken.wav");
@@ -21,8 +21,9 @@ bool ModuleParticles::Start()
 	hadouken.anim.frames.PushBack({ 50, 650, 150, 150 });
 	hadouken.anim.frames.PushBack({ 250, 650, 150, 150 });
 	hadouken.anim.loop = true;
-	hadouken.life = 500;
-	hadouken.anim.speed = 0.3f;
+	hadouken.speed.x = 7;
+	//hadouken.life = 1000;
+	hadouken.anim.speed = 0.5f;
 
 	blood.anim.frames.PushBack({ 1050, 250, 150, 150 });
 	blood.anim.frames.PushBack({ 1250, 250, 150, 150 });
@@ -59,19 +60,6 @@ bool ModuleParticles::Start()
 	redhit.anim.frames.PushBack({ 850, 450, 150, 150 });
 	redhit.anim.loop = false;
 	redhit.anim.speed = 0.3f;
-	/*
-	explosion.anim.frames.PushBack({ 419, 296, 33, 30 });
-	explosion.anim.frames.PushBack({ 457, 296, 33, 30 });
-	
-	explosion.anim.speed = 0.3f;
-*/
-	// Laser particle
-	/*laser.fx = App->audio->LoadFx("rtype/slimeball.wav");
-	laser.anim.frames.PushBack({ 200, 120, 32, 12 });
-	laser.anim.frames.PushBack({ 230, 120, 32, 12 });
-	laser.speed.x = 7;
-	
-	laser.anim.speed = 0.05f;*/
 
 	return true;
 }
@@ -99,6 +87,8 @@ update_status ModuleParticles::Update()
 		{
 			delete p;
 			active.del(tmp);
+			
+			
 		}
 		else if (SDL_GetTicks() >= p->born)
 		{
@@ -106,7 +96,7 @@ update_status ModuleParticles::Update()
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
-				App->audio->PlayFx(p->fx);
+				//App->audio->PlayFx(p->fx);
 			}
 		}
 
@@ -116,11 +106,12 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-//if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
+
 // Always destroy particles that collide
-/*bool ModuleParticles::OnCollision(Collider* c1, Collider* c2)
+//PROBLEMS WITH COLLISIONS
+/*void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 {
-	// TODO 5: Fer que cada vegada que un laser collisini sorti una explosio
+	
 	p2List_item<Particle*>* tmp = active.getFirst();
 
 
@@ -135,21 +126,21 @@ update_status ModuleParticles::Update()
 
 		tmp = tmp->next;
 	}
-	return 1;
+
 }*/
 
-void ModuleParticles::AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
+void ModuleParticles::AddParticle(const Particle& particle, int x, int y, Uint32 delay)
 {
 	Particle* p = new Particle(particle);
 	p->born = SDL_GetTicks() + delay;
 	p->position.x = x;
 	p->position.y = y;
-
+	/*
 	if (collider_type != COLLIDER_NONE)
 	{
 		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
 	}
-
+	*/
 	active.add(p);
 }
 
@@ -169,11 +160,11 @@ Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), spee
 	life = p.life;
 }
 
-Particle::~Particle()
+/*Particle::~Particle()
 {
 	if (collider)
 		collider->to_delete = true;
-}
+}*/
 
 bool Particle::Update()
 {
@@ -185,17 +176,17 @@ bool Particle::Update()
 			ret = false;
 	}
 	else
-	if (anim.Finished())
-		ret = false;
+	/*if (anim.Finished())
+		ret = false;*/
 
 	position.x += speed.x;
 	position.y += speed.y;
 
-	if (collider != NULL)
+	/*if (collider != NULL)
 	{
 		SDL_Rect r = anim.PeekCurrentFrame();
 		collider->rect = { position.x, position.y, r.w, r.h };
-	}
+	}*/
 
 	return ret;
 }

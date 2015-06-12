@@ -257,15 +257,15 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 
 	//Hadouken
 	hadouken.frames.PushBack({ 50, 2450, 150, 154 });
-	hadouken.frames.PushBack({ 50, 2450, 150, 154 });
-	hadouken.frames.PushBack({ 50, 2450, 150, 154 });
+	//hadouken.frames.PushBack({ 50, 2450, 150, 154 });
+	//hadouken.frames.PushBack({ 50, 2450, 150, 154 });
 	hadouken.frames.PushBack({ 250, 2450, 150, 154 });
-	hadouken.frames.PushBack({ 250, 2450, 150, 154 });
-	hadouken.frames.PushBack({ 250, 2450, 150, 154 });
+	//hadouken.frames.PushBack({ 250, 2450, 150, 154 });
+	//hadouken.frames.PushBack({ 250, 2450, 150, 154 });
 	hadouken.frames.PushBack({ 450, 2450, 150, 154 });
-	hadouken.frames.PushBack({ 450, 2450, 150, 154 });
-	hadouken.frames.PushBack({ 450, 2450, 150, 154 });
-	hadouken.frames.PushBack({ 450, 2450, 150, 154 });
+	//hadouken.frames.PushBack({ 450, 2450, 150, 154 });
+	//hadouken.frames.PushBack({ 450, 2450, 150, 154 });
+//	hadouken.frames.PushBack({ 450, 2450, 150, 154 });
 	hadouken.frames.PushBack({ 650, 2450, 150, 154 });
 	hadouken.frames.PushBack({ 650, 2450, 150, 154 });
 	hadouken.frames.PushBack({ 650, 2450, 150, 154 });
@@ -346,6 +346,7 @@ bool ModulePlayer::Start()
 	6-> BLOCK
 	7-> STRONG HIT
 	8-> JUMP
+	9-> HADOUKEN
 
 	*/
 	//-----------Music and Sprites--------------
@@ -358,6 +359,7 @@ bool ModulePlayer::Start()
 	fx = App->audio->LoadFx("Game/sounds/sfx/07Block.wav");
 	fx = App->audio->LoadFx("Game/sounds/sfx/08stronghit.wav");
 	fx = App->audio->LoadFx("Game/sounds/sfx/09jump.wav");
+	fx = App->audio->LoadFx("Game/sounds/voices/hadouken.wav");
 
 	//--------------Colliders-------------------------
 	if (App->player->position.x > App->renderer->pivot.x){
@@ -615,6 +617,9 @@ update_status ModulePlayer::Update()
 		if ((App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) && (!doCover_crouch) && (!isCrouch) && (App->player2->stop == false) && (!Jump) && (!isCrouch) && (!isAttacking) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			do_hadouken = true;
+			App->particles->AddParticle(App->particles->hadouken, position.x + 100, position.y - 167);
+			App->audio->PlayFx(9, 0);
+			//a_hadouken = App->collision->AddCollider({ App->particles->hadouken.position.x + 100, App->particles->hadouken.position.y - 167, 56, 36 }, COLLIDER_PLAYER_WEAKATTACK, this);
 		}
 
 
@@ -795,14 +800,6 @@ update_status ModulePlayer::Update()
 			stop_to_crouch = false;
 		}
 
-		//---------------------Animation Hadouken----------------
-		if ((App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) && (!doCover_crouch) && (!Jump) && (!isCrouch) && (!isAttacking) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
-		{
-			current_animation = &hadouken;
-		}
-
-		
-
 
 
 		//--------------Crouch------
@@ -902,11 +899,13 @@ update_status ModulePlayer::Update()
 	
 	
 	}
+
+
 	
     ModulePlayer::Setposition();
 	ModulePlayer::Reaction();
 
-	//--------------------Actions P2--------------------------
+	//--------------------Actions P1--------------------------
 	//doWeakpunch
 	if (doWeakpunch){
 		isAttacking = true;
@@ -923,6 +922,7 @@ update_status ModulePlayer::Update()
 		current_animation = &hadouken;
 		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
 			do_hadouken = false;
+			//a_hadouken->to_delete = true;
 			isAttacking = false;
 		}
 	}
@@ -1318,6 +1318,7 @@ update_status ModulePlayer::Update()
 		{
 			body->rect = { position.x + 138, position.y + 120, 36, 40 };
 		}
+
 		
 		//COLLISIONS FEET
 		//-----------------------------
@@ -1513,6 +1514,12 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r);
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	{
+		
+		App->particles->AddParticle(App->particles->hadouken, position.x + 125, position.y - 180);
+		App->audio->PlayFx(9, 0);
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -1520,6 +1527,7 @@ update_status ModulePlayer::Update()
 //----------------------Collisions and activation of Booleans-----------------------------
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
+	// Reactions when hitbox collides
 
 	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_ENEMY || c2->type == COLLIDER_PLAYER &&  c1->type == COLLIDER_ENEMY)
 	{
