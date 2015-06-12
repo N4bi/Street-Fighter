@@ -22,6 +22,8 @@ public:
 	SDL_Rect japan;
 	SDL_Rect usa;
 	SDL_Rect faces;
+	SDL_Rect indicatorRyu;
+	SDL_Rect indicatorKen;
 
 	unsigned int fx;
 	bool sceneRyu;

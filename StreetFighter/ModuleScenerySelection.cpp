@@ -56,6 +56,20 @@ ModuleScenerySelection::ModuleScenerySelection(Application* app, bool start_enab
 	faces.y = 569;
 	faces.w = 132;
 	faces.h = 68;
+
+	//indicator ryu
+
+	indicatorRyu.x = 363;
+	indicatorRyu.y = 668;
+	indicatorRyu.w = 105;
+	indicatorRyu.h = 13;
+
+	//indicator ken
+
+	indicatorKen.x = 363;
+	indicatorKen.y = 726;
+	indicatorKen.w = 105;
+	indicatorKen.h = 13;
 	
 
 }
@@ -98,6 +112,8 @@ update_status ModuleScenerySelection::Update()
 	App->renderer->Blit(graphics, 174, 67, &japan);
 	App->renderer->Blit(graphics, 276, 57, &usa);
 	App->renderer->Blit(graphics, 127, 144, &faces);
+	App->renderer->Blit(graphics, 15, 150, &indicatorRyu);
+	App->renderer->Blit(graphics, 15, 200, &indicatorKen);
 	App->renderer->Blit(graphics, 127, 140, &(p1selection.GetCurrentFrame()), 0.92f);
 	App->renderer->Blit(graphics, 127, 176, &(p2selection.GetCurrentFrame()), 0.92f);
 	

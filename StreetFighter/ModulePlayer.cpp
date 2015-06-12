@@ -1513,18 +1513,7 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r);
 	}
 
-	/*
-	if (p1_vida <= 0)
-	{
-<<<<<<< HEAD
-		Block_Controls = true;
-		App->fade->FadeToBlack(this, App->match_over, 2.0f);
 
-=======
-		App->fade->FadeToBlack(App->scene_ryu, App->match_over, 2.0f);
->>>>>>> origin/master
-	}
-	*/
 	return UPDATE_CONTINUE;
 }
 
