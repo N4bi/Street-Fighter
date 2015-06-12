@@ -95,6 +95,7 @@ public:
 	bool Block_Controls;
 	bool do_tatsumaki_Left;
 	bool do_tatsumaki_Rigth;
+	bool do_hadouken;
 	bool Jump;
 	bool Jump_weak_kick_Left;
 	bool Jump_weak_kick_Rigth;

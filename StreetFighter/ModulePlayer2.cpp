@@ -314,7 +314,7 @@ bool ModulePlayer2::Start()
 {
 	LOG("Loading player");
 
-	
+	//------------Inicializate Atrobutes-------------
 	p2_vida = 145;
 	position.x = 133;
 	position.y = 216;
@@ -326,7 +326,7 @@ bool ModulePlayer2::Start()
 	animation_reachead = false;
 	animation_reachead_strong = false;
 
-
+	//-----------Music and Sprites--------------
 	graphics = App->textures->Load("Game/ken7.png"); // arcade version
 	fx = App->audio->LoadFx("Game/sounds/sfx/01jab.wav");
 	fx = App->audio->LoadFx("Game/sounds/sfx/03midpk.wav");
@@ -337,6 +337,8 @@ bool ModulePlayer2::Start()
 	fx = App->audio->LoadFx("Game/sounds/sfx/08stronghit.wav");
 	fx = App->audio->LoadFx("Game/sounds/sfx/09jump.wav");
 
+
+	//--------------Colliders-------------------------
 	if (App->player->position.x > App->renderer->pivot.x){
 		head = App->collision->AddCollider({ position.x + 140, position.y - 95, 24, 18 }, COLLIDER_ENEMY_HEAD,this);
 		body = App->collision->AddCollider({ position.x + 125, position.y - 95 + 9, 36, 40 }, COLLIDER_ENEMY_BODY);
@@ -358,11 +360,11 @@ bool ModulePlayer2::Start()
 	return true;
 }
 
-// Unload assets
+//--------------Unload assets------------------
 bool ModulePlayer2::CleanUp()
 {
 	LOG("Unloading player");
-
+    
 	App->textures->Unload(graphics);
 
 
@@ -372,33 +374,16 @@ bool ModulePlayer2::CleanUp()
 // Update: draw background
 update_status ModulePlayer2::Update()
 {
-	current_animation = &idle;
-	// debug camera movement --------------------------------
-
-	//ATTACKS P2
-
-	//--PUNCHS
-	/*if (position.x < -60)
-	{
-		stop = true;
-	}
-
-	if (App->player->position.x > -60 )
-	{
-		stop = false;
-	}*/
-	
-
-	//TODO: hacer modificaciones para la maquina de estados 
-
-	//isCrouch = false;
+	//Normal Animation
 	current_animation = &idle;
 
-	// debug camera movement --------------------------------
+	//------------------ATTACKS P2-------------------------
+
 	speed = 1;
 
-	//-- PUNCHS
+	//-------------PUNCHS and PUNCHS_CROUCH--------------
 
+	//Weak Punch
 	if ((App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false)){
 
 		isAttacking = true;
@@ -417,6 +402,7 @@ update_status ModulePlayer2::Update()
 		}
 	}
 
+	//Weak Punch Crouch
 	if ((App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false)){
 
 		isAttacking = true;
@@ -437,6 +423,7 @@ update_status ModulePlayer2::Update()
 
 	}
 
+	//Middle Punch Crouch
 	if ((App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false)){
 
 		isAttacking = true;
@@ -457,6 +444,7 @@ update_status ModulePlayer2::Update()
 
 	}
 
+	//Middle Punch 
 	if ((App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
@@ -473,7 +461,7 @@ update_status ModulePlayer2::Update()
 	}
 
 
-
+	//Strong Punch Crouch
 	if ((App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
@@ -489,7 +477,7 @@ update_status ModulePlayer2::Update()
 		}
 	}
 
-
+	//Strong Punch 
 	if ((App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
@@ -505,8 +493,9 @@ update_status ModulePlayer2::Update()
 		}
 	}
 
-	//---KICKS
+	//-------------KICKS and KICKS_CROUCH--------------
 
+	//Weak Kick
 	if ((App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false) && (Jump_weak_kick_Left == false))
 	{
 		isAttacking = true;
@@ -522,6 +511,7 @@ update_status ModulePlayer2::Update()
 		}
 	}
 
+	//Weak Kick Crouch
 	if ((App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
@@ -537,6 +527,7 @@ update_status ModulePlayer2::Update()
 		}
 	}
 
+	//Middle Kick
 	if ((App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
@@ -551,7 +542,9 @@ update_status ModulePlayer2::Update()
 			a_midkick = App->collision->AddCollider({ position.x + 85, position.y - 90, 43, 17 }, COLLIDER_ENEMY_MIDATTACK, this);
 		}
 	}
-
+	
+	
+	//Middle Kick
 	if ((App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
@@ -567,6 +560,8 @@ update_status ModulePlayer2::Update()
 		}
 	}
 
+
+	//Strong Kick
 	if ((App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN) && (!isAttacking) && (!isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
@@ -582,6 +577,7 @@ update_status ModulePlayer2::Update()
 		}
 	}
 
+	//Strong Kick Crouch
 	if ((App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN) && (!isAttacking) && (isCrouch) && (doCover_crouch == false))
 	{
 		isAttacking = true;
@@ -597,8 +593,9 @@ update_status ModulePlayer2::Update()
 		}
 	}
 
-	// LEFT SIDE
-
+	
+	//---------------Colliders Cover, Cover_Crocuh and JumJump_weak_kick_Left-------------------
+	//Send this colliders to another place where we can't see it 
 	if (doCover == false)
 	{
 		block->rect = { position.x + 160, position.y + 120, 20, 60 };
@@ -614,22 +611,17 @@ update_status ModulePlayer2::Update()
 		weak_kick_jump->rect = { position.x + 136, position.y + 700, 38, 45 };
 	}
 
-	//-----------------Movement
+	//-----------------Movement of the character---------------------------------
 
 	if (App->player2->position.x < App->renderer->pivot.x){
 
+		//---------------Left and Rigth-----------------
 		if ((App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT) && (!doCover_crouch) && (!isCrouch) && (App->player2->stop == false) && (!Jump) && (!isCrouch) && (!isAttacking) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &backward;
 			stop_to_crouch = true;
 			doCover = true;
 			position.x -= speed;
-		}
-
-		if (((App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_UP)))
-		{
-			doCover = false;
-			stop_to_crouch = false;
 		}
 
 		if (((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_UP)))
@@ -646,7 +638,7 @@ update_status ModulePlayer2::Update()
 
 
 
-		//--------------Crouch------
+		//--------------Crouch------------------
 
 		if ((App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT) && (!stop_to_crouch) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
@@ -678,62 +670,57 @@ update_status ModulePlayer2::Update()
 		if ((App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_UP))
 		{
 			doCover_crouch = false;
+			doCover = false;
+			stop_to_crouch = false;
 		}
 
 
-
-
-		//---------------Jumps-------
-
+		//---------------Jumps-----------------
+		//Up
 		if ((App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doNeutraljump = true;
 			vely = Jumpspeed;
-
 		}
-
+		//Jump_weak_kick_Left
 		if ((App->input->GetKey(SDL_SCANCODE_KP_1) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			Jump_weak_kick_Left = true;
-			//doForwardjumpLeft = true;
 			vely = Jumpspeed;
 		}
-
+		//do_tatsumaki_Left
 		if ((App->input->GetKey(SDL_SCANCODE_KP_1) == KEY_DOWN) && (stop_to_crouch) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			do_tatsumaki_Left = true;
 			Jump_weak_kick_Left = false;
 			vely = -7.0f;
 		}
-
+		//Jump_mid_kick_Left
 		if ((App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			Jump_mid_kick_Left = true;
-			//doForwardjumpLeft = true;
 			vely = Jumpspeed;
 		}
-
+		//Jump_strong_Kick
 		if ((App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			Jump_strong_Kick = true;
-			//doForwardjumpLeft = true;
 			vely = Jumpspeed;
 		}
-
+		//doForwardjumpLeft
 		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN) && (!Jump_weak_kick_Left) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			//Jump_weak_kick = true;
 			doForwardjumpLeft = true;
 			vely = Jumpspeed;
 		}
-
+		//doBackjumpLeft
 		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 > -10) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doBackjumpLeft = true;
 			vely = Jumpspeed;
 
 		}
-
+		// if press left and rigth at the same time
 		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &idle;
@@ -742,6 +729,7 @@ update_status ModulePlayer2::Update()
 	// RIGHT SIDE
 	else
 	{
+		//---------------Left and Rigth-----------------
 		if ((App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT) && (!doCover_crouch) && (App->player2->stop == false) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			stop_to_crouch = true;
@@ -755,11 +743,6 @@ update_status ModulePlayer2::Update()
 			stop_to_crouch = true;
 			doCover = true;
 			position.x += speed;
-		}
-		if (((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_UP)))
-		{
-			doCover = false;
-			stop_to_crouch = false;
 		}
 
 		if (((App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_UP)))
@@ -797,17 +780,19 @@ update_status ModulePlayer2::Update()
 		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_UP))
 		{
 			doCover_crouch = false;
+			doCover = false;
+			stop_to_crouch = false;
 		}
 
 		//---------------Jumps-------
-
+		//Up
 		if ((App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN && (!Jump) && (!isAttacking)) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			doNeutraljump = true;
 			vely = Jumpspeed;
 
 		}
-
+		//doBackjumpRight 
 		if ((App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN && (!Jump) && (!isAttacking)) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 
@@ -815,43 +800,39 @@ update_status ModulePlayer2::Update()
 			vely = Jumpspeed;
 
 		}
-
+		//Jump_weak_kick_Rigth
 		if ((App->input->GetKey(SDL_SCANCODE_KP_1) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			Jump_weak_kick_Rigth = true;
-			//doForwardjumpLeft = true;
 			vely = Jumpspeed;
 		}
-
+		//do_tatsumaki_Rigth
 		if ((App->input->GetKey(SDL_SCANCODE_KP_1) == KEY_DOWN) && (stop_to_crouch) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			do_tatsumaki_Rigth = true;
 			Jump_weak_kick_Rigth = false;
 			vely = -7.0f;
 		}
-
+		//Jump_weak_mid_Rigth
 		if ((App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			Jump_weak_mid_Rigth = true;
-			//doForwardjumpLeft = true;
 			vely = Jumpspeed;
 		}
-
+		//Jump_strong_Kick
 		if ((App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			Jump_strong_Kick = true;
-			//doForwardjumpLeft = true;
 			vely = Jumpspeed;
 		}
-
+		//doForwardjumpRight
 		if ((App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN && (!Jump) && (!isAttacking)) && (position.x + 120 > -10) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
-			//Jump_weak_kick_Left = true;
 			doForwardjumpRight = true;
 			vely = Jumpspeed;
 
 		}
-
+		// if press left and rigth at the same time
 		if ((App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT) && (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT) && (!isAttacking) && (!isCrouch) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &idle;
@@ -863,8 +844,11 @@ update_status ModulePlayer2::Update()
 	ModulePlayer2::Setposition();
 	ModulePlayer2::Reaction();
 
-	//Actions P1
+	//--------------------Actions P2--------------------------
+	
+	//Here is where we put the current animation
 
+	//doWeakpunch
 	if (doWeakpunch){
 		isAttacking = true;
 		current_animation = &weakpunch;
@@ -875,7 +859,7 @@ update_status ModulePlayer2::Update()
 		}
 	}
 
-
+    //---------Cover Kicks--------------
 	if (Cover_Kick_weak){
 		isAttacking = true;
 		current_animation = &weakkickcrouch;
@@ -909,7 +893,7 @@ update_status ModulePlayer2::Update()
 
 	}
 
-
+	//-------------Cover Punchs----------------
 	if (Cover_Punch_weak){
 		isAttacking = true;
 		current_animation = &weakpunchcrouch;
@@ -943,6 +927,7 @@ update_status ModulePlayer2::Update()
 
 	}
 
+	//-------------Punchs---------------
 	if (doMidpunch){
 		isAttacking = true;
 		current_animation = &midpunch;
@@ -964,6 +949,8 @@ update_status ModulePlayer2::Update()
 
 	}
 
+
+	//-----------------Kicks---------------------
 	if (doWeakkick) {
 		isAttacking = true;
 		current_animation = &weakkick;
@@ -994,6 +981,8 @@ update_status ModulePlayer2::Update()
 		}
 
 	}
+
+	//----------------Jumps and Jumps Kings-----------------
 
 	if (doNeutraljump){
 		Jump = true;
@@ -1089,7 +1078,7 @@ update_status ModulePlayer2::Update()
 	if (do_tatsumaki_Left){
 
 		Jump = true;
-		velx = 3;
+		velx = 5;
 
 		if (position.x + 120 > 528 || ((App->renderer->pivot.x - App->player2->position.x)> 162)){
 			velx = 0;
@@ -1106,7 +1095,7 @@ update_status ModulePlayer2::Update()
 	if (do_tatsumaki_Rigth){
 
 		Jump = true;
-		velx = -3;
+		velx = -5;
 
 		if (position.x + 120 > 528 || ((App->renderer->pivot.x - App->player2->position.x)> 162)){
 			velx = 0;
@@ -1197,7 +1186,7 @@ update_status ModulePlayer2::Update()
 	// Draw everything --------------------------------------
 	SDL_Rect r = current_animation->GetCurrentFrame();
 
-
+	//-------------------------Colliders if are on the left or Rigth---------------------------------
 	if (App->player2->position.x > App->renderer->pivot.x){
 
 		//COLLISIONS HEAD
@@ -1453,7 +1442,7 @@ update_status ModulePlayer2::Update()
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r);
 	}
 
-
+	//Life
 	if (p2_vida <= 0)
 	{
 		App->fade->FadeToBlack(App->scene_ryu, App->match_over, 2.0f);
@@ -1462,6 +1451,8 @@ update_status ModulePlayer2::Update()
 	return UPDATE_CONTINUE;
 }
 
+
+//----------------------Collisions and activation of Booleans-----------------------------
 void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 {
 	
@@ -1613,6 +1604,7 @@ void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 
 }
 
+//----------------------Activation of Booleans and Reactions-----------------------------
 void ModulePlayer2::Reaction()
 {
 
@@ -1670,6 +1662,7 @@ void ModulePlayer2::Reaction()
 
 }
 
+//-------------------------Function that helps to do the Jump(go up and down)-----------------------------------------
 void ModulePlayer2::Setposition()
 {
 	
