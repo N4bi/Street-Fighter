@@ -1442,7 +1442,7 @@ update_status ModulePlayer2::Update()
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r);
 	}
 
-<<<<<<< HEAD
+
 
 /*	if (p2_vida <= 0)
 =======
