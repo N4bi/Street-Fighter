@@ -160,6 +160,18 @@ update_status ModuleSceneKen::Update()
 	//App->renderer->Blit //big harbor element 2
 	App->renderer->Blit(graphics, 250, 167, &littleharborelement); //little harbor element 2
 	
+	if (App->player->p1_vida <= 0)
+	{
+		//Block_Controls = true;
+		App->fade->FadeToBlack(this, App->match_over, 2.0f);
+
+	}
+
+	if (App->player2->p2_vida <= 0)
+	{
+		App->fade->FadeToBlack(this, App->match_over, 2.0f);
+	}
+
 
 	return UPDATE_CONTINUE;
 }

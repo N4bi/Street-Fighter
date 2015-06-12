@@ -71,6 +71,8 @@ bool ModuleScenerySelection::Start()
 	graphics = App->textures->Load("Game/portraits.png");
 	App->audio->PlayMusic("Game/sounds/music/selection.ogg");
 	App->renderer->camera.x = App->renderer->camera.y = 0;
+	sceneKen = false;
+	sceneRyu = false;
 
 	return ret;
 }
@@ -101,10 +103,18 @@ update_status ModuleScenerySelection::Update()
 	
 
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	if (App->input->GetKey(SDL_SCANCODE_KP_1) == KEY_UP)
 	{
+		sceneRyu = true;
 		App->audio->PlayFx(0, 0);
-		App->fade->FadeToBlack(this, App->vs_scene, 2.0f);
+		App->fade->FadeToBlack(App->scenery_selection, App->vs_scene, 2.0f);
+	}
+
+	else if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_UP)
+	{
+		sceneKen = true;
+		App->audio->PlayFx(0, 0);
+		App->fade->FadeToBlack(App->scenery_selection, App->vs_scene, 2.0f);
 	}
 
 	return UPDATE_CONTINUE;

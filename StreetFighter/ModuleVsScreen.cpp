@@ -77,10 +77,18 @@ update_status ModuleVsScreen::Update()
 	App->renderer->Blit(graphics, 231,131, &nameright);
 	App->renderer->Blit(graphics, 93, 107, &vs);
 
-	
+	 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
-		App->fade->FadeToBlack(this, App->scene_ryu, 2.0f);
+		if (App->scenery_selection->sceneRyu == true)
+		{
+			App->fade->FadeToBlack(App->vs_scene, App->scene_ryu, 2.0f);
+		}
+
+		if (App->scenery_selection->sceneKen == true)
+		{
+			App->fade->FadeToBlack(App->vs_scene, App->scene_ken, 2.0f);
+		}
 	}
 
 	return UPDATE_CONTINUE;

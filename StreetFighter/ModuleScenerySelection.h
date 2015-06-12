@@ -24,6 +24,8 @@ public:
 	SDL_Rect faces;
 
 	unsigned int fx;
+	bool sceneRyu;
+	bool sceneKen;
 	Animation p1selection;
 	Animation p2selection;
 

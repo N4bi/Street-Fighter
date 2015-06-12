@@ -1454,10 +1454,11 @@ update_status ModulePlayer2::Update()
 	}
 
 
-	if (p2_vida <= 0)
+/*	if (p2_vida <= 0)
 	{
-		App->fade->FadeToBlack(App->scene_ryu, App->match_over, 2.0f);
-	}
+		App->fade->FadeToBlack(this, App->match_over, 2.0f);
+	
+	}*/
 
 	return UPDATE_CONTINUE;
 }
