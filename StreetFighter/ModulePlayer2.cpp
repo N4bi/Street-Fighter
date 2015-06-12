@@ -1470,10 +1470,12 @@ void ModulePlayer2::OnCollision(Collider* c1, Collider* c2)
 
 		if (App->player2->position.x < App->renderer->pivot.x)
 		{
+			if (App->player2->position.x + 120 < 528)
 			App->player->position.x++;
 		}
 		else
 		{
+			if (App->player->position.x + 120 > 0)
 			App->player->position.x--;
 		}
 	}
