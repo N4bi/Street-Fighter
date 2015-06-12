@@ -23,6 +23,7 @@ public:
 	SDL_Rect usa;
 	SDL_Rect faces;
 
+	unsigned int fx;
 	Animation p1selection;
 	Animation p2selection;
 

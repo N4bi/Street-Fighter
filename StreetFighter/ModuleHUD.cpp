@@ -110,14 +110,14 @@ update_status ModuleHUD::Update()
 			App->renderer->camera.x -= speed;
 
 	}
-
+	
 	// Draw everything --------------------------------------
 
-	App->renderer->Blit(graphics, center.x - 15, center.y - 100, &health);
-	App->renderer->Blit(graphics, center.x + 130 - p1_healthBar.w, center.y - 98, &p1_healthBar);
-	App->renderer->Blit(graphics, center.x + 162, center.y - 98, &p2_healthBar);
-	App->renderer->Blit(graphics, center.x - 15, center.y - 85, &p1_name);
-	App->renderer->Blit(graphics, center.x + 276, center.y - 85, &p2_name);
+	App->renderer->Blit(graphics, App->renderer->center.x - 15, App->renderer->pivot.y - 100, &health);
+	App->renderer->Blit(graphics, App->renderer->center.x + 130 - p1_healthBar.w, App->renderer->pivot.y - 98, &p1_healthBar);
+	App->renderer->Blit(graphics, App->renderer->center.x + 162, App->renderer->pivot.y - 98, &p2_healthBar);
+	App->renderer->Blit(graphics, App->renderer->center.x - 15, App->renderer->pivot.y - 85, &p1_name);
+	App->renderer->Blit(graphics, App->renderer->center.x + 276, App->renderer->pivot.y - 85, &p2_name);
 
 
 
