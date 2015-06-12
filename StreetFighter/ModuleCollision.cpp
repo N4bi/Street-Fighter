@@ -3,8 +3,9 @@
 #include "ModuleCollision.h"
 #include "ModulePlayer.h"
 
+//------------------------COLLIDERS and whit what they have a collision-----------------------------
 ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
+{   
 	debug = false;
     //P1(BLUE)
 	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER_BODY] = false;
@@ -312,14 +313,6 @@ ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(
 	matrix[COLLIDER_ENEMY_BLOCK_CROUCH][COLLIDER_ENEMY_FEET] = false;
 
 
-	/*
-	matrix[COLLIDER_WALL][COLLIDER_ENEMY_BODY] = false;
-	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_WALL][COLLIDER_ENEMY] = true;
-	matrix[COLLIDER_WALL][COLLIDER_PLAYER_SHOT] = false;
-	matrix[COLLIDER_WALL][COLLIDER_ENEMY_SHOT] = false;
-	matrix[COLLIDER_WALL][COLLIDER_PLAYER_BODY] = false;
-	//matrix[COLLIDER_WALL][COLLIDER_WALL] = false;*/
 }
 
 // Destructor
@@ -391,6 +384,7 @@ update_status ModuleCollision::Update()
 	return UPDATE_CONTINUE;
 }
 
+//-------------------------DRAW AND DEFINE THE COLORS OF COLLIDERS-------------------------------
 void ModuleCollision::DrawDebug(Collider* col)
 {
 	Uint8 alpha = 80;
