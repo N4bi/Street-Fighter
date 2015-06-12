@@ -120,8 +120,8 @@ ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_FEET] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_BLOCK] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY_BLOCK] = false;
-	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = false;
-	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_WEAKATTACK] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_MIDATTACK] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_STRONGATTACK] = false;

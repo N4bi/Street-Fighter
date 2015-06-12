@@ -43,6 +43,7 @@ public:
 	Collider* mid_kick_crouch;
 	Collider* strong_kick_crouch;
 	Collider* weak_kick_jump;
+	Collider* tatsumaki_col;
 
 	//Animations
 	Animation idle;
@@ -92,6 +93,8 @@ public:
 	float Jumpspeed;
 	int speed;
 	bool Block_Controls;
+	bool do_tatsumaki_Left;
+	bool do_tatsumaki_Rigth;
 	bool Jump;
 	bool Jump_weak_kick_Left;
 	bool Jump_weak_kick_Rigth;

@@ -283,7 +283,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	tatsumaki.frames.PushBack({ 1650, 2650, 150, 150 });
 	tatsumaki.frames.PushBack({ 1850, 2650, 150, 150 });
 	tatsumaki.frames.PushBack({ 2050, 2650, 150, 150 });
-	tatsumaki.speed = 0.2f;
+	tatsumaki.speed = 0.40f;
 
 	//Winning Round Animation
 	winround.frames.PushBack({ 50, 850, 150, 150 });
@@ -379,17 +379,6 @@ bool ModulePlayer::CleanUp()
 	return true;
 }
 
-/*void internal_input(p2Qeue<PLAYER_inputs>& inputs)
-{
-
-	//Aqui se deben añadir los inputs de ataques y saltos 
-
-}*/
-
-/*PLAYER_states ModulePlayer::process_fsm(p2Qeue<PLAYER_inputs>& inputs)
-{
-	// Esta es la maquina de estados en si 
-}*/
 
 // Update: draw background
 update_status ModulePlayer::Update()
@@ -485,12 +474,12 @@ update_status ModulePlayer::Update()
 		if (App->player2->position.x > App->renderer->pivot.x){
 			Cover_Punch_strong = true;
 			App->audio->PlayFx(3, 0);
-			a_strongpunch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_PLAYER_STRONGATTACK, this);
+			strong_kick_crouch = App->collision->AddCollider({ position.x + 170, position.y - 80, 50, 17 }, COLLIDER_PLAYER_STRONGATTACK, this);
 		}
 		else{
 			Cover_Punch_strong = true;
 			App->audio->PlayFx(3, 0);
-			a_strongpunch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_PLAYER_STRONGATTACK, this);
+			strong_kick_crouch = App->collision->AddCollider({ position.x + 82, position.y - 80, 50, 17 }, COLLIDER_PLAYER_STRONGATTACK, this);
 		}
 	}
 	
@@ -637,9 +626,15 @@ update_status ModulePlayer::Update()
 			stop_to_crouch = false;
 		}
 
+		if (((App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)))
+		{
+			stop_to_crouch = false;
+		}
+
 		if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) && (!Jump) && (!isCrouch) && (!isAttacking)  && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
 			current_animation = &forward;
+			stop_to_crouch = true;
 			position.x += speed;
 		}
 
@@ -674,6 +669,8 @@ update_status ModulePlayer::Update()
 			current_animation = &crouch;
 		}
 
+		
+
 		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_UP))
 		{
 			doCover_crouch = false;
@@ -697,6 +694,14 @@ update_status ModulePlayer::Update()
 			//doForwardjumpLeft = true;
 			vely = Jumpspeed;
 		}
+		
+		if ((App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) && (!do_tatsumaki_Left) && (stop_to_crouch) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			do_tatsumaki_Left = true;
+			Jump_weak_kick_Left = false;
+			vely = -7.0f;
+		}
+
 
 		if ((App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
@@ -737,6 +742,7 @@ update_status ModulePlayer::Update()
 		if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) && (!doCover_crouch) && (App->player2->stop == false) && (!Jump) && (!isAttacking) && (!isCrouch) && (position.x + 120 > 0) && ((App->renderer->pivot.x - App->player->position.x) <= 161))
 		{
 			current_animation = &forward;
+			stop_to_crouch = true;
 			position.x -= speed;
 		}
 
@@ -747,9 +753,15 @@ update_status ModulePlayer::Update()
 			doCover = true;
 			position.x += speed;
 		}
+		
 		if (((App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)))
 		{
 			doCover = false;
+			stop_to_crouch = false;
+		}
+
+		if (((App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)))
+		{
 			stop_to_crouch = false;
 		}
 
@@ -808,6 +820,18 @@ update_status ModulePlayer::Update()
 			//doForwardjumpLeft = true;
 			vely = Jumpspeed;
 		}
+
+		if ((App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) && (!do_tatsumaki_Left) && (stop_to_crouch) && (position.y == 216) && (!isAttacking) && (position.x + 120 < 528) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
+		{
+			do_tatsumaki_Rigth = true;
+			Jump_weak_kick_Rigth = false;
+			vely = -7.0f;
+		}
+
+		/*if ((App->input->GetKey(SDL_SCANCODE_R) == KEY_UP))
+		{
+			do_tatsumaki_Rigth = false;
+		}*/
 
 		if ((App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN) && (!Jump) && (!isAttacking) && (position.x + 120 < 535) && ((App->player->position.x - App->renderer->pivot.x) <= 161))
 		{
@@ -916,7 +940,7 @@ update_status ModulePlayer::Update()
 		current_animation = &strongpunchcrouch;
 		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
 			Cover_Punch_strong = false;
-			a_weakpunch->to_delete = true;
+			strong_kick_crouch->to_delete = true;
 			isAttacking = false;
 		}
 
@@ -981,6 +1005,40 @@ update_status ModulePlayer::Update()
 			App->audio->PlayFx(8, 0);
 			doNeutraljump = false;
 			Jump = false;
+		}
+	}
+
+	if (do_tatsumaki_Left){
+
+		Jump = true;
+		velx = 3;
+
+		if (position.x + 120 > 528 || ((App->renderer->pivot.x - App->player->position.x)> 162)){
+			velx = 0;
+		}
+		current_animation = &tatsumaki;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			App->audio->PlayFx(8, 0);
+			do_tatsumaki_Left = false;
+			Jump = false;
+			velx = 0;
+		}
+	}
+
+	if (do_tatsumaki_Rigth){
+
+		Jump = true;
+		velx = -3;
+
+		if (position.x + 120 > 528 || ((App->renderer->pivot.x - App->player->position.x)> 162)){
+			velx = 0;
+		}
+		current_animation = &tatsumaki;
+		if (current_animation->peekFrame() >= current_animation->frames.Count() - current_animation->speed){
+			App->audio->PlayFx(8, 0);
+			do_tatsumaki_Rigth = false;
+			Jump = false;
+			velx = 0;
 		}
 	}
 
@@ -1182,10 +1240,11 @@ update_status ModulePlayer::Update()
 
 		//COLLSISIONS JUMPKICKS
 		//-----------------------------
-		if (weak_kick_jump != NULL && Jump_weak_kick_Rigth == true || Jump_weak_mid_Rigth == true)
+		if (weak_kick_jump != NULL && Jump_weak_kick_Rigth == true || Jump_weak_mid_Rigth == true || do_tatsumaki_Rigth == true)
 		{
 			weak_kick_jump->rect = { position.x + 85, position.y - 95 + 35, 100, 35 };
 		}
+
 		
 		//COLLISIONS BODY
 		//-----------------------------
@@ -1232,6 +1291,10 @@ update_status ModulePlayer::Update()
 		{
 			feet->rect = { position.x + 121, position.y + 200, 42, 45 };
 		}
+		if (feet != NULL && do_tatsumaki_Rigth == true)
+		{
+			feet->rect = { position.x + 121, position.y + 200, 42, 45 };
+		}
 		
 		//COLLISIONS PLAYER
 		//-----------------------------
@@ -1252,6 +1315,10 @@ update_status ModulePlayer::Update()
 			player->rect = { position.x + 121, position.y - 95, 61, 62 };
 		}
 		if (player != NULL && Jump_weak_mid_Rigth == true)
+		{
+			player->rect = { position.x + 121, position.y - 95, 61, 62 };
+		}
+		if (player != NULL && do_tatsumaki_Rigth == true)
 		{
 			player->rect = { position.x + 121, position.y - 95, 61, 62 };
 		}
@@ -1295,7 +1362,7 @@ update_status ModulePlayer::Update()
 
 		//COLLSISIONS JUMPKICKS
 		//-----------------------------
-		if (weak_kick_jump != NULL && Jump_weak_kick_Left == true || Jump_mid_kick_Left == true || Jump_strong_Kick == true)
+		if (weak_kick_jump != NULL && Jump_weak_kick_Left == true || Jump_mid_kick_Left == true || Jump_strong_Kick == true || do_tatsumaki_Left == true)
 		{
 			weak_kick_jump->rect = { position.x + 118, position.y - 95 + 35, 100, 35 };
 		}
@@ -1352,6 +1419,10 @@ update_status ModulePlayer::Update()
 		{
 			feet->rect = { position.x + 121, position.y - 95 + 40 + 200, 42, 45 };
 		}
+		if (feet != NULL && do_tatsumaki_Left == true)
+		{
+			feet->rect = { position.x + 121, position.y - 95 + 40 + 200, 42, 45 };
+		}
 
 		//COLLISIONS PLAYER
 		//-----------------------------
@@ -1376,6 +1447,10 @@ update_status ModulePlayer::Update()
 			player->rect = { position.x + 121, position.y - 95, 61, 62 };
 		}
 		if (player != NULL && Jump_strong_Kick == true)
+		{
+			player->rect = { position.x + 121, position.y - 95, 61, 62 };
+		}
+		if (player != NULL && do_tatsumaki_Left == true)
 		{
 			player->rect = { position.x + 121, position.y - 95, 61, 62 };
 		}
@@ -1615,7 +1690,7 @@ void ModulePlayer::Setposition()
 {   
 	
 
-	if (doNeutraljump == true || doForwardjumpLeft == true || doBackjumpLeft == true || doForwardjumpRight == true || doBackjumpRight == true || Jump_weak_kick_Left || Jump_weak_kick_Rigth || Jump_mid_kick_Left || Jump_weak_mid_Rigth || Jump_strong_Kick)
+	if (doNeutraljump == true || doForwardjumpLeft == true || doBackjumpLeft == true || doForwardjumpRight == true || doBackjumpRight == true || Jump_weak_kick_Left || Jump_weak_kick_Rigth || Jump_mid_kick_Left || Jump_weak_mid_Rigth || Jump_strong_Kick || do_tatsumaki_Left || do_tatsumaki_Rigth)
 	{   
 
 		vely += gravity;

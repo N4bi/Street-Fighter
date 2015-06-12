@@ -35,6 +35,11 @@ public:
 	Collider* a_weakkick;
 	Collider* a_midkick;
 	Collider* a_strongkick;
+	Collider* block_crouch;
+	Collider* weak_kick_crouch;
+	Collider* mid_kick_crouch;
+	Collider* strong_kick_crouch;
+	Collider* weak_kick_jump;
 	
 
 	//Animations
@@ -77,18 +82,34 @@ public:
 	
 
 	//Others variables
+	bool Jump;
+	bool Jump_weak_kick_Left;
+	bool Jump_weak_kick_Rigth;
+	bool Jump_mid_kick_Left;
+	bool Jump_weak_mid_Rigth;
+	bool Jump_strong_Kick;
 	unsigned int fx;
 	float  vely, velx;
 	float gravity;
 	float Jumpspeed;
 	int speed;
-	bool Jump;
+	bool do_tatsumaki_Left;
+	bool do_tatsumaki_Rigth;
 	bool stop;
 	unsigned int p2_vida;
 	bool animation_reachead;
 	bool animation_reachead_strong;
 	bool animation_reac;
+	bool animation_reac_2;
 	bool doCover;
+	bool Cover_Punch_weak;
+	bool Cover_Punch_mid;
+	bool Cover_Punch_strong;
+	bool Cover_Kick_weak;
+	bool Cover_Kick_mid;
+	bool Cover_Kick_strong;
+	bool stop_to_crouch;
+	bool doCover_crouch;
 	bool doWeakpunch;
 	bool doMidpunch;
 	bool doStrongpunch;
@@ -103,6 +124,7 @@ public:
 	bool hitWeak;
 	bool isAttacking;
 	bool isCrouch;
+	bool doJumpWeakpunch;
 	p2Point<int> position;
 	p2Qeue<PLAYER_inputs> inputs2;
 	PLAYER_states current_state;
