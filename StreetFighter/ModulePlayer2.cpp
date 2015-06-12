@@ -1442,6 +1442,20 @@ update_status ModulePlayer2::Update()
 		App->renderer->Blit(graphics, position.x + (r.w / 2), position.y - r.h, &r);
 	}
 
+<<<<<<< HEAD
+=======
+
+
+/*	if (p2_vida <= 0)
+=======
+	//Life
+	if (p2_vida <= 0)
+>>>>>>> origin/master
+	{
+		App->fade->FadeToBlack(this, App->match_over, 2.0f);
+	
+	}*/
+>>>>>>> origin/master
 
 	return UPDATE_CONTINUE;
 }
