@@ -99,7 +99,7 @@ update_status ModuleMatchOver::Update()
 	
 	else 
 	{
-		//hacer un if Ken Win
+	
 		App->renderer->Blit(graphics, 6, 0, &portraitRyuLose);
 		App->renderer->Blit(graphics, 230, 0, &portraitKenWin, 1.0f, true);
 		App->renderer->Blit(graphics, 43, 167, &speechKen);
